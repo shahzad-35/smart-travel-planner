@@ -11,7 +11,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register services for dependency injection
+        $this->app->singleton(\App\Services\CacheService::class);
     }
 
     /**
