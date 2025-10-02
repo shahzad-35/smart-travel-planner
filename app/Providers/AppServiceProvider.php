@@ -10,6 +10,7 @@ use App\Repositories\CollectionRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\TripExpenseRepository;
 use App\Repositories\TripRepository;
+use App\Services\CacheService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Register services for dependency injection
+        $this->app->singleton(CacheService::class);
+        
         $this->app->bind(TripRepository::class, function ($app) {
             return new TripRepository(new Trip());
         });
