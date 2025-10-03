@@ -39,4 +39,12 @@ return [
         'api_key' => env('OPENWEATHER_API_KEY'),
     ],
 
+    'calendarific' => [
+        'api_key' => env('CALENDARIFIC_API_KEY'),
+    ],
+
+    'nagerdate' => [
+        'base_url' => 'https://date.nager.at/api/v3',
+    ],
+
 ];
