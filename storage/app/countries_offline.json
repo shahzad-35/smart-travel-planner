@@ -1,0 +1,112 @@
+[
+    {
+        "name": "United States",
+        "code": "US",
+        "capital": "Washington, D.C.",
+        "region": "Americas",
+        "population": 331900000,
+        "currency": "United States dollar",
+        "languages": ["English"],
+        "timezone": "UTC-05:00",
+        "flag": "https://flagcdn.com/us.svg"
+    },
+    {
+        "name": "United Kingdom",
+        "code": "GB",
+        "capital": "London",
+        "region": "Europe",
+        "population": 67500000,
+        "currency": "British pound",
+        "languages": ["English"],
+        "timezone": "UTC+00:00",
+        "flag": "https://flagcdn.com/gb.svg"
+    },
+    {
+        "name": "France",
+        "code": "FR",
+        "capital": "Paris",
+        "region": "Europe",
+        "population": 67000000,
+        "currency": "Euro",
+        "languages": ["French"],
+        "timezone": "UTC+01:00",
+        "flag": "https://flagcdn.com/fr.svg"
+    },
+    {
+        "name": "Germany",
+        "code": "DE",
+        "capital": "Berlin",
+        "region": "Europe",
+        "population": 83000000,
+        "currency": "Euro",
+        "languages": ["German"],
+        "timezone": "UTC+01:00",
+        "flag": "https://flagcdn.com/de.svg"
+    },
+    {
+        "name": "Japan",
+        "code": "JP",
+        "capital": "Tokyo",
+        "region": "Asia",
+        "population": 126500000,
+        "currency": "Japanese yen",
+        "languages": ["Japanese"],
+        "timezone": "UTC+09:00",
+        "flag": "https://flagcdn.com/jp.svg"
+    },
+    {
+        "name": "Canada",
+        "code": "CA",
+        "capital": "Ottawa",
+        "region": "Americas",
+        "population": 38000000,
+        "currency": "Canadian dollar",
+        "languages": ["English", "French"],
+        "timezone": "UTC-05:00",
+        "flag": "https://flagcdn.com/ca.svg"
+    },
+    {
+        "name": "Australia",
+        "code": "AU",
+        "capital": "Canberra",
+        "region": "Oceania",
+        "population": 25600000,
+        "currency": "Australian dollar",
+        "languages": ["English"],
+        "timezone": "UTC+10:00",
+        "flag": "https://flagcdn.com/au.svg"
+    },
+    {
+        "name": "Brazil",
+        "code": "BR",
+        "capital": "Brasília",
+        "region": "Americas",
+        "population": 212600000,
+        "currency": "Brazilian real",
+        "languages": ["Portuguese"],
+        "timezone": "UTC-03:00",
+        "flag": "https://flagcdn.com/br.svg"
+    },
+    {
+        "name": "Pakistan",
+        "code": "PK",
+        "capital": "Islamabad",
+        "region": "Asia",
+        "population": 240000000,
+        "currency": "Pakistani rupee",
+        "languages": ["Urdu", "English"],
+        "timezone": "UTC+05:00",
+        "flag": "https://flagcdn.com/pk.svg"
+    },
+    {
+        "name": "China",
+        "code": "CN",
+        "capital": "Beijing",
+        "region": "Asia",
+        "population": 1439000000,
+        "currency": "Chinese yuan",
+        "languages": ["Chinese"],
+        "timezone": "UTC+08:00",
+        "flag": "https://flagcdn.com/cn.svg"
+    }
+]

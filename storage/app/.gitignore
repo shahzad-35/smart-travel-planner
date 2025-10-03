@@ -2,3 +2,4 @@
 !private/
 !public/
 !.gitignore
+!countries_offline.json
