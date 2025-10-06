@@ -40,18 +40,17 @@ class WeatherService extends BaseService
     {
         $cacheKey = "weather_current_{$location}_{$units}";
 
-        return $this->cacheService->remember($cacheKey, 'weather', function () use ($location, $units) {
-            if (!$this->checkRateLimit()) {
-                $this->logError('Rate limit exceeded for OpenWeatherMap API');
-                return null;
-            }
+        $handler = new \App\Services\ApiResponseHandler('WeatherService');
 
+        return $this->cacheService->remember($cacheKey, 'weather', function () use ($location, $units, $handler) {
             try {
-                $response = Http::timeout(10)->get(self::BASE_URL . '/weather', [
-                    'q' => $location,
-                    'appid' => $this->apiKey,
-                    'units' => $units,
-                ]);
+                $response = $handler->execute(function () use ($location, $units) {
+                    return \Illuminate\Support\Facades\Http::timeout(10)->get(self::BASE_URL . '/weather', [
+                        'q' => $location,
+                        'appid' => $this->apiKey,
+                        'units' => $units,
+                    ]);
+                }, ['location' => $location, 'units' => $units]);
 
                 if ($response->successful()) {
                     $data = $response->json();
@@ -60,6 +59,9 @@ class WeatherService extends BaseService
                     $this->logError('OpenWeatherMap API error: ' . $response->body());
                     return null;
                 }
+            } catch (\App\Exceptions\ApiException $e) {
+                $this->logError("API Exception: " . $e->getMessage());
+                return null;
             } catch (Exception $e) {
                 $this->logError('Failed to fetch current weather: ' . $e->getMessage());
                 return null;
