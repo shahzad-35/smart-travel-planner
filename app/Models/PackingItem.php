@@ -16,10 +16,23 @@ class PackingItem extends Model
         'item',
         'is_packed',
         'is_custom',
+        'order',
+        'created_by',
+    ];
+
+    protected $casts = [
+        'is_packed' => 'boolean',
+        'is_custom' => 'boolean',
+        'order' => 'integer',
     ];
 
     public function trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
