@@ -5,16 +5,21 @@ namespace Tests\Unit;
 use App\DTOs\HolidayDTO;
 use App\Services\External\HolidayService;
 use App\Services\CacheService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class HolidayServiceTest extends TestCase
 {
+
     private HolidayService $holidayService;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Mock the API key config
+        config(['services.calendarific.api_key' => 'test_api_key']);
 
         $cacheService = app(CacheService::class);
         $this->holidayService = new HolidayService($cacheService);
@@ -52,6 +57,11 @@ class HolidayServiceTest extends TestCase
         ]);
 
         $holidays = $this->holidayService->getHolidays('PK', '2024-01-01', '2024-12-31');
+
+        // Check that the API log entry was created
+        $this->assertDatabaseHas('api_logs', [
+            'api_name' => 'HolidayService',
+        ]);
 
         $this->assertIsArray($holidays);
         $this->assertCount(3, $holidays);
@@ -91,6 +101,11 @@ class HolidayServiceTest extends TestCase
 
         $holidays = $this->holidayService->getHolidays('PK', '2024-01-01', '2024-12-31');
 
+        // Check that the API log entry was created (fallback to Nager.Date)
+        $this->assertDatabaseHas('api_logs', [
+            'api_name' => 'HolidayService',
+        ]);
+
         $this->assertIsArray($holidays);
         $this->assertCount(3, $holidays);
         $this->assertInstanceOf(HolidayDTO::class, $holidays[0]);
@@ -108,6 +123,11 @@ class HolidayServiceTest extends TestCase
         ]);
 
         $holidays = $this->holidayService->getHolidays('PK', '2024-01-01', '2024-12-31');
+
+        // Check that the API log entry was created
+        $this->assertDatabaseHas('api_logs', [
+            'api_name' => 'HolidayService',
+        ]);
 
         $this->assertIsArray($holidays);
         $this->assertEmpty($holidays);

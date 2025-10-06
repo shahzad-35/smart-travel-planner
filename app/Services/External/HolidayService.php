@@ -3,6 +3,7 @@
 namespace App\Services\External;
 
 use App\DTOs\HolidayDTO;
+use App\Services\ApiResponseHandler;
 use App\Services\BaseService;
 use App\Services\CacheService;
 use Illuminate\Support\Facades\Http;
@@ -49,6 +50,9 @@ class HolidayService extends BaseService
                 // Fallback to Nager.Date
                 $this->logInfo("Calendarific API failed or returned no data, falling back to Nager.Date for {$countryCode}");
                 return $this->fetchFromNagerDate($countryCode, $startDate, $endDate);
+            } catch (\App\Exceptions\ApiException $e) {
+                $this->logError("API Exception: " . $e->getMessage());
+                return [];
             } catch (Exception $e) {
                 $this->logError("Failed to fetch holidays: " . $e->getMessage());
                 return [];
@@ -68,17 +72,21 @@ class HolidayService extends BaseService
     {
         $holidays = [];
 
+        $handler = new ApiResponseHandler('HolidayService');
+
         try {
             // Calendarific API requires year, so we need to get holidays for each year in the range
             $startYear = (int) date('Y', strtotime($startDate));
             $endYear = (int) date('Y', strtotime($endDate));
 
             for ($year = $startYear; $year <= $endYear; $year++) {
-                $response = Http::timeout(10)->get(self::CALENDARIFIC_BASE_URL . '/holidays', [
-                    'api_key' => $this->calendarificApiKey,
-                    'country' => $countryCode,
-                    'year' => $year,
-                ]);
+                $response = $handler->execute(function () use ($countryCode, $year) {
+                    return \Illuminate\Support\Facades\Http::timeout(10)->get(self::CALENDARIFIC_BASE_URL . '/holidays', [
+                        'api_key' => $this->calendarificApiKey,
+                        'country' => $countryCode,
+                        'year' => $year,
+                    ]);
+                }, ['country' => $countryCode, 'year' => $year, 'api' => 'calendarific']);
 
                 if ($response->successful()) {
                     $data = $response->json();
@@ -89,6 +97,9 @@ class HolidayService extends BaseService
                     return []; // Return empty to trigger fallback
                 }
             }
+        } catch (\App\Exceptions\ApiException $e) {
+            $this->logError("API Exception: " . $e->getMessage());
+            return [];
         } catch (Exception $e) {
             $this->logError("Calendarific API exception: " . $e->getMessage());
             return [];
@@ -109,13 +120,17 @@ class HolidayService extends BaseService
     {
         $holidays = [];
 
+        $handler = new ApiResponseHandler('HolidayService');
+
         try {
             // Nager.Date API requires year, so we need to get holidays for each year in the range
             $startYear = (int) date('Y', strtotime($startDate));
             $endYear = (int) date('Y', strtotime($endDate));
 
             for ($year = $startYear; $year <= $endYear; $year++) {
-                $response = Http::timeout(10)->get(self::NAGER_DATE_BASE_URL . "/PublicHolidays/{$year}/{$countryCode}");
+                $response = $handler->execute(function () use ($countryCode, $year) {
+                    return \Illuminate\Support\Facades\Http::timeout(10)->get(self::NAGER_DATE_BASE_URL . "/PublicHolidays/{$year}/{$countryCode}");
+                }, ['country' => $countryCode, 'year' => $year, 'api' => 'nager_date']);
 
                 if ($response->successful()) {
                     $data = $response->json();
@@ -126,6 +141,9 @@ class HolidayService extends BaseService
                     return [];
                 }
             }
+        } catch (\App\Exceptions\ApiException $e) {
+            $this->logError("API Exception: " . $e->getMessage());
+            return [];
         } catch (Exception $e) {
             $this->logError("Nager.Date API exception: " . $e->getMessage());
             return [];
