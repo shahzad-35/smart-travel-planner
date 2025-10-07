@@ -17,8 +17,13 @@ return new class extends Migration
             $table->string('shared_with_email');
             $table->string('token')->unique();
             $table->json('permissions')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('trip_id');
+            $table->index('token');
         });
     }
 

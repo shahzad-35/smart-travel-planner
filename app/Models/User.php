@@ -65,4 +65,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Collection::class);
     }
+
+    public function createdTripShares(): HasMany
+    {
+        return $this->hasMany(TripShare::class, 'created_by');
+    }
 }

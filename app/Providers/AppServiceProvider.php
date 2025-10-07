@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use App\Models\Collection;
 use App\Models\Favorite;
+use App\Models\PackingItem;
 use App\Models\Trip;
 use App\Models\TripExpense;
+use App\Observers\PackingItemObserver;
+use App\Observers\TripObserver;
 use App\Repositories\CollectionRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\TripExpenseRepository;
@@ -45,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Trip::observe(TripObserver::class);
+        PackingItem::observe(PackingItemObserver::class);
     }
 }
