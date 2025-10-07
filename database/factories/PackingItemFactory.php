@@ -3,10 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PackingItem>
- */
 class PackingItemFactory extends Factory
 {
     /**
@@ -22,7 +20,7 @@ class PackingItemFactory extends Factory
             'is_packed' => $this->faker->boolean,
             'is_custom' => $this->faker->boolean,
             'order' => $this->faker->numberBetween(1, 100),
-            'created_by_user_id' => \App\Models\User::factory(),
+            'created_by_user_id' => User::factory(),
         ];
     }
 }

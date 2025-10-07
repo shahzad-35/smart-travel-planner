@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(TripSeeder::class);
         $this->call(PackingItemSeeder::class);
+        $this->call(FavoriteSeeder::class);
+        $this->call(CollectionSeeder::class);
     }
 }
