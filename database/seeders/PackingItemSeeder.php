@@ -65,7 +65,7 @@ class PackingItemSeeder extends Seeder
                         'is_packed' => false,
                         'is_custom' => false,
                         'order' => $order++,
-                        'created_by_user_id' => $trip->user_id,
+                        'created_by' => $trip->user_id,
                     ]);
                 }
                 $categoryOrder++;

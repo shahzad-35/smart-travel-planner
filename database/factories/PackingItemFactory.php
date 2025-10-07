@@ -20,7 +20,7 @@ class PackingItemFactory extends Factory
             'is_packed' => $this->faker->boolean,
             'is_custom' => $this->faker->boolean,
             'order' => $this->faker->numberBetween(1, 100),
-            'created_by_user_id' => User::factory(),
+            'created_by' => User::factory(),
         ];
     }
 }
