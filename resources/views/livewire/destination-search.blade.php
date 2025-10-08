@@ -1,41 +1,45 @@
-<div class="w-full max-w-4xl mx-auto">
+<div class="w-full max-w-5xl mx-auto">
     <!-- Search Header -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Discover Destinations</h1>
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 mb-1">Discover Destinations</h1>
         <p class="text-gray-600">Search and explore amazing places around the world</p>
     </div>
 
-    <!-- Search Input -->
-    <div class="relative mb-6">
-        <div class="relative">
-            <button
-                type="button"
-                wire:click="triggerSearch"
-                class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 hover:text-gray-600"
-                aria-label="Search"
-            >
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </button>
-            <input 
-                type="text" 
-                wire:model.live.debounce.300ms="searchQuery"
-                wire:keydown.enter="triggerSearch"
-                class="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-                placeholder="Search for countries, capitals, or regions..."
-                autocomplete="off"
-            >
-            @if($searchQuery)
-                <button 
-                    wire:click="clearSearch"
-                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+    <!-- Search Card -->
+    <div class="mb-6 rounded-2xl bg-white/80 backdrop-blur shadow-sm border border-gray-200">
+        <div class="relative sm:p-5">
+            <div class="relative">
+                <button
+                    type="button"
+                    wire:click="triggerSearch"
+                    class="absolute inset-y-0 left-0 pr-2 flex items-center text-gray-400 hover:text-gray-600"
+                    aria-label="Search"
                 >
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </button>
-            @endif
+                <input 
+                    type="text" 
+                    wire:model.live.debounce.300ms="searchQuery"
+                    wire:keydown.enter="triggerSearch"
+                    class="block w-full rounded-xl p-4 border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base"
+                    placeholder="Search for countries, capitals, or regions..."
+                    autocomplete="off"
+                    @disabled($isLoading)
+                >
+                @if($searchQuery)
+                    <button 
+                        wire:click="clearSearch"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                    >
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                @endif
+            </div>
+            <p class="mt-2 text-s text-gray-500">Tip: enter at least 4 characters. Press Enter or click the search icon.</p>
         </div>
     </div>
 
@@ -89,9 +93,9 @@
             </div>
             
             <!-- Skeleton Loaders -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 @for($i = 0; $i < 6; $i++)
-                    <div class="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+                    <div class="bg-white rounded-xl border border-gray-200 p-5 animate-pulse">
                         <div class="flex items-start space-x-4">
                             <div class="w-12 h-8 bg-gray-200 rounded-sm"></div>
                             <div class="flex-1 space-y-2">
@@ -119,11 +123,11 @@
                 </h3>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach($searchResults as $country)
                     <div 
                         wire:click="selectCountry('{{ $country['code'] }}')"
-                        class="bg-white rounded-lg border border-gray-200 p-6 hover:border-blue-300 hover:shadow-lg transition-all duration-200 cursor-pointer group"
+                        class="bg-white rounded-xl border border-gray-200 p-5 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group"
                     >
                         <!-- Country Header -->
                         <div class="flex items-start space-x-4 mb-4">
@@ -135,12 +139,14 @@
                                 >
                             @endif
                             <div class="flex-1 min-w-0">
-                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-blue-600 mb-1">
+                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-indigo-600 mb-1">
                                     {{ $country['name'] }}
                                 </h4>
-                                <p class="text-sm text-gray-600">
-                                    {{ $country['code'] }} • {{ $country['region'] }}
-                                </p>
+                                <div class="flex items-center gap-2 text-xs text-gray-600">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-100">{{ $country['code'] }}</span>
+                                    <span>•</span>
+                                    <span class="truncate">{{ $country['region'] }}</span>
+                                </div>
                             </div>
                         </div>
 
@@ -152,7 +158,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
-                                    <span class="text-sm text-gray-600">{{ $country['capital'] }}</span>
+                                    <span class="text-sm text-gray-700">{{ $country['capital'] }}</span>
                                 </div>
                             @endif
 
@@ -161,7 +167,7 @@
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                                     </svg>
-                                    <span class="text-sm text-gray-600">{{ number_format($country['population']) }}</span>
+                                    <span class="text-sm text-gray-700">{{ number_format($country['population']) }}</span>
                                 </div>
                             @endif
 
@@ -170,7 +176,7 @@
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                                     </svg>
-                                    <span class="text-sm text-gray-600">{{ $country['currency'] }}</span>
+                                    <span class="text-sm text-gray-700">{{ $country['currency'] }}</span>
                                 </div>
                             @endif
 
@@ -179,7 +185,7 @@
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span class="text-sm text-gray-600">{{ $country['timezone'] }}</span>
+                                    <span class="text-sm text-gray-700">{{ $country['timezone'] }}</span>
                                 </div>
                             @endif
                         </div>
@@ -195,7 +201,7 @@
                                 </div>
                                 <div class="flex flex-wrap gap-1">
                                     @foreach(array_slice($country['languages'], 0, 3) as $language)
-                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
                                             {{ $language }}
                                         </span>
                                     @endforeach
@@ -210,7 +216,7 @@
 
                         <!-- Action Button -->
                         <div class="mt-4 pt-4 border-t border-gray-100">
-                            <div class="flex items-center justify-center text-blue-600 group-hover:text-blue-700">
+                            <div class="flex items-center justify-center text-indigo-600 group-hover:text-indigo-700">
                                 <span class="text-sm font-medium">Select Destination</span>
                                 <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

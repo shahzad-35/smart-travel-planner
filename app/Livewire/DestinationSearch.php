@@ -95,7 +95,7 @@ class DestinationSearch extends Component
         $this->addToRecentSearches($countryCode);
         $this->searchQuery = '';
         $this->searchResults = [];
-        $this->showRecentSearches = false;
+        $this->showRecentSearches = true;
         
         // Emit event for parent components to handle country selection
         $this->dispatch('country-selected', countryCode: $countryCode);
