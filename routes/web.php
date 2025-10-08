@@ -11,3 +11,9 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+Route::get('destinations', \App\Livewire\DestinationSearch::class)
+    ->middleware(['auth', 'verified'])
+    ->name('destinations');
+
+require __DIR__.'/auth.php';

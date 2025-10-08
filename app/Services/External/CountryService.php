@@ -3,6 +3,7 @@
 namespace App\Services\External;
 
 use App\DTOs\CountryDTO;
+use App\Services\ApiResponseHandler;
 use App\Services\BaseService;
 use App\Services\CacheService;
 use Illuminate\Support\Facades\Http;
@@ -36,7 +37,12 @@ class CountryService extends BaseService
         return $this->cacheService->remember($cacheKey, self::CACHE_TAG, function () use ($nameOrCode) {
             try {
                 $endpoint = $this->isCountryCode($nameOrCode) ? "alpha/{$nameOrCode}" : "name/{$nameOrCode}";
-                $response = Http::timeout(10)->get("{$this->baseUrl}/{$endpoint}");
+
+                // Use centralized handler so API calls are logged
+                $handler = new ApiResponseHandler('CountryService');
+                $response = $handler->execute(function () use ($endpoint) {
+                    return Http::timeout(10)->get("{$this->baseUrl}/{$endpoint}");
+                }, ['endpoint' => $endpoint, 'type' => 'getCountryInfo']);
 
                 if ($response->successful()) {
                     $data = $response->json();
@@ -69,7 +75,11 @@ class CountryService extends BaseService
 
         return $this->cacheService->remember($cacheKey, self::CACHE_TAG, function () use ($query) {
             try {
-                $response = Http::timeout(10)->get("{$this->baseUrl}/name/{$query}");
+                // Use centralized handler so API calls are logged
+                $handler = new ApiResponseHandler('CountryService');
+                $response = $handler->execute(function () use ($query) {
+                    return Http::timeout(10)->get("{$this->baseUrl}/name/{$query}");
+                }, ['query' => $query, 'type' => 'searchCountries']);
 
                 if ($response->successful()) {
                     $data = $response->json();
