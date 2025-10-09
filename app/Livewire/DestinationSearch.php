@@ -43,12 +43,12 @@ class DestinationSearch extends Component
 
         $this->showRecentSearches = false;
 
-        // Only trigger debounced search when query length > 3 (i.e., 4+ chars)
+
         if (mb_strlen(trim($this->searchQuery)) > 3) {
             $this->isLoading = true;
             $this->dispatch('search-debounced', query: trim($this->searchQuery));
         } else {
-            // Too short: do not search, clear results/loading
+        
             $this->isLoading = false;
             $this->searchResults = [];
         }

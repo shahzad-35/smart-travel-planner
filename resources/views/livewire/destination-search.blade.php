@@ -26,7 +26,6 @@
                     class="block w-full rounded-xl p-4 border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base"
                     placeholder="Search for countries, capitals, or regions..."
                     autocomplete="off"
-                    @disabled($isLoading)
                 >
                 @if($searchQuery)
                     <button 
@@ -217,10 +216,12 @@
                         <!-- Action Button -->
                         <div class="mt-4 pt-4 border-t border-gray-100">
                             <div class="flex items-center justify-center text-indigo-600 group-hover:text-indigo-700">
-                                <span class="text-sm font-medium">Select Destination</span>
-                                <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <a href="{{ route('country.info', ['code' => $country['code']]) }}" class="inline-flex items-center gap-2 px-3 py-2 border rounded bg-white hover:bg-gray-50">
+                                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                 </svg>
+                                    <span class="text-sm font-medium">Select Destination</span>
+                                </a>
                             </div>
                         </div>
                     </div>

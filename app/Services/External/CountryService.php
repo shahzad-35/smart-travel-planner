@@ -146,6 +146,14 @@ class CountryService extends BaseService
         // Flag: get svg flag url
         $flag = $data['flags']['svg'] ?? null;
 
+        // Coordinates: latlng array [lat, lng]
+        $latitude = null;
+        $longitude = null;
+        if (isset($data['latlng']) && is_array($data['latlng']) && count($data['latlng']) >= 2) {
+            $latitude = is_numeric($data['latlng'][0]) ? (float)$data['latlng'][0] : null;
+            $longitude = is_numeric($data['latlng'][1]) ? (float)$data['latlng'][1] : null;
+        }
+
         return new CountryDTO(
             name: $name,
             code: $code,
@@ -155,7 +163,9 @@ class CountryService extends BaseService
             currency: $currency,
             languages: $languages,
             timezone: $timezone,
-            flag: $flag
+            flag: $flag,
+            latitude: $latitude,
+            longitude: $longitude
         );
     }
 
@@ -188,7 +198,9 @@ class CountryService extends BaseService
                         currency: $countryData['currency'] ?? null,
                         languages: $countryData['languages'] ?? [],
                         timezone: $countryData['timezone'] ?? null,
-                        flag: $countryData['flag'] ?? null
+                        flag: $countryData['flag'] ?? null,
+                        latitude: isset($countryData['latitude']) ? (float)$countryData['latitude'] : null,
+                        longitude: isset($countryData['longitude']) ? (float)$countryData['longitude'] : null
                     );
                 }
             }
