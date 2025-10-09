@@ -39,4 +39,35 @@ class TripRepository extends AbstractRepository
                           ->where('status', '!=', 'completed')
                           ->get();
     }
+
+    /**
+     * Find trips that conflict with the given date range
+     */
+    public function findConflictingTrips($userId, $startDate, $endDate)
+    {
+        return $this->model->where('user_id', $userId)
+                          ->where('status', '!=', 'completed')
+                          ->where('status', '!=', 'cancelled')
+                          ->where(function ($query) use ($startDate, $endDate) {
+                              // Check for overlapping date ranges
+                              $query->where(function ($q) use ($startDate, $endDate) {
+                                  // New trip starts during existing trip
+                                  $q->where('start_date', '<=', $startDate)
+                                    ->where('end_date', '>=', $startDate);
+                              })->orWhere(function ($q) use ($startDate, $endDate) {
+                                  // New trip ends during existing trip
+                                  $q->where('start_date', '<=', $endDate)
+                                    ->where('end_date', '>=', $endDate);
+                              })->orWhere(function ($q) use ($startDate, $endDate) {
+                                  // New trip completely encompasses existing trip
+                                  $q->where('start_date', '>=', $startDate)
+                                    ->where('end_date', '<=', $endDate);
+                              })->orWhere(function ($q) use ($startDate, $endDate) {
+                                  // Existing trip completely encompasses new trip
+                                  $q->where('start_date', '<=', $startDate)
+                                    ->where('end_date', '>=', $endDate);
+                              });
+                          })
+                          ->get();
+    }
 }
