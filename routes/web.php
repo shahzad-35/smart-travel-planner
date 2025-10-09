@@ -29,6 +29,10 @@ Route::get('weather/compare', \App\Livewire\WeatherComparison::class)
 
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('country', CountryInfo::class)->name('country.info');
+    
+    // Trip routes
+    Route::get('trips/create', \App\Livewire\CreateTrip::class)->name('trips.create');
+    
     // ICS endpoints
     Route::get('calendar/holiday', [CalendarController::class, 'holidaySingle'])->name('calendar.holidays.single');
     Route::get('calendar/holidays', [CalendarController::class, 'holidayRange'])->name('calendar.holidays.range');
