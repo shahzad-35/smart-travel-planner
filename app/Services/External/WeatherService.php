@@ -13,6 +13,7 @@ class WeatherService extends BaseService
 {
     private const BASE_URL = 'https://api.openweathermap.org/data/2.5';
     private const FORECAST_URL = 'https://api.openweathermap.org/data/2.5/forecast';
+    private const ONECALL_URL = 'https://api.openweathermap.org/data/3.0/onecall';
     private const RATE_LIMIT_KEY = 'weather_api_rate_limit';
     private const RATE_LIMIT_MAX_REQUESTS = 1000; // per hour
     private const RATE_LIMIT_WINDOW = 3600; // 1 hour in seconds
@@ -87,18 +88,49 @@ class WeatherService extends BaseService
             }
 
             try {
-                $response = Http::timeout(10)->get(self::FORECAST_URL, [
+                // First resolve to coordinates for more accurate One Call data
+                $geoResponse = Http::timeout(10)->get(self::BASE_URL . '/weather', [
                     'q' => $location,
                     'appid' => $this->apiKey,
                     'units' => $units,
-                    'cnt' => 40, // 5 days * 8 (3-hour intervals) = 40, but we'll filter to 7 days
                 ]);
 
-                if ($response->successful()) {
-                    $data = $response->json();
-                    return $this->mapForecastToWeatherDTOs($data, $location);
+                if (!$geoResponse->successful()) {
+                    $this->logError('OpenWeatherMap geocode error: ' . $geoResponse->body());
+                    return null;
+                }
+
+                $geo = $geoResponse->json();
+                $lat = $geo['coord']['lat'] ?? null;
+                $lon = $geo['coord']['lon'] ?? null;
+                if ($lat === null || $lon === null) {
+                    $this->logError('Missing coordinates from geocode response');
+                    return null;
+                }
+
+                $oneCall = Http::timeout(10)->get(self::ONECALL_URL, [
+                    'lat' => $lat,
+                    'lon' => $lon,
+                    'appid' => $this->apiKey,
+                    'units' => $units,
+                    'exclude' => 'minutely,hourly',
+                ]);
+
+                if ($oneCall->successful()) {
+                    $data = $oneCall->json();
+                    return $this->mapOneCallToForecastDTOs($data, $location);
                 } else {
-                    $this->logError('OpenWeatherMap forecast API error: ' . $response->body());
+                    $this->logError('OpenWeatherMap One Call API error: ' . $oneCall->body());
+                    // Fallback to 5-day/3-hour forecast to approximate next days
+                    $fallback = Http::timeout(10)->get(self::FORECAST_URL, [
+                        'q' => $location,
+                        'appid' => $this->apiKey,
+                        'units' => $units,
+                    ]);
+                    if ($fallback->successful()) {
+                        $data = $fallback->json();
+                        return $this->mapForecastToWeatherDTOs($data, $location);
+                    }
                     return null;
                 }
             } catch (Exception $e) {
@@ -161,7 +193,13 @@ class WeatherService extends BaseService
             temperature: $data['main']['temp'] ?? 0,
             condition: $data['weather'][0]['description'] ?? 'Unknown',
             humidity: $data['main']['humidity'] ?? 0,
-            windSpeed: $data['wind']['speed'] ?? 0
+            windSpeed: $data['wind']['speed'] ?? 0,
+            feelsLike: $data['main']['feels_like'] ?? null,
+            icon: $data['weather'][0]['icon'] ?? null,
+            date: isset($data['dt']) ? date('Y-m-d', $data['dt']) : null,
+            minTemp: $data['main']['temp_min'] ?? null,
+            maxTemp: $data['main']['temp_max'] ?? null,
+            alerts: null
         );
     }
 
@@ -194,10 +232,52 @@ class WeatherService extends BaseService
                 temperature: $item['main']['temp'] ?? 0,
                 condition: $item['weather'][0]['description'] ?? 'Unknown',
                 humidity: $item['main']['humidity'] ?? 0,
-                windSpeed: $item['wind']['speed'] ?? 0
+                windSpeed: $item['wind']['speed'] ?? 0,
+                feelsLike: $item['main']['feels_like'] ?? null,
+                icon: $item['weather'][0]['icon'] ?? null,
+                date: $date,
+                minTemp: $item['main']['temp_min'] ?? null,
+                maxTemp: $item['main']['temp_max'] ?? null,
+                alerts: null
             );
         }
 
         return $forecasts;
+    }
+
+    /**
+     * Map OpenWeather One Call daily forecast + alerts
+     */
+    private function mapOneCallToForecastDTOs(array $data, string $location): array
+    {
+        $alerts = [];
+        foreach ($data['alerts'] ?? [] as $alert) {
+            $alerts[] = [
+                'event' => $alert['event'] ?? 'Alert',
+                'description' => $alert['description'] ?? null,
+                'severity' => $alert['tags'][0] ?? null,
+                'start' => $alert['start'] ?? null,
+                'end' => $alert['end'] ?? null,
+            ];
+        }
+
+        $result = [];
+        foreach (array_slice($data['daily'] ?? [], 0, 7) as $day) {
+            $result[] = new WeatherDTO(
+                location: $location,
+                temperature: $day['temp']['day'] ?? 0,
+                condition: $day['weather'][0]['description'] ?? 'Unknown',
+                humidity: $day['humidity'] ?? 0,
+                windSpeed: $day['wind_speed'] ?? 0.0,
+                feelsLike: is_array($day['feels_like'] ?? null) ? ($day['feels_like']['day'] ?? null) : ($day['feels_like'] ?? null),
+                icon: $day['weather'][0]['icon'] ?? null,
+                date: isset($day['dt']) ? date('Y-m-d', $day['dt']) : null,
+                minTemp: $day['temp']['min'] ?? null,
+                maxTemp: $day['temp']['max'] ?? null,
+                alerts: $alerts ?: null
+            );
+        }
+
+        return $result;
     }
 }

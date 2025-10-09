@@ -13,6 +13,8 @@ class CountryDTO
     public array $languages;
     public ?string $timezone;
     public ?string $flag;
+    public ?float $latitude;
+    public ?float $longitude;
 
     public function __construct(
         string $name,
@@ -23,7 +25,9 @@ class CountryDTO
         ?string $currency = null,
         array $languages = [],
         ?string $timezone = null,
-        ?string $flag = null
+        ?string $flag = null,
+        ?float $latitude = null,
+        ?float $longitude = null
     ) {
         $this->name = $name;
         $this->code = $code;
@@ -34,6 +38,8 @@ class CountryDTO
         $this->languages = $languages;
         $this->timezone = $timezone;
         $this->flag = $flag;
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
     }
 
     public function toArray(): array
@@ -48,6 +54,8 @@ class CountryDTO
             'languages' => $this->languages,
             'timezone' => $this->timezone,
             'flag' => $this->flag,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
         ];
     }
 }

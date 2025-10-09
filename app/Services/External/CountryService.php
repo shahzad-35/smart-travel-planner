@@ -3,6 +3,7 @@
 namespace App\Services\External;
 
 use App\DTOs\CountryDTO;
+use App\Services\ApiResponseHandler;
 use App\Services\BaseService;
 use App\Services\CacheService;
 use Illuminate\Support\Facades\Http;
@@ -36,7 +37,12 @@ class CountryService extends BaseService
         return $this->cacheService->remember($cacheKey, self::CACHE_TAG, function () use ($nameOrCode) {
             try {
                 $endpoint = $this->isCountryCode($nameOrCode) ? "alpha/{$nameOrCode}" : "name/{$nameOrCode}";
-                $response = Http::timeout(10)->get("{$this->baseUrl}/{$endpoint}");
+
+                // Use centralized handler so API calls are logged
+                $handler = new ApiResponseHandler('CountryService');
+                $response = $handler->execute(function () use ($endpoint) {
+                    return Http::timeout(10)->get("{$this->baseUrl}/{$endpoint}");
+                }, ['endpoint' => $endpoint, 'type' => 'getCountryInfo']);
 
                 if ($response->successful()) {
                     $data = $response->json();
@@ -69,7 +75,11 @@ class CountryService extends BaseService
 
         return $this->cacheService->remember($cacheKey, self::CACHE_TAG, function () use ($query) {
             try {
-                $response = Http::timeout(10)->get("{$this->baseUrl}/name/{$query}");
+                // Use centralized handler so API calls are logged
+                $handler = new ApiResponseHandler('CountryService');
+                $response = $handler->execute(function () use ($query) {
+                    return Http::timeout(10)->get("{$this->baseUrl}/name/{$query}");
+                }, ['query' => $query, 'type' => 'searchCountries']);
 
                 if ($response->successful()) {
                     $data = $response->json();
@@ -136,6 +146,14 @@ class CountryService extends BaseService
         // Flag: get svg flag url
         $flag = $data['flags']['svg'] ?? null;
 
+        // Coordinates: latlng array [lat, lng]
+        $latitude = null;
+        $longitude = null;
+        if (isset($data['latlng']) && is_array($data['latlng']) && count($data['latlng']) >= 2) {
+            $latitude = is_numeric($data['latlng'][0]) ? (float)$data['latlng'][0] : null;
+            $longitude = is_numeric($data['latlng'][1]) ? (float)$data['latlng'][1] : null;
+        }
+
         return new CountryDTO(
             name: $name,
             code: $code,
@@ -145,7 +163,9 @@ class CountryService extends BaseService
             currency: $currency,
             languages: $languages,
             timezone: $timezone,
-            flag: $flag
+            flag: $flag,
+            latitude: $latitude,
+            longitude: $longitude
         );
     }
 
@@ -178,7 +198,9 @@ class CountryService extends BaseService
                         currency: $countryData['currency'] ?? null,
                         languages: $countryData['languages'] ?? [],
                         timezone: $countryData['timezone'] ?? null,
-                        flag: $countryData['flag'] ?? null
+                        flag: $countryData['flag'] ?? null,
+                        latitude: isset($countryData['latitude']) ? (float)$countryData['latitude'] : null,
+                        longitude: isset($countryData['longitude']) ? (float)$countryData['longitude'] : null
                     );
                 }
             }
