@@ -7,10 +7,6 @@ use App\Http\Controllers\CalendarController;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
@@ -29,6 +25,14 @@ Route::get('weather/compare', \App\Livewire\WeatherComparison::class)
 
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('country', CountryInfo::class)->name('country.info');
+
+    // Trip routes
+    Route::get('trips/create', \App\Livewire\CreateTrip::class)->name('trips.create');
+    Route::get('trips/{id}/edit', \App\Livewire\EditTrip::class)->name('trips.edit');
+    Route::get('trips/{id}', \App\Livewire\TripDetails::class)->name('trips.show');
+    Route::get('trips', \App\Livewire\TripList::class)->name('trips.listing');
+    Route::get('dashboard', \App\Livewire\TripDashboard::class)->name('dashboard');
+
     // ICS endpoints
     Route::get('calendar/holiday', [CalendarController::class, 'holidaySingle'])->name('calendar.holidays.single');
     Route::get('calendar/holidays', [CalendarController::class, 'holidayRange'])->name('calendar.holidays.range');

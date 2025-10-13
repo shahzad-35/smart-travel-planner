@@ -48,7 +48,7 @@ class DestinationSearch extends Component
             $this->isLoading = true;
             $this->dispatch('search-debounced', query: trim($this->searchQuery));
         } else {
-        
+
             $this->isLoading = false;
             $this->searchResults = [];
         }
@@ -96,9 +96,11 @@ class DestinationSearch extends Component
         $this->searchQuery = '';
         $this->searchResults = [];
         $this->showRecentSearches = true;
-        
+
         // Emit event for parent components to handle country selection
         $this->dispatch('country-selected', countryCode: $countryCode);
+
+        return redirect()->route('country.info', ['code' => $countryCode]);
     }
 
     public function clearSearch()
@@ -129,9 +131,15 @@ class DestinationSearch extends Component
         $userId = Auth::id();
         $recentSearches = Redis::lrange($this->recentSearchesKey . $userId, 0, $this->maxRecentSearches - 1);
         
-        $this->recentSearches = array_map(function($searchData) {
+        $this->recentSearches = array_map(function ($searchData) {
             return json_decode($searchData, true);
         }, $recentSearches);
+
+        $this->recentSearches = collect($this->recentSearches)
+            ->sortByDesc('searched_at')
+            ->unique('code')
+            ->values()
+            ->toArray();
         $this->showRecentSearches = true;
     }
 
@@ -143,7 +151,12 @@ class DestinationSearch extends Component
 
         $userId = Auth::id();
         $country = collect($this->searchResults)->firstWhere('code', $countryCode);
-        
+
+        // If not found in search results, try recent searches
+        if (!$country) {
+            $country = collect($this->recentSearches)->firstWhere('code', $countryCode);
+        }
+
         if (!$country) {
             return;
         }
@@ -162,10 +175,10 @@ class DestinationSearch extends Component
         
         // Add to beginning
         Redis::lpush($this->recentSearchesKey . $userId, json_encode($searchData));
-        
+
         // Keep only the latest searches
         Redis::ltrim($this->recentSearchesKey . $userId, 0, $this->maxRecentSearches - 1);
-        
+
         // Refresh recent searches
         $this->loadRecentSearches();
     }

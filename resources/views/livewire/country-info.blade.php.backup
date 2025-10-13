@@ -54,69 +54,55 @@
                         </div>
                         <div>
                             <div id="map" class="w-full h-64 rounded border" style="min-height: 256px;"></div>
-                            <script>
-                                (function() {
-                                    if (window.mapInitialized) return;
-                                    window.mapInitialized = true;
-
-                                    function initMap() {
-                                        const container = document.getElementById('map');
-                                        if (!container || container._leaflet_id) return;
-
-                                        const lat = @json($country['latitude']);
-                                        const lng = @json($country['longitude']);
-
-                                        if (!lat || !lng || lat === 0 || lng === 0) {
-                                            console.warn('Invalid coordinates for map:', lat, lng);
-                                            return;
-                                        }
-
-                                        if (typeof L === 'undefined') {
-                                            const link = document.createElement('link');
-                                            link.rel = 'stylesheet';
-                                            link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-                                            document.head.appendChild(link);
-
-                                            const script = document.createElement('script');
-                                            script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-                                            script.onload = function() {
-                                                renderMap(lat, lng);
-                                            };
-                                            document.head.appendChild(script);
-                                        } else {
-                                            renderMap(lat, lng);
-                                        }
-                                    }
-
-                                    function renderMap(lat, lng) {
-                                        const container = document.getElementById('map');
-                                        if (!container || container._leaflet_id) return;
-
-                                        try {
-                                            const map = L.map('map').setView([lat, lng], 4);
-                                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                                maxZoom: 18,
-                                                attribution: '&copy; OpenStreetMap contributors'
-                                            }).addTo(map);
-                                            L.marker([lat, lng]).addTo(map);
-
-                                            setTimeout(() => {
-                                                map.invalidateSize();
-                                            }, 100);
-                                        } catch (error) {
-                                            console.error('Error initializing map:', error);
-                                        }
-                                    }
-
-                                    if (document.readyState === 'loading') {
+                            @push('scripts')
+                                <script>
+                                    if (!window.mapInitialized) {
+    window.mapInitialized = true;
+                                         
+                                        document.addEventListener('livewire:navigated', initMap);
+    }
                                         document.addEventListener('DOMContentLoaded', initMap);
-                                    } else {
-                                        initMap();
-                                    }
+                                        function initMap(){
+                                            const lat = @json($country['latitude']);
+                                            const lng = @json($country['longitude']);
+                                            if (!lat || !lng || lat === 0 || lng === 0) {
+    console.warn('Invalid coordinates for map:', lat, lng);
+    return;
+}
+                                            if(!window.L){
+                                                const link = document.createElement('link');
+                                                link.rel = 'stylesheet';
+                                                link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+                                                document.head.appendChild(link);
+                                                const script = document.createElement('script');
+                                                script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+                                                script.onload = () => renderMap(lat,lng);
+                                                document.body.appendChild(script);
+                                            } else {
+                                                renderMap(lat,lng);
+                                            }
+                                        }
+                                        function renderMap(lat,lng){
+                                            const container = document.getElementById('map');
+                                            if (container._leaflet_id) {
+                                                // Map already initialized
+                                                return;
+                                            }
+                                            const map = L.map('map').setView([lat,lng], 5);
+                                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                                maxZoom: 19,
+                                                attribution: '&copy; OpenStreetMap'
+                                            }).addTo(map);
+                                            L.marker([lat,lng]).addTo(map);
 
-                                    document.addEventListener('livewire:navigated', initMap);
-                                })();
-                            </script>
+            // Force resize after a short delay
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 100);
+                                        }
+                                    }
+                                </script>
+                            @endpush
                         </div>
                     </div>
                 @else
@@ -126,3 +112,5 @@
         </div>
     </div>
 </div>
+
+
