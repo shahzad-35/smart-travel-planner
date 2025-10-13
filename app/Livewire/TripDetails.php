@@ -33,11 +33,9 @@ class TripDetails extends Component
 
     public function loadTripData()
     {
-        // Load weather forecast
         $weatherService = app(WeatherService::class);
         $this->weatherForecast = $weatherService->getForecast($this->trip->destination) ?? [];
 
-        // Load holidays
         $holidayService = app(HolidayService::class);
         $this->holidays = $holidayService->getHolidays(
             $this->trip->country_code,
@@ -45,13 +43,10 @@ class TripDetails extends Component
             $this->trip->end_date->format('Y-m-d')
         );
 
-        // Calculate packing progress
         $this->calculatePackingProgress();
 
-        // Calculate expenses
         $this->calculateExpenses();
 
-        // Load current note
         $this->noteContent = $this->trip->notes()->first()?->note ?? '';
     }
 
@@ -84,7 +79,7 @@ class TripDetails extends Component
 
     public function saveNote()
     {
-        $this->trip->notes()->delete(); // Remove existing notes
+        $this->trip->notes()->delete();
         if (!empty($this->noteContent)) {
             $this->trip->notes()->create(['note' => $this->noteContent]);
         }

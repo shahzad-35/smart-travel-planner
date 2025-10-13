@@ -81,7 +81,7 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-semibold text-gray-900">Upcoming Trips</h2>
-            <a href="{{ route('trips') }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+            <a href="{{ route('trips.listing') }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
                 View All Trips →
             </a>
         </div>
