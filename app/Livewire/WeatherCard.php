@@ -26,7 +26,10 @@ class WeatherCard extends Component
 
     public function mount(string $location = ''): void
     {
-        $this->location = $location ?: ($this->location ?: 'Pakistan');
+        $response = file_get_contents('https://ipwho.is/');
+        $data = json_decode($response, true);
+        
+        $this->location = $location ?: ($this->location ?: $data['country']);
 
         if (Auth::check()) {
             $prefs = Auth::user()->preferences ?? [];

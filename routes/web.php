@@ -32,6 +32,7 @@ Route::middleware(['auth','verified'])->group(function () {
 
     // Trip routes
     Route::get('trips/create', \App\Livewire\CreateTrip::class)->name('trips.create');
+    Route::get('trips/{id}', \App\Livewire\TripDetails::class)->name('trips.show');
     Route::get('trips', \App\Livewire\TripList::class)->name('trips');
     Route::get('dashboard', \App\Livewire\TripDashboard::class)->name('dashboard');
 

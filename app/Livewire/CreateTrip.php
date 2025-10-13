@@ -120,6 +120,22 @@ class CreateTrip extends Component
     {
         Session::forget('trip_creation_state');
     }
+    public function incrementTravelers()
+    {
+        if ($this->travelers < 50) {
+            $this->travelers++;
+        }
+    }
+
+    /**
+     * Decrement travelers count
+     */
+    public function decrementTravelers()
+    {
+        if ($this->travelers > 1) {
+            $this->travelers--;
+        }
+    }
 
     /**
      * Search for destinations

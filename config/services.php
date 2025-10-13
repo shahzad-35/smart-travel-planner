@@ -46,5 +46,8 @@ return [
     'nagerdate' => [
         'base_url' => 'https://date.nager.at/api/v3',
     ],
+    'restcountries' => [
+        'base_url' => env('RESTCOUNTRIES_BASE_URL', 'https://restcountries.com/v3.1'),
+    ],
 
 ];
