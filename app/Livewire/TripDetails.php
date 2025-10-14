@@ -37,11 +37,12 @@ class TripDetails extends Component
         $this->weatherForecast = $weatherService->getForecast($this->trip->destination) ?? [];
 
         $holidayService = app(HolidayService::class);
-        $this->holidays = $holidayService->getHolidays(
+        $holidays = $holidayService->getHolidays(
             $this->trip->country_code,
             $this->trip->start_date->format('Y-m-d'),
             $this->trip->end_date->format('Y-m-d')
         );
+        $this->holidays = array_map(fn($holiday) => $holiday->toArray(), $holidays);
 
         $this->calculatePackingProgress();
 
@@ -96,7 +97,7 @@ class TripDetails extends Component
     public function deleteTrip()
     {
         $this->trip->delete();
-        return redirect()->route('trips')->with('success', 'Trip deleted successfully.');
+        return redirect()->route('trips.listing')->with('success', 'Trip deleted successfully.');
     }
 
     public function shareTrip()
@@ -118,7 +119,7 @@ class TripDetails extends Component
 
     public function getHolidaysForDate($date)
     {
-        return collect($this->holidays)->where('date', $date)->all();
+        return collect($this->holidays)->where('date', $date)->toArray();
     }
 
     public function render()

@@ -19,7 +19,7 @@
                             <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                             </svg>
-                            <a href="{{ route('trips') }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">My Trips</a>
+                            <a href="{{ route('trips.listing') }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">My Trips</a>
                         </div>
                     </li>
                     <li>
@@ -119,15 +119,15 @@
                     @if($weatherForecast)
                         <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
                             @foreach($weatherForecast as $weather)
-                                <div class="text-center p-4 rounded-lg {{ $weather->date >= $trip->start_date->format('Y-m-d') && $weather->date <= $trip->end_date->format('Y-m-d') ? 'bg-indigo-50 border border-indigo-200' : 'bg-gray-50' }}">
-                                    <div class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::parse($weather->date)->format('M j') }}</div>
-                                    @if($weather->icon)
-                                        <img src="https://openweathermap.org/img/wn/{{ $weather->icon }}@2x.png" alt="{{ $weather->condition }}" class="w-12 h-12 mx-auto my-2">
+                                <div class="text-center p-4 rounded-lg {{ $weather['date'] >= $trip->start_date->format('Y-m-d') && $weather['date'] <= $trip->end_date->format('Y-m-d') ? 'bg-indigo-50 border border-indigo-200' : 'bg-gray-50' }}">
+                                    <div class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::parse($weather['date'])->format('M j') }}</div>
+                                    @if($weather['icon'])
+                                        <img src="https://openweathermap.org/img/wn/{{ $weather['icon'] }}@2x.png" alt="{{ $weather['condition'] }}" class="w-12 h-12 mx-auto my-2">
                                     @endif
-                                    <div class="text-lg font-semibold text-gray-900">{{ round($weather->temperature) }}°C</div>
-                                    <div class="text-xs text-gray-600">{{ $weather->condition }}</div>
+                                    <div class="text-lg font-semibold text-gray-900">{{ round($weather['temperature']) }}°C</div>
+                                    <div class="text-xs text-gray-600">{{ $weather['condition'] }}</div>
                                     <div class="text-xs text-gray-500 mt-1">
-                                        H: {{ round($weather->maxTemp ?? $weather->temperature) }}° L: {{ round($weather->minTemp ?? $weather->temperature) }}°
+                                        H: {{ round($weather['maxTemp'] ?? $weather['temperature']) }}° L: {{ round($weather['minTemp'] ?? $weather['temperature']) }}°
                                     </div>
                                 </div>
                             @endforeach
@@ -239,10 +239,10 @@
                                         </svg>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900">{{ $holiday->name }}</p>
-                                        <p class="text-xs text-gray-600">{{ \Carbon\Carbon::parse($holiday->date)->format('M j, Y') }}</p>
-                                        @if($holiday->description)
-                                            <p class="text-xs text-gray-500 mt-1">{{ $holiday->description }}</p>
+                                        <p class="text-sm font-medium text-gray-900">{{ $holiday['name'] }}</p>
+                                        <p class="text-xs text-gray-600">{{ \Carbon\Carbon::parse($holiday['date'])->format('M j, Y') }}</p>
+                                        @if($holiday['description'])
+                                            <p class="text-xs text-gray-500 mt-1">{{ $holiday['description'] }}</p>
                                         @endif
                                     </div>
                                 </div>
