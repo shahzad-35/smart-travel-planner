@@ -73,4 +73,52 @@ class Trip extends Model
     {
         return $this->hasMany(TripShare::class);
     }
+
+    public function statusHistories(): HasMany
+    {
+        return $this->hasMany(TripStatusHistory::class);
+    }
+
+    /**
+     * Update trip status with history tracking
+     */
+    public function updateStatus(string $newStatus, ?string $reason = null, ?array $metadata = null): bool
+    {
+        $oldStatus = $this->status;
+
+        if ($oldStatus === $newStatus) {
+            return true; // No change needed
+        }
+
+        // Update the status
+        $this->status = $newStatus;
+        $saved = $this->save();
+
+        if ($saved) {
+            // Record the status change
+            $this->statusHistories()->create([
+                'old_status' => $oldStatus,
+                'new_status' => $newStatus,
+                'reason' => $reason,
+                'metadata' => $metadata,
+            ]);
+        }
+
+        return $saved;
+    }
+
+    /**
+     * Check if status can transition to new status
+     */
+    public function canTransitionTo(string $newStatus): bool
+    {
+        $validTransitions = [
+            'planned' => ['ongoing', 'cancelled'],
+            'ongoing' => ['completed', 'cancelled'],
+            'completed' => [], // Cannot change from completed
+            'cancelled' => [], // Cannot change from cancelled
+        ];
+
+        return in_array($newStatus, $validTransitions[$this->status] ?? []);
+    }
 }

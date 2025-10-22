@@ -26,7 +26,10 @@ class WeatherCard extends Component
 
     public function mount(string $location = ''): void
     {
-        $this->location = $location ?: ($this->location ?: 'Pakistan');
+        $response = file_get_contents('https://ipwho.is/');
+        $data = json_decode($response, true);
+
+        $this->location = $location ?: ($this->location ?: $data['country']);
 
         if (Auth::check()) {
             $prefs = Auth::user()->preferences ?? [];
@@ -56,7 +59,7 @@ class WeatherCard extends Component
     {
         if (trim($this->location) === '') {
             $this->current = null;
-            $this->forecast = null;
+            $this->forecast = [];
             return;
         }
 
@@ -64,7 +67,7 @@ class WeatherCard extends Component
         $this->current = $current ? $current->toArray() : null;
 
         $forecast = $this->weatherService->getForecast($this->location, $this->units) ?? [];
-        $this->forecast = array_map(fn(WeatherDTO $d) => $d->toArray(), $forecast);
+        $this->forecast = array_map(fn($d) => $d, $forecast);
     }
 
     public function render()

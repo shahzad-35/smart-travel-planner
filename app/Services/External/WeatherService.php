@@ -75,7 +75,7 @@ class WeatherService extends BaseService
      *
      * @param string $location
      * @param string $units 'metric' or 'imperial'
-     * @return array|null Array of WeatherDTO objects
+     * @return array|null Array of weather data arrays
      */
     public function getForecast(string $location, string $units = 'metric'): ?array
     {
@@ -118,7 +118,8 @@ class WeatherService extends BaseService
 
                 if ($oneCall->successful()) {
                     $data = $oneCall->json();
-                    return $this->mapOneCallToForecastDTOs($data, $location);
+                    $dtos = $this->mapOneCallToForecastDTOs($data, $location);
+                    return array_map(fn($dto) => $dto->toArray(), $dtos);
                 } else {
                     $this->logError('OpenWeatherMap One Call API error: ' . $oneCall->body());
                     // Fallback to 5-day/3-hour forecast to approximate next days
@@ -129,7 +130,8 @@ class WeatherService extends BaseService
                     ]);
                     if ($fallback->successful()) {
                         $data = $fallback->json();
-                        return $this->mapForecastToWeatherDTOs($data, $location);
+                        $dtos = $this->mapForecastToWeatherDTOs($data, $location);
+                        return array_map(fn($dto) => $dto->toArray(), $dtos);
                     }
                     return null;
                 }
