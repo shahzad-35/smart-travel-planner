@@ -155,7 +155,7 @@
                         <div class="space-y-2">
                             @foreach($trip->packingItems->groupBy('category') as $category => $items)
                                 <div>
-                                    <h3 class="font-medium text-gray-900 mb-2 capitalize">{{ $category }}</h3>
+                                    <h3 class="font-medium text-gray-900 mb-2 capitalize">{{ $category == 'trip_type' ? $trip->type : $category }}</h3>
                                     <div class="space-y-1 ml-4">
                                         @foreach($items as $item)
                                             <div class="flex items-center">

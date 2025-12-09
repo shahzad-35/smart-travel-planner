@@ -48,7 +48,7 @@ class TripDetails extends Component
 
         $this->calculateExpenses();
 
-        $this->noteContent = $this->trip->notes()->first()?->note ?? '';
+        $this->noteContent = $this->trip->notes ?: '';
     }
 
     public function calculatePackingProgress()

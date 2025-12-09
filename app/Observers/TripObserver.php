@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Trip;
 use App\Observers\TripStatusObserver;
+use App\Jobs\GeneratePackingList;
 use Illuminate\Support\Facades\Log;
 
 class TripObserver extends TripStatusObserver
@@ -14,6 +15,7 @@ class TripObserver extends TripStatusObserver
     public function created(Trip $trip): void
     {
         parent::created($trip);
+        GeneratePackingList::dispatch($trip);
         Log::info("Trip created: {$trip->id}");
     }
 

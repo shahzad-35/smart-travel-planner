@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('packing_items', function (Blueprint $table) {
             $table->integer('order')->default(0)->after('is_custom');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade')->after('order');
-            $table->enum('category', ['clothing', 'toiletries', 'electronics', 'documents', 'miscellaneous'])->change();
+            $table->enum('category', ['clothing', 'toiletries', 'electronics','weather','trip_type', 'duration', 'documents', 'miscellaneous'])->change();
             $table->index(['trip_id', 'category']);
         });
     }
