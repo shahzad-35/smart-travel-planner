@@ -97,7 +97,8 @@ class TripDetails extends Component
     public function deleteTrip()
     {
         $this->trip->delete();
-        return redirect()->route('trips.listing')->with('success', 'Trip deleted successfully.');
+        session()->flash('success', 'Trip deleted successfully.');
+        return $this->redirectRoute('trips.listing');
     }
 
     public function shareTrip()

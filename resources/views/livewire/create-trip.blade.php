@@ -108,7 +108,7 @@
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
         <!-- Step 1: Destination -->
         @if($currentStep === 1)
-        <div class="space-y-6">
+        <div wire:key="step-1-content" class="space-y-6">
             <div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-2">Where are you going?</h2>
                 <p class="text-gray-600">Search for your destination</p>
@@ -135,7 +135,7 @@
             @if(count($searchResults) > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
                 @foreach($searchResults as $country)
-                <div wire:click="selectDestination('{{ $country['code'] }}')"
+                <div wire:key="country-{{ $country['code'] }}" wire:click="selectDestination('{{ $country['code'] }}')"
                     class="bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group">
                     <div class="flex items-start space-x-3">
                         @if($country['flag'])
@@ -203,7 +203,7 @@
 
         <!-- Step 2: Dates -->
         @if($currentStep === 2)
-        <div class="space-y-6">
+        <div wire:key="step-2-content" class="space-y-6">
             <div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-2">When are you traveling?</h2>
                 <p class="text-gray-600">Select your trip dates</p>
@@ -259,7 +259,7 @@
                         <p class="text-sm text-yellow-700 mb-2">You have the following trips during these dates:</p>
                         <ul class="list-disc list-inside text-sm text-yellow-700">
                             @foreach($conflictingTrips as $trip)
-                            <li>{{ $trip['destination'] }} ({{ date('M j', strtotime($trip['start_date'])) }} - {{
+                            <li wire:key="conflict-{{ $trip['id'] }}">{{ $trip['destination'] }} ({{ date('M j', strtotime($trip['start_date'])) }} - {{
                                 date('M j, Y', strtotime($trip['end_date'])) }})</li>
                             @endforeach
                         </ul>
@@ -272,7 +272,7 @@
 
         <!-- Step 3: Details -->
         @if($currentStep === 3)
-        <div class="space-y-6">
+        <div wire:key="step-3-content" class="space-y-6">
             <div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-2">Trip Details</h2>
                 <p class="text-gray-600">Tell us more about your trip</p>
@@ -283,7 +283,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-3">Trip Type</label>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     @foreach($tripTypes as $typeKey => $typeInfo)
-                    <button type="button" wire:click="$set('type', '{{ $typeKey }}')"
+                    <button wire:key="type-{{ $typeKey }}" type="button" wire:click="$set('type', '{{ $typeKey }}')"
                         class="flex flex-col items-center justify-center p-4 border-2 rounded-lg transition-all {{ $type === $typeKey ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200 hover:border-indigo-300' }}">
                         <div class="text-2xl mb-2">
                             @if($typeKey === 'business')
@@ -362,7 +362,7 @@
 
         <!-- Step 4: Confirm -->
         @if($currentStep === 4)
-        <div class="space-y-6">
+        <div wire:key="step-4-content" class="space-y-6">
             <div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-2">Review Your Trip</h2>
                 <p class="text-gray-600">Please review your trip details before creating</p>
@@ -440,10 +440,10 @@
         @endif
 
         <!-- Navigation Buttons -->
-        <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+        <div wire:key="nav-buttons-step-{{ $currentStep }}" class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
             <div>
                 @if($currentStep > 1)
-                <button type="button" wire:click="previousStep"
+                <button wire:key="prev-btn-{{ $currentStep }}" type="button" wire:click="previousStep"
                     class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 font-medium transition-colors">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
@@ -452,7 +452,7 @@
                     Previous
                 </button>
                 @else
-                <a href="{{ route('dashboard') }}"
+                <a href="{{ route('dashboard') }}" wire:navigate
                     class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 font-medium transition-colors">
                     Cancel
                 </a>
@@ -461,7 +461,7 @@
 
             <div class="flex items-center space-x-3">
                 @if($currentStep < 4)
-                <button type="button" wire:click="nextStep"
+                <button wire:key="next-btn-{{ $currentStep }}" type="button" wire:click="nextStep"
                     class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium transition-colors">
                     Next
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -469,18 +469,18 @@
                     </svg>
                 </button>
                 @else
-                <button type="button" wire:click="createTrip" wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed"
+                <button wire:key="create-btn" type="button" wire:click="createTrip" wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed"
                     class="inline-flex items-center px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                    <svg wire:loading.remove class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg wire:loading.remove wire:target="createTrip" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
                         </path>
                     </svg>
-                    <svg wire:loading class="animate-spin w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg wire:loading wire:target="createTrip" class="animate-spin w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span wire:loading.remove>Create Trip</span>
-                    <span wire:loading>Creating...</span>
+                    <span wire:loading.remove wire:target="createTrip">Create Trip</span>
+                    <span wire:loading wire:target="createTrip">Creating...</span>
                 </button>
                 @endif
             </div>

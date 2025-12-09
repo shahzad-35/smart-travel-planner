@@ -501,7 +501,7 @@ class EditTrip extends Component
             $this->isUpdating = false;
 
             session()->flash('success', 'Trip updated successfully!');
-            return redirect()->route('trips.show', $this->trip->id);
+            return $this->redirectRoute('trips.show', ['id' => $this->trip->id]);
 
         } catch (\Exception $e) {
             $this->addError('general', 'An error occurred while updating the trip. Please try again.');

@@ -156,7 +156,7 @@
             <!-- Card View -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                 @foreach($trips as $trip)
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                    <div wire:key="card-{{ $trip->id }}" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex-1">
                                 <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ $trip->destination }}</h3>
@@ -234,7 +234,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($trips as $trip)
-                                <tr class="hover:bg-gray-50">
+                                <tr wire:key="list-{{ $trip->id }}" class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div>
                                             <div class="text-sm font-medium text-gray-900">{{ $trip->destination }}</div>

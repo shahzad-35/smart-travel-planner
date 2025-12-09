@@ -100,7 +100,7 @@ class DestinationSearch extends Component
         // Emit event for parent components to handle country selection
         $this->dispatch('country-selected', countryCode: $countryCode);
 
-        return redirect()->route('country.info', ['code' => $countryCode]);
+        return $this->redirectRoute('country.info', ['code' => $countryCode]);
     }
 
     public function clearSearch()

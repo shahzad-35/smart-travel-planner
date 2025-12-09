@@ -33,6 +33,20 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('trips', \App\Livewire\TripList::class)->name('trips.listing');
     Route::get('dashboard', \App\Livewire\TripDashboard::class)->name('dashboard');
 
+
+
+    // Packing checklist routes
+    Route::get('packing-checklist/{tripId}', \App\Livewire\PackingChecklist::class)
+        ->name('packing-checklist.show')
+        ->middleware(['auth', 'verified']);
+        
+    Route::get('packing-checklist/shared/{token}', \App\Livewire\PackingChecklist::class)
+        ->name('packing-checklist.share');
+        
+    Route::get('packing-checklist/{id}/print', [\App\Http\Controllers\PackingChecklistController::class, 'printView'])
+        ->name('packing-checklist.print')
+        ->middleware(['auth', 'verified']);
+
     // ICS endpoints
     Route::get('calendar/holiday', [CalendarController::class, 'holidaySingle'])->name('calendar.holidays.single');
     Route::get('calendar/holidays', [CalendarController::class, 'holidayRange'])->name('calendar.holidays.range');

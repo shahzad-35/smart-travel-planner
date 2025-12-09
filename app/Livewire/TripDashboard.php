@@ -36,7 +36,7 @@ class TripDashboard extends Component
      */
     public function createTrip()
     {
-        return redirect()->route('trips.create');
+        return $this->redirectRoute('trips.create');
     }
 
     /**
@@ -44,7 +44,7 @@ class TripDashboard extends Component
      */
     public function searchDestinations()
     {
-        return redirect()->route('destinations');
+        return $this->redirectRoute('destinations');
     }
 
     public function render()
