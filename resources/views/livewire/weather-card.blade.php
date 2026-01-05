@@ -47,8 +47,8 @@
     <div class="rounded-2xl p-6 bg-gradient-to-br from-blue-500/10 via-cyan-500/10 to-emerald-500/10 border border-white/20 shadow">
         <h3 class="text-lg font-semibold mb-4">7-Day Forecast</h3>
         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
-            @foreach($forecast as $day)
-                <div class="group rounded-xl p-4 bg-white/60 hover:bg-white/80 transition shadow-sm">
+            @foreach($forecast as $index => $day)
+                <div wire:key="forecast-{{ $index }}" class="group rounded-xl p-4 bg-white/60 hover:bg-white/80 transition shadow-sm">
                     <div class="text-sm text-gray-700">{{ \Carbon\Carbon::parse($day['date'] ?? now())->format('D') }}</div>
                     @if(!empty($day['icon']))
                         <img alt="icon" class="w-12 h-12 mx-auto scale-100 group-hover:scale-105 transition" src="https://openweathermap.org/img/wn/{{ $day['icon'] }}@2x.png" />
@@ -73,8 +73,8 @@
             Weather Alerts
         </div>
         <ul class="space-y-3">
-            @foreach($current['alerts'] as $alert)
-                <li class="text-sm">
+            @foreach($current['alerts'] as $index => $alert)
+                <li wire:key="alert-{{ $index }}" class="text-sm">
                     <div class="font-medium">{{ $alert['event'] ?? 'Alert' }}</div>
                     @if(!empty($alert['description']))
                         <div class="text-gray-700">{{ $alert['description'] }}</div>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('trip_shares', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trip_id')->constrained()->onDelete('cascade');
-            $table->string('shared_with_email');
+            $table->string('shared_with_email')->nullable();
             $table->string('token')->unique();
             $table->json('permissions')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');

@@ -118,8 +118,8 @@
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Weather Forecast</h2>
                     @if($weatherForecast)
                         <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
-                            @foreach($weatherForecast as $weather)
-                                <div class="text-center p-4 rounded-lg {{ $weather['date'] >= $trip->start_date->format('Y-m-d') && $weather['date'] <= $trip->end_date->format('Y-m-d') ? 'bg-indigo-50 border border-indigo-200' : 'bg-gray-50' }}">
+                            @foreach($weatherForecast as $index => $weather)
+                                <div wire:key="weather-{{ $index }}" class="text-center p-4 rounded-lg {{ $weather['date'] >= $trip->start_date->format('Y-m-d') && $weather['date'] <= $trip->end_date->format('Y-m-d') ? 'bg-indigo-50 border border-indigo-200' : 'bg-gray-50' }}">
                                     <div class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::parse($weather['date'])->format('M j') }}</div>
                                     @if($weather['icon'])
                                         <img src="https://openweathermap.org/img/wn/{{ $weather['icon'] }}@2x.png" alt="{{ $weather['condition'] }}" class="w-12 h-12 mx-auto my-2">
@@ -142,39 +142,10 @@
                     @endif
                 </div>
 
+
                 <!-- Packing Checklist -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-semibold text-gray-900">Packing Checklist</h2>
-                        <span class="text-sm text-gray-600">{{ $packingProgress }}% complete</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
-                        <div class="bg-green-600 h-2 rounded-full" style="width: {{ $packingProgress }}%"></div>
-                    </div>
-                    @if($trip->packingItems->count() > 0)
-                        <div class="space-y-2">
-                            @foreach($trip->packingItems->groupBy('category') as $category => $items)
-                                <div>
-                                    <h3 class="font-medium text-gray-900 mb-2 capitalize">{{ $category }}</h3>
-                                    <div class="space-y-1 ml-4">
-                                        @foreach($items as $item)
-                                            <div class="flex items-center">
-                                                <input type="checkbox" {{ $item->is_packed ? 'checked' : '' }} disabled class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                                                <span class="ml-2 text-sm {{ $item->is_packed ? 'line-through text-gray-500' : 'text-gray-900' }}">{{ $item->item }}</span>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="text-center py-8 text-gray-500">
-                            <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                            </svg>
-                            <p>No packing items added yet</p>
-                        </div>
-                    @endif
+                    <livewire:packing-checklist :trip-id="$trip->id" />
                 </div>
 
                 <!-- Trip Notes -->
@@ -231,8 +202,8 @@
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Holidays</h2>
                     @if($holidays)
                         <div class="space-y-3">
-                            @foreach($holidays as $holiday)
-                                <div class="flex items-start space-x-3 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
+                            @foreach($holidays as $index => $holiday)
+                                <div wire:key="holiday-{{ $index }}" class="flex items-start space-x-3 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
                                     <div class="flex-shrink-0">
                                         <svg class="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
@@ -264,14 +235,14 @@
                     @if($trip->expenses->count() > 0)
                         <div class="space-y-4">
                             @foreach($trip->expenses->groupBy('category') as $category => $expenses)
-                                <div>
+                                <div wire:key="expense-cat-{{ $category }}">
                                     <div class="flex items-center justify-between mb-2">
                                         <span class="text-sm font-medium text-gray-900 capitalize">{{ $category }}</span>
                                         <span class="text-sm text-gray-600">PKR {{ number_format($expenses->sum('amount')) }}</span>
                                     </div>
                                     <div class="space-y-1">
                                         @foreach($expenses as $expense)
-                                            <div class="flex items-center justify-between text-xs text-gray-600">
+                                            <div wire:key="expense-{{ $expense->id }}" class="flex items-center justify-between text-xs text-gray-600">
                                                 <span>{{ $expense->description ?: 'No description' }}</span>
                                                 <span>{{ $expense->expense_date->format('M j') }}</span>
                                             </div>

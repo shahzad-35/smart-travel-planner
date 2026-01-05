@@ -162,7 +162,7 @@
             @if(count($searchResults) > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
                 @foreach($searchResults as $country)
-                <div wire:click="selectDestination('{{ $country['code'] }}')"
+                <div wire:key="country-{{ $country['code'] }}" wire:click="selectDestination('{{ $country['code'] }}')"
                     class="bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group">
                     <div class="flex items-start space-x-3">
                         @if($country['flag'])
@@ -285,9 +285,9 @@
                         <h4 class="font-semibold text-yellow-800 mb-1">Conflicting Trips Detected</h4>
                         <p class="text-sm text-yellow-700 mb-2">You have the following trips during these dates:</p>
                         <ul class="list-disc list-inside text-sm text-yellow-700">
-                            @foreach($conflictingTrips as $trip)
-                            <li>{{ $trip['destination'] }} ({{ date('M j', strtotime($trip['start_date'])) }} - {{
-                                date('M j, Y', strtotime($trip['end_date'])) }})</li>
+                            @foreach($conflictingTrips as $conflictTrip)
+                            <li wire:key="conflict-{{ $conflictTrip['id'] }}">{{ $conflictTrip['destination'] }} ({{ date('M j', strtotime($conflictTrip['start_date'])) }} - {{
+                                date('M j, Y', strtotime($conflictTrip['end_date'])) }})</li>
                             @endforeach
                         </ul>
                     </div>
@@ -310,7 +310,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-3">Trip Type</label>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     @foreach($tripTypes as $typeKey => $typeInfo)
-                    <button type="button" wire:click="$set('type', '{{ $typeKey }}')"
+                    <button wire:key="type-{{ $typeKey }}" type="button" wire:click="$set('type', '{{ $typeKey }}')"
                         class="flex flex-col items-center justify-center p-4 border-2 rounded-lg transition-all {{ $type === $typeKey ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200 hover:border-indigo-300' }}">
                         <div class="text-2xl mb-2">
                             @if($typeKey === 'business')

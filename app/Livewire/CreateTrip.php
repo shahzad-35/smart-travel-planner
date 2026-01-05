@@ -365,7 +365,7 @@ class CreateTrip extends Component
         $this->resetForm();
 
         session()->flash('success', 'Trip created successfully!');
-        return redirect()->route('dashboard');
+        return $this->redirectRoute('dashboard');
     }
 
     /**

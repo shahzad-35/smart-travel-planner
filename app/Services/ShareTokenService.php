@@ -3,18 +3,43 @@
 namespace App\Services;
 
 use App\Models\TripShare;
-use Illuminate\Support\Facades\Str;
 use Illuminate\Support\Carbon;
 use App\Notifications\ShareTokenExpiredNotification;
+use Illuminate\Support\Str;
 
 class ShareTokenService extends BaseService
 {
     /**
      * Generate a unique token and set expiration.
      */
-    public function generateToken(int $ttlMinutes = 60 * 24 * 7): string
+    public function generateToken(\App\Models\Trip $trip, int $ttlMinutes = 60 * 24 * 7): string
     {
-        return Str::random(64);
+        $token = Str::random(64);
+        
+        // Create a TripShare record
+        TripShare::create([
+            'trip_id' => $trip->id,
+            'token' => $token,
+            'permissions' => ['view'],
+            'expires_at' => Carbon::now()->addMinutes($ttlMinutes),
+            'created_by' => $trip->user_id,
+        ]);
+        
+        return $token;
+    }
+
+    /**
+     * Get trip associated with a valid token
+     */
+    public function getSharedTrip(string $token): ?\App\Models\Trip
+    {
+        $share = $this->validateToken($token);
+        
+        if (!$share) {
+            return null;
+        }
+        
+        return $share->trip;
     }
 
     /**
@@ -27,7 +52,7 @@ class ShareTokenService extends BaseService
         ?array $permissions = null,
         ?int $ttlMinutes = null
     ): TripShare {
-        $token = $this->generateToken();
+        $token = Str::random(64);
         $expiresAt = $ttlMinutes !== null
             ? Carbon::now()->addMinutes($ttlMinutes)
             : Carbon::now()->addWeek();
@@ -63,5 +88,3 @@ class ShareTokenService extends BaseService
         return $share;
     }
 }
-
-
