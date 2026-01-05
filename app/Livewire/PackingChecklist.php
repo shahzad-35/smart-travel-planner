@@ -186,6 +186,24 @@ class PackingChecklist extends Component
     }
 
     /**
+     * Unpack all items in a category
+     */
+    public function unpackAllCategory(string $category): void
+    {
+        if ($this->isSharedView) {
+            return;
+        }
+
+        DB::transaction(function () use ($category) {
+            PackingItem::where('trip_id', $this->trip->id)
+                ->where('category', $category)
+                ->update(['is_packed' => false]);
+        });
+
+        $this->loadPackingItems();
+    }
+
+    /**
      * Reset entire checklist
      */
     public function resetChecklist(): void

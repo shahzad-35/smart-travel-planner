@@ -118,10 +118,23 @@ setTimeout(() => {
 
                     @if(!$isSharedView)
                     <div class="flex items-center space-x-2">
-                        <button wire:click="packAllCategory('{{ $category }}')"
-                            class="inline-flex items-center px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium">
-                            Pack All
-                        </button>
+                        @php
+                            $allPacked = count($items) > 0 && collect($items)->every(fn($i) => $i['is_packed']);
+                        @endphp
+                        
+                        @if($allPacked)
+                            <button wire:click="unpackAllCategory('{{ $category }}')"
+                                wire:key="unpack-{{ $category }}"
+                                class="inline-flex items-center px-3 py-1 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
+                                Unpack All
+                            </button>
+                        @else
+                            <button wire:click="packAllCategory('{{ $category }}')"
+                                wire:key="pack-{{ $category }}"
+                                class="inline-flex items-center px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium">
+                                Pack All
+                            </button>
+                        @endif
                     </div>
                     @endif
                 </div>
