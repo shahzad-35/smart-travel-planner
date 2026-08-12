@@ -62,6 +62,10 @@ new class extends Component
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('settings')" wire:navigate>
+                            {{ __('Settings') }}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -111,7 +115,7 @@ new class extends Component
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-
+            
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

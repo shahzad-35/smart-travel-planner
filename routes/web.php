@@ -15,6 +15,10 @@ Route::get('destinations', \App\Livewire\DestinationSearch::class)
     ->middleware(['auth', 'verified'])
     ->name('destinations');
 
+Route::get('settings', \App\Livewire\UserPreferences::class)
+    ->middleware(['auth'])
+    ->name('settings');
+
 Route::get('weather', \App\Livewire\WeatherCard::class)
     ->middleware(['auth', 'verified'])
     ->name('weather');
