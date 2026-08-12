@@ -29,6 +29,11 @@
         </div>
     </div>
 
+    <!-- Travel Statistics Section -->
+    <div class="mb-8">
+        <livewire:travel-stats />
+    </div>
+
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <!-- Total Trips -->
