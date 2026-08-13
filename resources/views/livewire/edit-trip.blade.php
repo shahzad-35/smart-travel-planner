@@ -1,8 +1,8 @@
 <div class="w-full max-w-4xl mx-auto">
     <!-- Page Header -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Edit Trip</h1>
-        <p class="text-gray-600">Update your trip details and preferences</p>
+        <h1 class="text-3xl font-bold text-foreground mb-2">Edit Trip</h1>
+        <p class="text-foreground-muted">Update your trip details and preferences</p>
     </div>
 
     <!-- Progress Steps -->
@@ -11,7 +11,7 @@
             <!-- Step 1: Destination -->
             <div class="flex items-center flex-1">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 1 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600' }} font-semibold">
+                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 1 ? 'bg-primary text-primary-foreground' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
                     @if($currentStep > 1)
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -21,16 +21,16 @@
                     @endif
                 </div>
                 <div class="ml-3 hidden sm:block">
-                    <p class="text-sm font-medium {{ $currentStep >= 1 ? 'text-indigo-600' : 'text-gray-500' }}">
+                    <p class="text-sm font-medium {{ $currentStep >= 1 ? 'text-primary' : 'text-foreground-subtle' }}">
                         Destination</p>
                 </div>
             </div>
-            <div class="flex-1 h-1 mx-2 {{ $currentStep > 1 ? 'bg-indigo-600' : 'bg-gray-200' }}"></div>
+            <div class="flex-1 h-1 mx-2 {{ $currentStep > 1 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
 
             <!-- Step 2: Dates -->
             <div class="flex items-center flex-1">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 2 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600' }} font-semibold">
+                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 2 ? 'bg-primary text-primary-foreground' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
                     @if($currentStep > 2)
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -40,16 +40,16 @@
                     @endif
                 </div>
                 <div class="ml-3 hidden sm:block">
-                    <p class="text-sm font-medium {{ $currentStep >= 2 ? 'text-indigo-600' : 'text-gray-500' }}">Dates
+                    <p class="text-sm font-medium {{ $currentStep >= 2 ? 'text-primary' : 'text-foreground-subtle' }}">Dates
                     </p>
                 </div>
             </div>
-            <div class="flex-1 h-1 mx-2 {{ $currentStep > 2 ? 'bg-indigo-600' : 'bg-gray-200' }}"></div>
+            <div class="flex-1 h-1 mx-2 {{ $currentStep > 2 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
 
             <!-- Step 3: Details -->
             <div class="flex items-center flex-1">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 3 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600' }} font-semibold">
+                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 3 ? 'bg-primary text-primary-foreground' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
                     @if($currentStep > 3)
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -59,20 +59,20 @@
                     @endif
                 </div>
                 <div class="ml-3 hidden sm:block">
-                    <p class="text-sm font-medium {{ $currentStep >= 3 ? 'text-indigo-600' : 'text-gray-500' }}">Details
+                    <p class="text-sm font-medium {{ $currentStep >= 3 ? 'text-primary' : 'text-foreground-subtle' }}">Details
                     </p>
                 </div>
             </div>
-            <div class="flex-1 h-1 mx-2 {{ $currentStep > 3 ? 'bg-indigo-600' : 'bg-gray-200' }}"></div>
+            <div class="flex-1 h-1 mx-2 {{ $currentStep > 3 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
 
             <!-- Step 4: Confirm -->
             <div class="flex items-center flex-1">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 4 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600' }} font-semibold">
+                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 4 ? 'bg-primary text-primary-foreground' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
                     4
                 </div>
                 <div class="ml-3 hidden sm:block">
-                    <p class="text-sm font-medium {{ $currentStep >= 4 ? 'text-indigo-600' : 'text-gray-500' }}">Confirm
+                    <p class="text-sm font-medium {{ $currentStep >= 4 ? 'text-primary' : 'text-foreground-subtle' }}">Confirm
                     </p>
                 </div>
             </div>
@@ -81,21 +81,19 @@
 
     <!-- Flash Messages -->
     @if (session()->has('success'))
-    <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+    <div class="mb-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 px-4 py-3 rounded-lg">
         {{ session('success') }}
     </div>
     @endif
 
     @if (session()->has('error'))
-    <div class="mb-6 px-4 py-3 rounded-lg"
-        style="background-color: #ffe5e5; border: 1px solid #ffcccc; color: #cc0000;">
+    <div class="mb-6 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300">
         {{ session('error') }}
     </div>
     @endif
 
     @if ($errors->any())
-    <div class="mb-6 px-4 py-3 rounded-lg"
-        style="background-color: #ffe5e5; border: 1px solid #ffcccc; color: #cc0000;">
+    <div class="mb-6 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300">
         <ul class="list-disc list-inside">
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
@@ -106,23 +104,23 @@
 
     <!-- Confirmation Modal -->
     @if($showConfirmationModal)
-    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" id="confirmation-modal">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="fixed inset-0 bg-black/50 dark:bg-black/70 overflow-y-auto h-full w-full z-50" id="confirmation-modal">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-surface-card">
             <div class="mt-3 text-center">
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100">
-                    <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 dark:bg-amber-900/30">
+                    <svg class="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Confirm Changes</h3>
+                <h3 class="text-lg leading-6 font-medium text-foreground mt-4">Confirm Changes</h3>
                 <div class="mt-2 px-7 py-3">
-                    <p class="text-sm text-gray-500">{{ $confirmationMessage }}</p>
+                    <p class="text-sm text-foreground-subtle">{{ $confirmationMessage }}</p>
                 </div>
                 <div class="flex items-center px-4 py-3 space-x-4">
-                    <button wire:click="cancelAction" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                    <button wire:click="cancelAction" class="flex-1 bg-surface-muted hover:bg-border text-foreground font-bold py-2 px-4 rounded cursor-pointer">
                         Cancel
                     </button>
-                    <button wire:click="confirmAction" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                    <button wire:click="confirmAction" class="flex-1 bg-primary hover:bg-primary-dark text-primary-foreground font-bold py-2 px-4 rounded cursor-pointer">
                         Confirm
                     </button>
                 </div>
@@ -132,25 +130,25 @@
     @endif
 
     <!-- Form Card -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+    <div class="bg-surface-card rounded-2xl shadow-card border border-border p-6 md:p-8">
         <!-- Step 1: Destination -->
         @if($currentStep === 1)
-        <div class="space-y-6">
+        <div wire:key="edit-step-1" class="space-y-6">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Where are you going?</h2>
-                <p class="text-gray-600">Search for your destination</p>
+                <h2 class="text-2xl font-bold text-foreground mb-2">Where are you going?</h2>
+                <p class="text-foreground-muted">Search for your destination</p>
             </div>
 
             <!-- Search Input -->
             <div class="relative">
                 <input type="text" wire:model.live.debounce.300ms="destination" wire:keydown.enter="searchDestinations"
-                    class="block w-full rounded-xl p-4 border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    class="block w-full rounded-xl p-4 border border-border focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="Search for countries or cities..." autocomplete="off">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                     @if($isSearching)
-                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600"></div>
+                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
                     @else
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-5 w-5 text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -163,18 +161,18 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
                 @foreach($searchResults as $country)
                 <div wire:key="country-{{ $country['code'] }}" wire:click="selectDestination('{{ $country['code'] }}')"
-                    class="bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer group">
+                    class="bg-surface-card border border-border rounded-lg p-4 hover:border-primary hover:shadow-md transition-all cursor-pointer group">
                     <div class="flex items-start space-x-3">
                         @if($country['flag'])
                         <img src="{{ $country['flag'] }}" alt="{{ $country['name'] }} flag"
                             class="w-12 h-8 object-cover rounded-sm shadow-sm">
                         @endif
                         <div class="flex-1">
-                            <h4 class="font-semibold text-gray-900 group-hover:text-indigo-600">
+                            <h4 class="font-semibold text-foreground group-hover:text-primary">
                                 {{ $country['name'] }}
                             </h4>
-                            <p class="text-sm text-gray-600">{{ $country['capital'] }}</p>
-                            <p class="text-xs text-gray-500">{{ $country['region'] }}</p>
+                            <p class="text-sm text-foreground-muted">{{ $country['capital'] }}</p>
+                            <p class="text-xs text-foreground-subtle">{{ $country['region'] }}</p>
                         </div>
                     </div>
                 </div>
@@ -184,7 +182,7 @@
 
             <!-- Selected Destination -->
             @if($countryCode && count($searchResults) === 0)
-            <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+            <div class="bg-primary/5 border border-primary/20 rounded-lg p-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         @if(isset($selectedCountry['flag']))
@@ -192,13 +190,13 @@
                             class="w-12 h-8 object-cover rounded-sm">
                         @endif
                         <div>
-                            <h4 class="font-semibold text-gray-900">{{ $destination }}</h4>
+                            <h4 class="font-semibold text-foreground">{{ $destination }}</h4>
                             @if(isset($selectedCountry['capital']))
-                            <p class="text-sm text-gray-600">{{ $selectedCountry['capital'] }}</p>
+                            <p class="text-sm text-foreground-muted">{{ $selectedCountry['capital'] }}</p>
                             @endif
                         </div>
                     </div>
-                    <button wire:click="$set('countryCode', '')" class="text-red-600 hover:text-red-800">
+                    <button wire:click="$set('countryCode', '')" class="text-destructive hover:text-destructive/80 cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M6 18L18 6M6 6l12 12"></path>
@@ -208,17 +206,17 @@
 
                 <!-- Weather Preview -->
                 @if($showWeatherPreview && !empty($weatherPreview))
-                <div class="mt-4 pt-4 border-t border-indigo-200">
-                    <h5 class="text-sm font-medium text-gray-700 mb-2">Current Weather</h5>
+                <div class="mt-4 pt-4 border-t border-primary/20">
+                    <h5 class="text-sm font-medium text-foreground mb-2">Current Weather</h5>
                     <div class="flex items-center space-x-4">
                         @if(isset($weatherPreview['icon']))
                         <img src="https://openweathermap.org/img/wn/{{ $weatherPreview['icon'] }}@2x.png"
                             alt="Weather icon" class="w-12 h-12">
                         @endif
                         <div>
-                            <p class="text-2xl font-bold text-gray-900">{{ round($weatherPreview['temperature']) }}°C
+                            <p class="text-2xl font-bold text-foreground">{{ round($weatherPreview['temperature']) }}°C
                             </p>
-                            <p class="text-sm text-gray-600 capitalize">{{ $weatherPreview['condition'] }}</p>
+                            <p class="text-sm text-foreground-muted capitalize">{{ $weatherPreview['condition'] }}</p>
                         </div>
                     </div>
                 </div>
@@ -230,29 +228,29 @@
 
         <!-- Step 2: Dates -->
         @if($currentStep === 2)
-        <div class="space-y-6">
+        <div wire:key="edit-step-2" class="space-y-6">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">When are you traveling?</h2>
-                <p class="text-gray-600">Select your trip dates</p>
+                <h2 class="text-2xl font-bold text-foreground mb-2">When are you traveling?</h2>
+                <p class="text-foreground-muted">Select your trip dates</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Start Date -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                    <label class="block text-sm font-medium text-foreground mb-2">Start Date</label>
                     <input type="date" wire:model.live="startDate" wire:change="checkConflicts"
                         min="{{ date('Y-m-d') }}"
-                        class="block w-full rounded-lg p-3 border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                    @error('startDate') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                        class="block w-full rounded-lg p-3 border border-border focus:ring-2 focus:ring-primary focus:border-primary">
+                    @error('startDate') <span class="text-destructive text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- End Date -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                    <label class="block text-sm font-medium text-foreground mb-2">End Date</label>
                     <input type="date" wire:model.live="endDate" wire:change="checkConflicts"
                         min="{{ $startDate ?: date('Y-m-d') }}"
-                        class="block w-full rounded-lg p-3 border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                    @error('endDate') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                        class="block w-full rounded-lg p-3 border border-border focus:ring-2 focus:ring-primary focus:border-primary">
+                    @error('endDate') <span class="text-destructive text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -263,8 +261,8 @@
             $end = new DateTime($endDate);
             $duration = $start->diff($end)->days + 1;
             @endphp
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p class="text-sm text-blue-800">
+            <div class="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                <p class="text-sm text-primary dark:text-primary">
                     <span class="font-semibold">Trip Duration:</span> {{ $duration }} {{ $duration === 1 ? 'day' :
                     'days' }}
                 </p>
@@ -273,18 +271,18 @@
 
             <!-- Conflicting Trips Warning -->
             @if(count($conflictingTrips) > 0)
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
                 <div class="flex items-start">
-                    <svg class="w-5 h-5 text-yellow-600 mt-0.5 mr-2" fill="none" stroke="currentColor"
+                    <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 mr-2" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
                         </path>
                     </svg>
                     <div>
-                        <h4 class="font-semibold text-yellow-800 mb-1">Conflicting Trips Detected</h4>
-                        <p class="text-sm text-yellow-700 mb-2">You have the following trips during these dates:</p>
-                        <ul class="list-disc list-inside text-sm text-yellow-700">
+                        <h4 class="font-semibold text-amber-800 dark:text-amber-300 mb-1">Conflicting Trips Detected</h4>
+                        <p class="text-sm text-amber-700 dark:text-amber-400 mb-2">You have the following trips during these dates:</p>
+                        <ul class="list-disc list-inside text-sm text-amber-700 dark:text-amber-400">
                             @foreach($conflictingTrips as $conflictTrip)
                             <li wire:key="conflict-{{ $conflictTrip['id'] }}">{{ $conflictTrip['destination'] }} ({{ date('M j', strtotime($conflictTrip['start_date'])) }} - {{
                                 date('M j, Y', strtotime($conflictTrip['end_date'])) }})</li>
@@ -299,126 +297,126 @@
 
         <!-- Step 3: Details -->
         @if($currentStep === 3)
-        <div class="space-y-6">
+        <div wire:key="edit-step-3" class="space-y-6">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Trip Details</h2>
-                <p class="text-gray-600">Tell us more about your trip</p>
+                <h2 class="text-2xl font-bold text-foreground mb-2">Trip Details</h2>
+                <p class="text-foreground-muted">Tell us more about your trip</p>
             </div>
 
             <!-- Trip Type -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-3">Trip Type</label>
+                <label class="block text-sm font-medium text-foreground mb-3">Trip Type</label>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     @foreach($tripTypes as $typeKey => $typeInfo)
                     <button wire:key="type-{{ $typeKey }}" type="button" wire:click="$set('type', '{{ $typeKey }}')"
-                        class="flex flex-col items-center justify-center p-4 border-2 rounded-lg transition-all {{ $type === $typeKey ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200 hover:border-indigo-300' }}">
-                        <div class="text-2xl mb-2">
+                        class="flex flex-col items-center justify-center p-4 border-2 rounded-lg transition-all cursor-pointer {{ $type === $typeKey ? 'border-primary bg-primary/5' : 'border-border hover:border-primary' }}">
+                        <div class="w-8 h-8 mb-2 {{ $type === $typeKey ? 'text-primary' : 'text-foreground-muted' }}">
                             @if($typeKey === 'business')
-                            💼
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                             @elseif($typeKey === 'leisure')
-                            🏖️
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                             @elseif($typeKey === 'adventure')
-                            🏔️
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l3.057 5.287L12 3l3.943 5.287L19 3v15a2 2 0 01-2 2H7a2 2 0 01-2-2V3z"/></svg>
                             @elseif($typeKey === 'family')
-                            👨‍👩‍👧‍👦
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                             @else
-                            🧳
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
                             @endif
                         </div>
                         <span
-                            class="text-sm font-medium {{ $type === $typeKey ? 'text-indigo-600' : 'text-gray-700' }}">
+                            class="text-sm font-medium {{ $type === $typeKey ? 'text-primary' : 'text-foreground' }}">
                             {{ $typeInfo['label'] }}
                         </span>
                     </button>
                     @endforeach
                 </div>
-                @error('type') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                @error('type') <span class="text-destructive text-sm">{{ $message }}</span> @enderror
             </div>
 
 
             <!-- Travelers Count -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Number of Travelers</label>
+                <label class="block text-sm font-medium text-foreground mb-2">Number of Travelers</label>
                 <div class="flex items-center space-x-4">
                     <button type="button" wire:click.prevent="decrementTravelers"
-                        class="w-10 h-10 rounded-lg border border-gray-300 hover:bg-gray-50 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="w-10 h-10 rounded-lg border border-border hover:bg-surface-muted flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                         </svg>
                     </button>
                     <div
-                        class="w-20 text-center rounded-lg p-3 border border-gray-300 bg-gray-50 font-medium text-gray-900">
+                        class="w-20 text-center rounded-lg p-3 border border-border bg-surface-muted dark:bg-surface font-medium text-foreground">
                         {{ $travelers }}
                     </div>
                     <button type="button" wire:click.prevent="incrementTravelers"
-                        class="w-10 h-10 rounded-lg border border-gray-300 hover:bg-gray-50 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="w-10 h-10 rounded-lg border border-border hover:bg-surface-muted flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
                     </button>
-                    <span class="text-sm text-gray-600">{{ $travelers === 1 ? 'traveler' : 'travelers' }}</span>
+                    <span class="text-sm text-foreground-muted">{{ $travelers === 1 ? 'traveler' : 'travelers' }}</span>
                 </div>
-                @error('travelers') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                @error('travelers') <span class="text-destructive text-sm">{{ $message }}</span> @enderror
             </div>
 
             <!-- Budget -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Budget (Optional)</label>
+                <label class="block text-sm font-medium text-foreground mb-2">Budget (Optional)</label>
                 <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">PKR</span>
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-foreground-subtle">PKR</span>
                     <input type="number" wire:model="budget" min="0" step="0.01"
-                        class="block w-full pl-14 rounded-lg p-3 border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        class="block w-full pl-14 rounded-lg p-3 border border-border focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="0.00">
                 </div>
-                <p class="mt-1 text-sm text-gray-500">Enter your estimated budget in Pakistani Rupees</p>
-                @error('budget') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <p class="mt-1 text-sm text-foreground-subtle">Enter your estimated budget in Pakistani Rupees</p>
+                @error('budget') <span class="text-destructive text-sm">{{ $message }}</span> @enderror
             </div>
 
             <!-- Notes -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Notes (Optional)</label>
+                <label class="block text-sm font-medium text-foreground mb-2">Notes (Optional)</label>
                 <textarea wire:model="notes" rows="4" maxlength="1000"
-                    class="block w-full rounded-lg p-3 border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    class="block w-full rounded-lg p-3 border border-border focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="Add any additional notes about your trip..."></textarea>
-                <p class="mt-1 text-sm text-gray-500">{{ strlen($notes) }}/1000 characters</p>
-                @error('notes') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <p class="mt-1 text-sm text-foreground-subtle">{{ strlen($notes) }}/1000 characters</p>
+                @error('notes') <span class="text-destructive text-sm">{{ $message }}</span> @enderror
             </div>
         </div>
         @endif
 
         <!-- Step 4: Confirm -->
         @if($currentStep === 4)
-        <div class="space-y-6">
+        <div wire:key="edit-step-4" class="space-y-6">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Review Your Trip</h2>
-                <p class="text-gray-600">Please review your trip details before updating</p>
+                <h2 class="text-2xl font-bold text-foreground mb-2">Review Your Trip</h2>
+                <p class="text-foreground-muted">Please review your trip details before updating</p>
             </div>
 
             <!-- Trip Summary -->
-            <div class="bg-gray-50 rounded-lg p-6 space-y-4">
+            <div class="bg-surface-muted dark:bg-surface rounded-lg p-6 space-y-4">
                 <!-- Destination -->
-                <div class="flex items-start justify-between pb-4 border-b border-gray-200">
+                <div class="flex items-start justify-between pb-4 border-b border-border">
                     <div class="flex items-center space-x-3">
                         @if(isset($selectedCountry['flag']))
                         <img src="{{ $selectedCountry['flag'] }}" alt="{{ $destination }} flag"
                             class="w-12 h-8 object-cover rounded-sm">
                         @endif
                         <div>
-                            <p class="text-sm text-gray-600">Destination</p>
-                            <p class="text-lg font-semibold text-gray-900">{{ $destination }}</p>
+                            <p class="text-sm text-foreground-muted">Destination</p>
+                            <p class="text-lg font-semibold text-foreground">{{ $destination }}</p>
                         </div>
                     </div>
-                    <button wire:click="goToStep(1)" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                    <button wire:click="goToStep(1)" class="text-primary hover:text-primary-dark text-sm font-medium cursor-pointer">
                         Edit
                     </button>
                 </div>
 
                 <!-- Dates -->
-                <div class="flex items-start justify-between pb-4 border-b border-gray-200">
+                <div class="flex items-start justify-between pb-4 border-b border-border">
                     <div>
-                        <p class="text-sm text-gray-600 mb-1">Travel Dates</p>
-                        <p class="text-lg font-semibold text-gray-900">
+                        <p class="text-sm text-foreground-muted mb-1">Travel Dates</p>
+                        <p class="text-lg font-semibold text-foreground">
                             {{ date('M j, Y', strtotime($startDate)) }} - {{ date('M j, Y', strtotime($endDate)) }}
                         </p>
                         @php
@@ -426,9 +424,9 @@
                         $end = new DateTime($endDate);
                         $duration = $start->diff($end)->days + 1;
                         @endphp
-                        <p class="text-sm text-gray-600">{{ $duration }} {{ $duration === 1 ? 'day' : 'days' }}</p>
+                        <p class="text-sm text-foreground-muted">{{ $duration }} {{ $duration === 1 ? 'day' : 'days' }}</p>
                     </div>
-                    <button wire:click="goToStep(2)" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                    <button wire:click="goToStep(2)" class="text-primary hover:text-primary-dark text-sm font-medium cursor-pointer">
                         Edit
                     </button>
                 </div>
@@ -437,28 +435,28 @@
                 <div class="flex items-start justify-between">
                     <div class="space-y-3 flex-1">
                         <div>
-                            <p class="text-sm text-gray-600">Trip Type</p>
-                            <p class="text-lg font-semibold text-gray-900 capitalize">{{ $type }}</p>
+                            <p class="text-sm text-foreground-muted">Trip Type</p>
+                            <p class="text-lg font-semibold text-foreground capitalize">{{ $type }}</p>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-600">Travelers</p>
-                            <p class="text-lg font-semibold text-gray-900">{{ $travelers }} {{ $travelers === 1 ?
+                            <p class="text-sm text-foreground-muted">Travelers</p>
+                            <p class="text-lg font-semibold text-foreground">{{ $travelers }} {{ $travelers === 1 ?
                                 'person' : 'people' }}</p>
                         </div>
                         @if($budget)
                         <div>
-                            <p class="text-sm text-gray-600">Budget</p>
-                            <p class="text-lg font-semibold text-gray-900">PKR {{ number_format($budget, 2) }}</p>
+                            <p class="text-sm text-foreground-muted">Budget</p>
+                            <p class="text-lg font-semibold text-foreground">PKR {{ number_format($budget, 2) }}</p>
                         </div>
                         @endif
                         @if($notes)
                         <div>
-                            <p class="text-sm text-gray-600">Notes</p>
-                            <p class="text-sm text-gray-900">{{ $notes }}</p>
+                            <p class="text-sm text-foreground-muted">Notes</p>
+                            <p class="text-sm text-foreground">{{ $notes }}</p>
                         </div>
                         @endif
                     </div>
-                    <button wire:click="goToStep(3)" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                    <button wire:click="goToStep(3)" class="text-primary hover:text-primary-dark text-sm font-medium cursor-pointer">
                         Edit
                     </button>
                 </div>
@@ -467,11 +465,11 @@
         @endif
 
         <!-- Navigation Buttons -->
-        <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+        <div class="flex items-center justify-between mt-8 pt-6 border-t border-border">
             <div>
                 @if($currentStep > 1)
-                <button wire:click="previousStep"
-                    class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 font-medium transition-colors">
+                <button wire:click="previousStep" wire:key="prev-btn-{{ $currentStep }}"
+                    class="inline-flex items-center px-6 py-3 border border-border rounded-lg text-foreground bg-surface-card hover:bg-surface-muted font-medium transition-colors cursor-pointer">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
                         </path>
@@ -480,23 +478,23 @@
                 </button>
                 @else
                 <a href="{{ route('trips.show', $trip->id) }}"
-                    class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 font-medium transition-colors">
+                    class="inline-flex items-center px-6 py-3 border border-border rounded-lg text-foreground bg-surface-card hover:bg-surface-muted font-medium transition-colors cursor-pointer">
                     Cancel
                 </a>
                 @endif
             </div>
 
             <div class="flex items-center space-x-3">
-                @if($currentStep < 4) <button wire:click="nextStep"
-                    class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium transition-colors">
+                @if($currentStep < 4) <button wire:click="nextStep" wire:key="next-btn-{{ $currentStep }}"
+                    class="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary-dark font-medium transition-colors cursor-pointer">
                     Next
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                     </button>
                     @else
-                    <button wire:click="updateTrip" wire:loading.attr="disabled"
-                        class="inline-flex items-center px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed font-medium transition-colors">
+                    <button wire:click="updateTrip" wire:loading.attr="disabled" wire:key="update-btn"
+                        class="inline-flex items-center px-8 py-3 bg-accent text-white rounded-lg hover:bg-accent-light disabled:bg-accent/50 disabled:cursor-not-allowed font-medium transition-colors cursor-pointer">
                         <svg wire:loading class="w-5 h-5 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                         </svg>
@@ -514,7 +512,7 @@
 
     <!-- Help Text -->
     <div class="mt-6 text-center">
-        <p class="text-sm text-gray-500">
+        <p class="text-sm text-foreground-subtle">
             Your progress is automatically saved. You can safely navigate away and return later.
         </p>
     </div>

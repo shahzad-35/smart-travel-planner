@@ -48,7 +48,7 @@ class EditTrip extends Component
     public bool $isUpdating = false;
 
     // Track original values for change detection
-    private array $originalValues = [];
+    public array $originalValues = [];
 
     // Trip types with icons
     public array $tripTypes = [
@@ -97,7 +97,7 @@ class EditTrip extends Component
         $this->type = $this->trip->type;
         $this->budget = $this->trip->budget ? (string) $this->trip->budget : '';
         $this->travelers = $this->trip->metadata['travelers'] ?? 1;
-        $this->notes = $this->trip->notes;
+        $this->notes = $this->trip->notes ?? '';
 
         // Store original values for change detection
         $this->originalValues = [
@@ -177,6 +177,15 @@ class EditTrip extends Component
     {
         if ($this->travelers > 1) {
             $this->travelers--;
+        }
+    }
+
+    public function updatedDestination()
+    {
+        if (strlen(trim($this->destination)) >= 3) {
+            $this->searchDestinations();
+        } else {
+            $this->searchResults = [];
         }
     }
 
@@ -306,7 +315,7 @@ class EditTrip extends Component
      */
     public function goToStep(int $step)
     {
-        if ($step >= self::STEP_DESTINATION && $step <= self::STEP_CONFIRM) {
+        if ($step >= self::STEP_DESTINATION && $step < $this->currentStep) {
             $this->currentStep = $step;
         }
     }
@@ -327,8 +336,12 @@ class EditTrip extends Component
                 break;
 
             case self::STEP_DATES:
+                $startDateRule = 'required|date';
+                if (($this->originalValues['start_date'] ?? null) !== $this->startDate) {
+                    $startDateRule .= '|after_or_equal:today';
+                }
                 $rules = [
-                    'startDate' => 'required|date|after_or_equal:today',
+                    'startDate' => $startDateRule,
                     'endDate' => 'required|date|after_or_equal:startDate',
                 ];
                 break;
@@ -353,7 +366,7 @@ class EditTrip extends Component
         ], $rules);
 
         if ($validator->fails()) {
-            $this->addError('step', 'Please complete all required fields in this step.');
+            $this->setErrorBag($validator->errors());
             return false;
         }
 
@@ -448,10 +461,14 @@ class EditTrip extends Component
 
         try {
             // Validate form data first
+            $startDateRule = 'required|date';
+            if (($this->originalValues['start_date'] ?? null) !== $this->startDate) {
+                $startDateRule .= '|after_or_equal:today';
+            }
             $this->validate([
                 'destination' => 'required|string|max:255',
                 'countryCode' => 'required|string|size:2',
-                'startDate' => 'required|date|after_or_equal:today',
+                'startDate' => $startDateRule,
                 'endDate' => 'required|date|after_or_equal:startDate',
                 'type' => 'required|in:business,leisure,adventure,family,solo',
                 'budget' => 'nullable|numeric|min:0|max:99999999.99',

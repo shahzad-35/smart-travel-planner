@@ -370,8 +370,8 @@ class PackingChecklist extends Component
             'progress' => $this->packingProgress,
         ]);
 
-        return response()->streamDownload(function () use ($pdf) {
-            echo $pdf->output();
+        return $this->streamDownload(function () use ($pdf) {
+            return $pdf->output();
         }, 'packing-checklist-' . $this->trip->destination . '.pdf');
     }
 

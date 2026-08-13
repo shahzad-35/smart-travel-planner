@@ -18,10 +18,13 @@ class CountryService extends BaseService
 
     private string $baseUrl;
 
+    private string $apiKey;
+
     public function __construct(CacheService $cacheService)
     {
         parent::__construct($cacheService);
-        $this->baseUrl = config('services.restcountries.base_url', 'https://restcountries.com/v3.1');
+        $this->baseUrl = config('services.restcountries.base_url', 'https://api.restcountries.com/countries/v5');
+        $this->apiKey = config('services.restcountries.api_key', 'rc_live_demo');
     }
 
     /**
@@ -32,26 +35,32 @@ class CountryService extends BaseService
      */
     public function getCountryInfo(string $nameOrCode): ?CountryDTO
     {
-        $cacheKey = "country_info_{$nameOrCode}";
+        $cacheKey = "country_info_v5_{$nameOrCode}";
 
         return $this->cacheService->remember($cacheKey, self::CACHE_TAG, function () use ($nameOrCode) {
             try {
-                $endpoint = $this->isCountryCode($nameOrCode) ? "alpha/{$nameOrCode}" : "name/{$nameOrCode}";
+                if ($this->isCountryCode($nameOrCode)) {
+                    $codeLength = strlen($nameOrCode);
+                    $codeType = $codeLength === 2 ? 'alpha_2' : 'alpha_3';
+                    $url = "{$this->baseUrl}/codes.{$codeType}/" . strtoupper($nameOrCode);
+                } else {
+                    $url = "{$this->baseUrl}/name?" . http_build_query(['q' => $nameOrCode]);
+                }
 
-                // Use centralized handler so API calls are logged
                 $handler = new ApiResponseHandler('CountryService');
-                $response = $handler->execute(function () use ($endpoint) {
-                    return Http::timeout(10)->get("{$this->baseUrl}/{$endpoint}");
-                }, ['endpoint' => $endpoint, 'type' => 'getCountryInfo']);
+                $response = $handler->execute(function () use ($url) {
+                    return Http::timeout(10)
+                        ->withToken($this->apiKey)
+                        ->get($url);
+                }, ['url' => $url, 'type' => 'getCountryInfo']);
 
                 if ($response->successful()) {
-                    $data = $response->json();
-                    if (empty($data)) {
+                    $json = $response->json();
+                    $objects = $json['data']['objects'] ?? [];
+                    if (empty($objects)) {
                         return $this->getOfflineCountryInfo($nameOrCode);
                     }
-                    // REST Countries API returns array for name search, object for alpha code
-                    $countryData = is_array($data) ? $data[0] : $data;
-                    return $this->mapToCountryDTO($countryData);
+                    return $this->mapToCountryDTO($objects[0]);
                 } else {
                     $this->logError("REST Countries API error: " . $response->body());
                     return $this->getOfflineCountryInfo($nameOrCode);
@@ -71,23 +80,27 @@ class CountryService extends BaseService
      */
     public function searchCountries(string $query): array
     {
-        $cacheKey = "country_search_{$query}";
+        $cacheKey = "country_search_v5_{$query}";
 
         return $this->cacheService->remember($cacheKey, self::CACHE_TAG, function () use ($query) {
             try {
-                // Use centralized handler so API calls are logged
+                $url = "{$this->baseUrl}/name?" . http_build_query(['q' => $query]);
+
                 $handler = new ApiResponseHandler('CountryService');
-                $response = $handler->execute(function () use ($query) {
-                    return Http::timeout(10)->get("{$this->baseUrl}/name/{$query}");
+                $response = $handler->execute(function () use ($url) {
+                    return Http::timeout(10)
+                        ->withToken($this->apiKey)
+                        ->get($url);
                 }, ['query' => $query, 'type' => 'searchCountries']);
 
                 if ($response->successful()) {
-                    $data = $response->json();
-                    if (empty($data)) {
+                    $json = $response->json();
+                    $objects = $json['data']['objects'] ?? [];
+                    if (empty($objects)) {
                         return [];
                     }
                     $results = [];
-                    foreach ($data as $countryData) {
+                    foreach ($objects as $countryData) {
                         $results[] = $this->mapToCountryDTO($countryData);
                     }
                     return $results;
@@ -121,39 +134,37 @@ class CountryService extends BaseService
      */
     private function mapToCountryDTO(array $data): CountryDTO
     {
-        $name = $data['name']['common'] ?? '';
-        $code = $data['cca2'] ?? ($data['cca3'] ?? '');
-        $capital = isset($data['capital'][0]) ? $data['capital'][0] : '';
+        // v5 uses 'names' instead of 'name', 'codes' instead of 'cca2'
+        $name = $data['names']['common'] ?? ($data['name']['common'] ?? '');
+        $code = $data['codes']['alpha_2'] ?? ($data['cca2'] ?? ($data['codes']['alpha_3'] ?? ($data['cca3'] ?? '')));
+        $capitalRaw = $data['capitals'][0] ?? $data['capital'][0] ?? '';
+        $capital = is_array($capitalRaw) ? ($capitalRaw['name'] ?? (string) reset($capitalRaw)) : (string) $capitalRaw;
         $region = $data['region'] ?? '';
         $population = $data['population'] ?? 0;
 
-        // Currency: get first currency name
         $currency = null;
         if (isset($data['currencies']) && is_array($data['currencies'])) {
             $currencies = array_values($data['currencies']);
             $currency = $currencies[0]['name'] ?? null;
         }
 
-        // Languages: get all language names
         $languages = [];
         if (isset($data['languages']) && is_array($data['languages'])) {
             $languages = array_values($data['languages']);
         }
 
-        // Timezones: get first timezone
         $timezone = isset($data['timezones'][0]) ? $data['timezones'][0] : null;
 
-        // Flag: get svg flag url
-        $flag = $data['flags']['svg'] ?? null;
+        // v5 uses 'flag.url_svg' instead of 'flags.svg'
+        $flag = $data['flag']['url_svg'] ?? ($data['flags']['svg'] ?? null);
 
-        // Coordinates: latlng array [lat, lng]
         $latitude = null;
         $longitude = null;
         if (isset($data['latlng']) && is_array($data['latlng']) && count($data['latlng']) >= 2) {
             $latitude = is_numeric($data['latlng'][0]) ? (float)$data['latlng'][0] : null;
             $longitude = is_numeric($data['latlng'][1]) ? (float)$data['latlng'][1] : null;
         }
-
+        
         return new CountryDTO(
             name: $name,
             code: $code,

@@ -1,3 +1,104 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --color-primary: #0F766E;
+        --color-primary-light: #0D9488;
+        --color-primary-dark: #115E59;
+        --color-primary-foreground: #FFFFFF;
+
+        --color-secondary: #14B8A6;
+        --color-secondary-foreground: #FFFFFF;
+
+        --color-accent: #EA580C;
+        --color-accent-light: #FB923C;
+        --color-accent-foreground: #FFFFFF;
+
+        --color-destructive: #DC2626;
+        --color-destructive-foreground: #FFFFFF;
+
+        --color-surface: #F0FDFA;
+        --color-card: #FFFFFF;
+        --color-muted: #E8F1F4;
+
+        --color-foreground: #134E4A;
+        --color-foreground-muted: #4B5563;
+        --color-foreground-subtle: #9CA3AF;
+
+        --color-border: #CCFBF1;
+        --color-border-strong: #5EEAD4;
+
+        --radius: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+
+        --shadow-card: 0 1px 3px 0 rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.06);
+        --shadow-card-hover: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.08);
+    }
+
+    .dark {
+        --color-primary: #2DD4BF;
+        --color-primary-light: #5EEAD4;
+        --color-primary-dark: #14B8A6;
+        --color-primary-foreground: #042F2E;
+
+        --color-secondary: #5EEAD4;
+        --color-secondary-foreground: #042F2E;
+
+        --color-accent: #FB923C;
+        --color-accent-light: #FDBA74;
+        --color-accent-foreground: #431407;
+
+        --color-destructive: #F87171;
+        --color-destructive-foreground: #450A0A;
+
+        --color-surface: #0C1220;
+        --color-card: #151D2E;
+        --color-muted: #1C2536;
+
+        --color-foreground: #ECFDF5;
+        --color-foreground-muted: #94A3B8;
+        --color-foreground-subtle: #64748B;
+
+        --color-border: #1E293B;
+        --color-border-strong: #334155;
+
+        --shadow-card: 0 1px 3px 0 rgba(0,0,0,0.4), 0 1px 2px -1px rgba(0,0,0,0.3);
+        --shadow-card-hover: 0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -4px rgba(0,0,0,0.4);
+    }
+}
+
+@layer components {
+    .card {
+        @apply bg-surface-card rounded-xl shadow-card border border-border transition-shadow duration-200;
+    }
+    .card-hover:hover {
+        @apply shadow-card-hover;
+    }
+    .glass {
+        @apply backdrop-blur-md bg-white/60 border border-white/20 shadow-lg rounded-2xl;
+    }
+    .dark .glass {
+        @apply bg-white/[0.07] border-white/[0.08];
+    }
+    .focus-ring {
+        @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    }
+    .dark .focus-ring {
+        @apply focus:ring-offset-[#0C1220];
+    }
+}
+
+@layer base {
+    button, [role="button"], a {
+        @apply transition-colors duration-150 ease-in-out;
+    }
+}
+
+@layer utilities {
+    .theme-transition {
+        @apply transition-colors duration-200 ease-in-out;
+    }
+}

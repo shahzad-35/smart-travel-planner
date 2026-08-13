@@ -24,7 +24,7 @@ class TripDetails extends Component
 
     public function mount($id)
     {
-        $this->trip = Trip::with(['packingItems', 'expenses', 'notes', 'user'])
+        $this->trip = Trip::with(['packingItems', 'expenses', 'tripNotes', 'user'])
                          ->where('user_id', Auth::id())
                          ->findOrFail($id);
 
@@ -34,7 +34,10 @@ class TripDetails extends Component
     public function loadTripData()
     {
         $weatherService = app(WeatherService::class);
-        $this->weatherForecast = $weatherService->getForecast($this->trip->destination) ?? [];
+        $pref = Auth::user()->preference ?? null;
+        $unit = $pref?->temperature_unit ?? 'C';
+        $units = $unit === 'F' ? 'imperial' : 'metric';
+        $this->weatherForecast = $weatherService->getForecast($this->trip->destination, $units) ?? [];
 
         $holidayService = app(HolidayService::class);
         $holidays = $holidayService->getHolidays(
@@ -48,7 +51,7 @@ class TripDetails extends Component
 
         $this->calculateExpenses();
 
-        $this->noteContent = $this->trip->notes ?: '';
+        $this->noteContent = $this->trip->tripNotes->first()?->note ?? '';
     }
 
     public function calculatePackingProgress()
@@ -80,9 +83,9 @@ class TripDetails extends Component
 
     public function saveNote()
     {
-        $this->trip->notes()->delete();
+        $this->trip->tripNotes()->delete();
         if (!empty($this->noteContent)) {
-            $this->trip->notes()->create(['note' => $this->noteContent]);
+            $this->trip->tripNotes()->create(['note' => $this->noteContent]);
         }
         $this->editingNote = false;
         $this->dispatch('refreshTripDetails');
@@ -90,7 +93,7 @@ class TripDetails extends Component
 
     public function cancelEditNote()
     {
-        $this->noteContent = $this->trip->notes()->first()?->note ?? '';
+        $this->noteContent = $this->trip->tripNotes()->first()?->note ?? '';
         $this->editingNote = false;
     }
 

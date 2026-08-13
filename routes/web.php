@@ -27,6 +27,10 @@ Route::get('weather/compare', \App\Livewire\WeatherComparison::class)
     ->middleware(['auth', 'verified'])
     ->name('weather.compare');
 
+// Public shared packing checklist (no auth required)
+Route::get('packing-checklist/shared/{token}', \App\Livewire\PackingChecklist::class)
+    ->name('packing-checklist.share');
+
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('country', CountryInfo::class)->name('country.info');
 
@@ -37,19 +41,12 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('trips', \App\Livewire\TripList::class)->name('trips.listing');
     Route::get('dashboard', \App\Livewire\TripDashboard::class)->name('dashboard');
 
-
-
     // Packing checklist routes
     Route::get('packing-checklist/{tripId}', \App\Livewire\PackingChecklist::class)
-        ->name('packing-checklist.show')
-        ->middleware(['auth', 'verified']);
-        
-    Route::get('packing-checklist/shared/{token}', \App\Livewire\PackingChecklist::class)
-        ->name('packing-checklist.share');
-        
+        ->name('packing-checklist.show');
+
     Route::get('packing-checklist/{id}/print', [\App\Http\Controllers\PackingChecklistController::class, 'printView'])
-        ->name('packing-checklist.print')
-        ->middleware(['auth', 'verified']);
+        ->name('packing-checklist.print');
 
     // ICS endpoints
     Route::get('calendar/holiday', [CalendarController::class, 'holidaySingle'])->name('calendar.holidays.single');

@@ -45,10 +45,8 @@ class DestinationSearch extends Component
 
 
         if (mb_strlen(trim($this->searchQuery)) > 3) {
-            $this->isLoading = true;
-            $this->dispatch('search-debounced', query: trim($this->searchQuery));
+            $this->performSearch(trim($this->searchQuery));
         } else {
-
             $this->isLoading = false;
             $this->searchResults = [];
         }
@@ -114,8 +112,11 @@ class DestinationSearch extends Component
     public function clearHistory()
     {
         if (Auth::check()) {
-            $userId = Auth::id();
-            Redis::del($this->recentSearchesKey . $userId);
+            try {
+                $userId = Auth::id();
+                Redis::del($this->recentSearchesKey . $userId);
+            } catch (\Throwable $e) {
+            }
             $this->recentSearches = [];
             session()->flash('success', 'Search history cleared successfully.');
         }
@@ -128,18 +129,22 @@ class DestinationSearch extends Component
             return;
         }
 
-        $userId = Auth::id();
-        $recentSearches = Redis::lrange($this->recentSearchesKey . $userId, 0, $this->maxRecentSearches - 1);
-        
-        $this->recentSearches = array_map(function ($searchData) {
-            return json_decode($searchData, true);
-        }, $recentSearches);
+        try {
+            $userId = Auth::id();
+            $recentSearches = Redis::lrange($this->recentSearchesKey . $userId, 0, $this->maxRecentSearches - 1);
 
-        $this->recentSearches = collect($this->recentSearches)
-            ->sortByDesc('searched_at')
-            ->unique('code')
-            ->values()
-            ->toArray();
+            $this->recentSearches = array_map(function ($searchData) {
+                return json_decode($searchData, true);
+            }, $recentSearches);
+
+            $this->recentSearches = collect($this->recentSearches)
+                ->sortByDesc('searched_at')
+                ->unique('code')
+                ->values()
+                ->toArray();
+        } catch (\Throwable $e) {
+            $this->recentSearches = [];
+        }
         $this->showRecentSearches = true;
     }
 
@@ -152,7 +157,6 @@ class DestinationSearch extends Component
         $userId = Auth::id();
         $country = collect($this->searchResults)->firstWhere('code', $countryCode);
 
-        // If not found in search results, try recent searches
         if (!$country) {
             $country = collect($this->recentSearches)->firstWhere('code', $countryCode);
         }
@@ -170,16 +174,13 @@ class DestinationSearch extends Component
             'searched_at' => now()->toISOString()
         ];
 
-        // Remove if already exists
-        Redis::lrem($this->recentSearchesKey . $userId, 0, json_encode($searchData));
-        
-        // Add to beginning
-        Redis::lpush($this->recentSearchesKey . $userId, json_encode($searchData));
+        try {
+            Redis::lrem($this->recentSearchesKey . $userId, 0, json_encode($searchData));
+            Redis::lpush($this->recentSearchesKey . $userId, json_encode($searchData));
+            Redis::ltrim($this->recentSearchesKey . $userId, 0, $this->maxRecentSearches - 1);
+        } catch (\Throwable $e) {
+        }
 
-        // Keep only the latest searches
-        Redis::ltrim($this->recentSearchesKey . $userId, 0, $this->maxRecentSearches - 1);
-
-        // Refresh recent searches
         $this->loadRecentSearches();
     }
 

@@ -29,8 +29,10 @@ class WeatherComparison extends Component
     public function mount(array $locations = []): void
     {
         if (Auth::check()) {
+            $pref = Auth::user()->preference;
+            $unit = $pref?->temperature_unit ?? (Auth::user()->preferences['temperature_unit'] ?? 'C');
+            $this->units = $unit === 'F' ? 'imperial' : 'metric';
             $prefs = Auth::user()->preferences ?? [];
-            $this->units = ($prefs['temperature_unit'] ?? 'metric') === 'imperial' ? 'imperial' : 'metric';
             $saved = $prefs['weather_compare_locations'] ?? null;
             if (is_array($saved) && !empty($saved)) {
                 $locations = $saved;
@@ -100,11 +102,11 @@ class WeatherComparison extends Component
     {
         $this->units = $unit === 'imperial' ? 'imperial' : 'metric';
         if (Auth::check()) {
-            $user = Auth::user();
-            $prefs = $user->preferences ?? [];
-            $prefs['temperature_unit'] = $this->units;
-            $user->preferences = $prefs;
-            $user->save();
+            $unitValue = $this->units === 'imperial' ? 'F' : 'C';
+            Auth::user()->preference()->updateOrCreate(
+                ['user_id' => Auth::id()],
+                ['temperature_unit' => $unitValue]
+            );
         }
         $this->loadCurrent();
     }

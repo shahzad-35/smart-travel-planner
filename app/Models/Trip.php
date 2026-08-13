@@ -31,7 +31,7 @@ class Trip extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function notes(): MorphMany
+    public function tripNotes(): MorphMany
     {
         return $this->morphMany(TripNote::class, 'notable');
     }

@@ -8,7 +8,7 @@ use App\Services\External\WeatherService;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-class PackingService extends BaseService
+class PackingService
 {
     private WeatherService $weatherService;
 

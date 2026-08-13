@@ -137,6 +137,15 @@ class CreateTrip extends Component
         }
     }
 
+    public function updatedDestination()
+    {
+        if (strlen(trim($this->destination)) >= 3) {
+            $this->searchDestinations();
+        } else {
+            $this->searchResults = [];
+        }
+    }
+
     /**
      * Search for destinations
      */
@@ -257,7 +266,7 @@ class CreateTrip extends Component
      */
     public function goToStep(int $step)
     {
-        if ($step >= self::STEP_DESTINATION && $step <= self::STEP_CONFIRM) {
+        if ($step >= self::STEP_DESTINATION && $step < $this->currentStep) {
             $this->currentStep = $step;
         }
     }
@@ -304,7 +313,7 @@ class CreateTrip extends Component
         ], $rules);
 
         if ($validator->fails()) {
-            $this->addError('step', 'Please complete all required fields in this step.');
+            $this->setErrorBag($validator->errors());
             return false;
         }
 
@@ -365,7 +374,7 @@ class CreateTrip extends Component
         $this->resetForm();
 
         session()->flash('success', 'Trip created successfully!');
-        return $this->redirectRoute('dashboard');
+        return $this->redirectRoute('trips.show', ['id' => $trip->id]);
     }
 
     /**

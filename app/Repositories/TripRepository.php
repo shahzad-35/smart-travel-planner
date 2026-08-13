@@ -43,11 +43,12 @@ class TripRepository extends AbstractRepository
     /**
      * Find trips that conflict with the given date range
      */
-    public function findConflictingTrips($userId, $startDate, $endDate)
+    public function findConflictingTrips($userId, $startDate, $endDate, $excludeTripId = null)
     {
         return $this->model->where('user_id', $userId)
                           ->where('status', '!=', 'completed')
                           ->where('status', '!=', 'cancelled')
+                          ->when($excludeTripId, fn($q) => $q->where('id', '!=', $excludeTripId))
                           ->where(function ($query) use ($startDate, $endDate) {
                               // Check for overlapping date ranges
                               $query->where(function ($q) use ($startDate, $endDate) {

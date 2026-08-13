@@ -11,93 +11,78 @@ class CacheService
     const TTL_COUNTRY = 604800; // 1 week
     const TTL_HOLIDAYS = 86400; // 1 day
 
-    /**
-     * Get cached data with tagging.
-     *
-     * @param string $key
-     * @param string $tag
-     * @return mixed
-     */
-    public function get(string $key, string $tag)
+    private function supportsTagging(): bool
     {
-        return Cache::tags([$tag])->get($key);
+        try {
+            return method_exists(Cache::getStore(), 'tags');
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
-    /**
-     * Put data in cache with tagging and TTL.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @param string $tag
-     * @param int|null $ttl
-     */
+    private function prefixedKey(string $key, string $tag): string
+    {
+        return "tagged:{$tag}:{$key}";
+    }
+
+    public function get(string $key, string $tag)
+    {
+        if ($this->supportsTagging()) {
+            return Cache::tags([$tag])->get($key);
+        }
+        return Cache::get($this->prefixedKey($key, $tag));
+    }
+
     public function put(string $key, $value, string $tag, ?int $ttl = null)
     {
         $ttl = $ttl ?? $this->getDefaultTtl($tag);
-        Cache::tags([$tag])->put($key, $value, $ttl);
+        if ($this->supportsTagging()) {
+            Cache::tags([$tag])->put($key, $value, $ttl);
+        } else {
+            Cache::put($this->prefixedKey($key, $tag), $value, $ttl);
+        }
     }
 
-    /**
-     * Check if key exists in cache with tag.
-     *
-     * @param string $key
-     * @param string $tag
-     * @return bool
-     */
     public function has(string $key, string $tag): bool
     {
-        return Cache::tags([$tag])->has($key);
+        if ($this->supportsTagging()) {
+            return Cache::tags([$tag])->has($key);
+        }
+        return Cache::has($this->prefixedKey($key, $tag));
     }
 
-    /**
-     * Forget a specific key with tag.
-     *
-     * @param string $key
-     * @param string $tag
-     */
     public function forget(string $key, string $tag)
     {
-        Cache::tags([$tag])->forget($key);
+        if ($this->supportsTagging()) {
+            Cache::tags([$tag])->forget($key);
+        } else {
+            Cache::forget($this->prefixedKey($key, $tag));
+        }
     }
 
-    /**
-     * Flush all cache for a specific tag.
-     *
-     * @param string $tag
-     */
     public function flushTag(string $tag)
     {
-        Cache::tags([$tag])->flush();
+        if ($this->supportsTagging()) {
+            Cache::tags([$tag])->flush();
+        }
     }
 
-    /**
-     * Get default TTL based on tag.
-     *
-     * @param string $tag
-     * @return int
-     */
     private function getDefaultTtl(string $tag): int
     {
         return match ($tag) {
             'weather' => self::TTL_WEATHER,
             'country' => self::TTL_COUNTRY,
             'holidays' => self::TTL_HOLIDAYS,
-            default => 3600, // default 1 hour
+            default => 3600,
         };
     }
 
-    /**
-     * Remember and cache data if not exists.
-     *
-     * @param string $key
-     * @param string $tag
-     * @param callable $callback
-     * @param int|null $ttl
-     * @return mixed
-     */
     public function remember(string $key, string $tag, callable $callback, ?int $ttl = null)
     {
         $ttl = $ttl ?? $this->getDefaultTtl($tag);
-        return Cache::tags([$tag])->remember($key, $ttl, $callback);
+        if ($this->supportsTagging()) {
+            return Cache::tags([$tag])->remember($key, $ttl, $callback);
+        }
+        return Cache::remember($this->prefixedKey($key, $tag), $ttl, $callback);
     }
 }
