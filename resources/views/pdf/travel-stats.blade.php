@@ -72,8 +72,8 @@
         <tbody>
             @forelse($stats['top_destinations'] ?? [] as $dest)
                 <tr>
-                    <td>{{ $dest->destination }}</td>
-                    <td>{{ $dest->count }}</td>
+                    <td>{{ $dest['destination'] }}</td>
+                    <td>{{ $dest['count'] }}</td>
                 </tr>
             @empty
                 <tr>

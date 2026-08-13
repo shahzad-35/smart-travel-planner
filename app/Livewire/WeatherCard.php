@@ -26,14 +26,20 @@ class WeatherCard extends Component
 
     public function mount(string $location = ''): void
     {
-        $response = file_get_contents('https://ipwho.is/');
-        $data = json_decode($response, true);
+        try {
+            $response = \Illuminate\Support\Facades\Http::timeout(3)->get('https://ipwho.is/');
+            $data = $response->json();
+            $detectedCountry = $data['country'] ?? '';
+        } catch (\Throwable $e) {
+            $detectedCountry = '';
+        }
 
-        $this->location = $location ?: ($this->location ?: $data['country']);
+        $this->location = $location ?: ($this->location ?: $detectedCountry);
 
         if (Auth::check()) {
-            $prefs = Auth::user()->preferences ?? [];
-            $this->units = ($prefs['temperature_unit'] ?? 'metric') === 'imperial' ? 'imperial' : 'metric';
+            $pref = Auth::user()->preference;
+            $unit = $pref?->temperature_unit ?? (Auth::user()->preferences['temperature_unit'] ?? 'C');
+            $this->units = $unit === 'F' ? 'imperial' : 'metric';
         }
 
         $this->loadWeather();
@@ -45,11 +51,11 @@ class WeatherCard extends Component
         $this->units = $unit === 'imperial' ? 'imperial' : 'metric';
 
         if (Auth::check()) {
-            $user = Auth::user();
-            $prefs = $user->preferences ?? [];
-            $prefs['temperature_unit'] = $this->units;
-            $user->preferences = $prefs;
-            $user->save();
+            $unitValue = $this->units === 'imperial' ? 'F' : 'C';
+            Auth::user()->preference()->updateOrCreate(
+                ['user_id' => Auth::id()],
+                ['temperature_unit' => $unitValue]
+            );
         }
 
         $this->loadWeather();

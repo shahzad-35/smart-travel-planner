@@ -5,7 +5,9 @@ namespace App\Livewire;
 use App\Models\Trip;
 use App\Services\External\WeatherService;
 use App\Services\External\HolidayService;
+use App\Services\ShareTokenService;
 use App\Repositories\TripRepository;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -19,12 +21,13 @@ class TripDetails extends Component
     public $budgetUsed = 0;
     public $editingNote = false;
     public $noteContent = '';
+    public ?string $shareUrl = null;
 
     protected $listeners = ['refreshTripDetails' => '$refresh'];
 
     public function mount($id)
     {
-        $this->trip = Trip::with(['packingItems', 'expenses', 'notes', 'user'])
+        $this->trip = Trip::with(['packingItems', 'expenses', 'tripNotes', 'user'])
                          ->where('user_id', Auth::id())
                          ->findOrFail($id);
 
@@ -34,7 +37,10 @@ class TripDetails extends Component
     public function loadTripData()
     {
         $weatherService = app(WeatherService::class);
-        $this->weatherForecast = $weatherService->getForecast($this->trip->destination) ?? [];
+        $pref = Auth::user()->preference ?? null;
+        $unit = $pref?->temperature_unit ?? 'C';
+        $units = $unit === 'F' ? 'imperial' : 'metric';
+        $this->weatherForecast = $weatherService->getForecast($this->trip->destination, $units) ?? [];
 
         $holidayService = app(HolidayService::class);
         $holidays = $holidayService->getHolidays(
@@ -48,7 +54,7 @@ class TripDetails extends Component
 
         $this->calculateExpenses();
 
-        $this->noteContent = $this->trip->notes ?: '';
+        $this->noteContent = $this->trip->tripNotes->first()?->note ?? '';
     }
 
     public function calculatePackingProgress()
@@ -80,9 +86,9 @@ class TripDetails extends Component
 
     public function saveNote()
     {
-        $this->trip->notes()->delete();
+        $this->trip->tripNotes()->delete();
         if (!empty($this->noteContent)) {
-            $this->trip->notes()->create(['note' => $this->noteContent]);
+            $this->trip->tripNotes()->create(['note' => $this->noteContent]);
         }
         $this->editingNote = false;
         $this->dispatch('refreshTripDetails');
@@ -90,7 +96,7 @@ class TripDetails extends Component
 
     public function cancelEditNote()
     {
-        $this->noteContent = $this->trip->notes()->first()?->note ?? '';
+        $this->noteContent = $this->trip->tripNotes()->first()?->note ?? '';
         $this->editingNote = false;
     }
 
@@ -101,16 +107,40 @@ class TripDetails extends Component
         return $this->redirectRoute('trips.listing');
     }
 
-    public function shareTrip()
+    /**
+     * Generate a public, read-only share link for this trip (expires in 7 days).
+     */
+    public function shareTrip(ShareTokenService $shareTokenService)
     {
-        // TODO: Implement trip sharing functionality
-        $this->dispatch('show-toast', ['message' => 'Trip sharing coming soon!', 'type' => 'info']);
+        $token = $shareTokenService->generateToken($this->trip);
+        $this->shareUrl = route('trips.shared', ['token' => $token]);
     }
 
+    public function hideShareUrl()
+    {
+        $this->shareUrl = null;
+    }
+
+    /**
+     * Download a complete PDF report of the trip: overview, notes, expenses,
+     * packing checklist, weather forecast, holidays, and status history.
+     */
     public function exportTrip()
     {
-        // TODO: Implement trip export functionality
-        $this->dispatch('show-toast', ['message' => 'Trip export coming soon!', 'type' => 'info']);
+        $this->trip->loadMissing(['expenses', 'packingItems', 'tripNotes', 'statusHistories']);
+
+        $pdf = Pdf::loadView('pdf.trip-summary', [
+            'trip' => $this->trip,
+            'weatherForecast' => $this->weatherForecast,
+            'holidays' => $this->holidays,
+            'packingProgress' => $this->packingProgress,
+            'totalExpenses' => $this->totalExpenses,
+            'budgetUsed' => $this->budgetUsed,
+        ]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'trip-' . str_replace(' ', '-', strtolower($this->trip->destination)) . '.pdf');
     }
 
     public function getWeatherForDate($date)

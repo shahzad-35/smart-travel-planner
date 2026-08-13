@@ -30,6 +30,7 @@ class TripStatusManager extends Component
 
     public function mount(Trip $trip)
     {
+        abort_unless($trip->user_id === Auth::id(), 403);
         $this->trip = $trip;
     }
 

@@ -93,7 +93,7 @@ class TravelStats extends Component
             'unique_countries' => $uniqueCountries,
             'total_travel_days' => $totalTravelDays,
             'total_budget_spent' => $totalBudgetSpent,
-            'top_destinations' => $topDestinations,
+            'top_destinations' => $topDestinations->map(fn($item) => ['destination' => $item->destination, 'count' => $item->count])->toArray(),
             'most_common_trip_type' => $mostCommonType ? $mostCommonType->type : 'N/A',
             'trips_per_year' => $tripsPerYear,
             'status_distribution' => $statusDistribution,

@@ -230,6 +230,9 @@ class PackingChecklist extends Component
         }
 
         $this->shareToken = $this->shareTokenService->generateToken($this->trip);
+        // Re-show the link box: it may have been hidden by a previous
+        // copy/dismiss, which would make this button appear to do nothing.
+        $this->showShareLink = true;
     }
 
     /**

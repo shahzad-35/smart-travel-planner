@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 use App\Notifications\ShareTokenExpiredNotification;
 use Illuminate\Support\Str;
 
-class ShareTokenService extends BaseService
+class ShareTokenService
 {
     /**
      * Generate a unique token and set expiration.

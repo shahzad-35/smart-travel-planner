@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
-use App\DTOs\CountryDTO;
 use App\DTOs\WeatherDTO;
 use App\Http\Requests\UpdateTripRequest;
 use App\Models\Trip;
 use App\Repositories\TripRepository;
 use App\Services\External\CountryService;
+use App\Services\External\LocationService;
 use App\Services\External\WeatherService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -36,7 +36,10 @@ class EditTrip extends Component
     public string $notes = '';
 
     // UI state
-    public array $searchResults = [];
+    public array $searchResults = ['countries' => [], 'states' => [], 'cities' => []];
+    public ?int $expandedStateIndex = null;
+    public array $stateCities = [];
+    public int $stateCityTotal = 0;
     public bool $isSearching = false;
     public array $selectedCountry = [];
     public array $weatherPreview = [];
@@ -48,7 +51,7 @@ class EditTrip extends Component
     public bool $isUpdating = false;
 
     // Track original values for change detection
-    private array $originalValues = [];
+    public array $originalValues = [];
 
     // Trip types with icons
     public array $tripTypes = [
@@ -60,17 +63,85 @@ class EditTrip extends Component
     ];
 
     private CountryService $countryService;
+    private LocationService $locationService;
     private WeatherService $weatherService;
     private TripRepository $tripRepository;
 
     public function boot(
         CountryService $countryService,
+        LocationService $locationService,
         WeatherService $weatherService,
         TripRepository $tripRepository
     ) {
         $this->countryService = $countryService;
+        $this->locationService = $locationService;
         $this->weatherService = $weatherService;
         $this->tripRepository = $tripRepository;
+    }
+
+    public function getSearchResultCountProperty(): int
+    {
+        return count($this->searchResults['countries'] ?? [])
+            + count($this->searchResults['states'] ?? [])
+            + count($this->searchResults['cities'] ?? []);
+    }
+
+    private function emptySearchResults(): array
+    {
+        $this->expandedStateIndex = null;
+        $this->stateCities = [];
+        $this->stateCityTotal = 0;
+
+        return ['countries' => [], 'states' => [], 'cities' => []];
+    }
+
+    /**
+     * Expand/collapse a state result to show its major cities.
+     */
+    public function toggleStateCities(int $index)
+    {
+        if ($this->expandedStateIndex === $index) {
+            $this->expandedStateIndex = null;
+            $this->stateCities = [];
+            $this->stateCityTotal = 0;
+            return;
+        }
+
+        $place = $this->searchResults['states'][$index] ?? null;
+        if (!$place) {
+            return;
+        }
+
+        $result = $this->locationService->getCitiesForState($place['country_code'], $place['name']);
+        $this->expandedStateIndex = $index;
+        $this->stateCities = $result['cities'];
+        $this->stateCityTotal = $result['total'];
+    }
+
+    /**
+     * Select a city from an expanded state's list as the trip destination.
+     */
+    public function selectStateCity(int $cityIndex)
+    {
+        $city = $this->stateCities[$cityIndex] ?? null;
+        if (!$city) {
+            return;
+        }
+
+        $this->countryCode = $city['country_code'];
+        $this->destination = $city['name'];
+        $this->selectedCountry = [];
+        $this->loadCountryDetails();
+
+        $this->searchResults = $this->emptySearchResults();
+
+        $this->loadWeatherPreview();
+
+        if ($this->hasSignificantChanges(['destination', 'country_code'])) {
+            $this->showConfirmation('Changing the destination will affect weather data and may impact related trip information. Continue?', 'destination_change');
+        } else {
+            $this->nextStep();
+        }
     }
 
     public function mount($id)
@@ -97,7 +168,7 @@ class EditTrip extends Component
         $this->type = $this->trip->type;
         $this->budget = $this->trip->budget ? (string) $this->trip->budget : '';
         $this->travelers = $this->trip->metadata['travelers'] ?? 1;
-        $this->notes = $this->trip->notes;
+        $this->notes = $this->trip->notes ?? '';
 
         // Store original values for change detection
         $this->originalValues = [
@@ -125,8 +196,13 @@ class EditTrip extends Component
     private function loadFormState()
     {
         $state = Session::get("trip_edit_state_{$this->trip->id}", []);
-        $this->destination = $state['destination'] ?? $this->destination;
-        $this->countryCode = $state['country_code'] ?? $this->countryCode;
+        // Only restore a confirmed destination (one selected together with its
+        // country); otherwise keep the trip's saved destination instead of
+        // resurfacing raw search text.
+        if (!empty($state['country_code']) && !empty($state['destination'])) {
+            $this->destination = $state['destination'];
+            $this->countryCode = $state['country_code'];
+        }
         $this->startDate = $state['start_date'] ?? $this->startDate;
         $this->endDate = $state['end_date'] ?? $this->endDate;
         $this->type = $state['type'] ?? $this->type;
@@ -180,6 +256,15 @@ class EditTrip extends Component
         }
     }
 
+    public function updatedDestination()
+    {
+        if (strlen(trim($this->destination)) >= 3) {
+            $this->searchDestinations();
+        } else {
+            $this->searchResults = $this->emptySearchResults();
+        }
+    }
+
     /**
      * Search for destinations
      */
@@ -188,17 +273,16 @@ class EditTrip extends Component
         $query = trim($this->destination);
 
         if (strlen($query) < 3) {
-            $this->searchResults = [];
+            $this->searchResults = $this->emptySearchResults();
             return;
         }
 
         $this->isSearching = true;
 
         try {
-            $results = $this->countryService->searchCountries($query);
-            $this->searchResults = array_map(fn(CountryDTO $country) => $country->toArray(), $results);
+            $this->searchResults = $this->locationService->searchDestinations($query, $this->countryService);
         } catch (\Exception $e) {
-            $this->searchResults = [];
+            $this->searchResults = $this->emptySearchResults();
             session()->flash('error', 'Failed to search destinations. Please try again.');
         }
 
@@ -206,20 +290,28 @@ class EditTrip extends Component
     }
 
     /**
-     * Select a destination
+     * Select a destination (country, state/province or city)
      */
-    public function selectDestination(string $countryCode)
+    public function selectDestination(string $group, int $index)
     {
-        $country = collect($this->searchResults)->firstWhere('code', $countryCode);
+        $selected = $this->searchResults[$group][$index] ?? null;
 
-        if (!$country) {
+        if (!$selected) {
             return;
         }
 
-        $this->countryCode = $countryCode;
-        $this->destination = $country['name'];
-        $this->selectedCountry = $country;
-        $this->searchResults = [];
+        if ($group === 'countries') {
+            $this->countryCode = $selected['code'];
+            $this->destination = $selected['name'];
+            $this->selectedCountry = $selected;
+        } else {
+            $this->countryCode = $selected['country_code'];
+            $this->destination = $selected['name'];
+            $this->selectedCountry = [];
+            $this->loadCountryDetails();
+        }
+
+        $this->searchResults = $this->emptySearchResults();
 
         $this->loadWeatherPreview();
 
@@ -306,7 +398,7 @@ class EditTrip extends Component
      */
     public function goToStep(int $step)
     {
-        if ($step >= self::STEP_DESTINATION && $step <= self::STEP_CONFIRM) {
+        if ($step >= self::STEP_DESTINATION && $step < $this->currentStep) {
             $this->currentStep = $step;
         }
     }
@@ -327,8 +419,12 @@ class EditTrip extends Component
                 break;
 
             case self::STEP_DATES:
+                $startDateRule = 'required|date';
+                if (($this->originalValues['start_date'] ?? null) !== $this->startDate) {
+                    $startDateRule .= '|after_or_equal:today';
+                }
                 $rules = [
-                    'startDate' => 'required|date|after_or_equal:today',
+                    'startDate' => $startDateRule,
                     'endDate' => 'required|date|after_or_equal:startDate',
                 ];
                 break;
@@ -353,7 +449,7 @@ class EditTrip extends Component
         ], $rules);
 
         if ($validator->fails()) {
-            $this->addError('step', 'Please complete all required fields in this step.');
+            $this->setErrorBag($validator->errors());
             return false;
         }
 
@@ -448,10 +544,14 @@ class EditTrip extends Component
 
         try {
             // Validate form data first
+            $startDateRule = 'required|date';
+            if (($this->originalValues['start_date'] ?? null) !== $this->startDate) {
+                $startDateRule .= '|after_or_equal:today';
+            }
             $this->validate([
                 'destination' => 'required|string|max:255',
                 'countryCode' => 'required|string|size:2',
-                'startDate' => 'required|date|after_or_equal:today',
+                'startDate' => $startDateRule,
                 'endDate' => 'required|date|after_or_equal:startDate',
                 'type' => 'required|in:business,leisure,adventure,family,solo',
                 'budget' => 'nullable|numeric|min:0|max:99999999.99',
@@ -544,7 +644,7 @@ class EditTrip extends Component
     {
         $this->loadTripData();
         $this->currentStep = 1;
-        $this->searchResults = [];
+        $this->searchResults = $this->emptySearchResults();
         $this->selectedCountry = [];
         $this->weatherPreview = [];
         $this->conflictingTrips = [];
