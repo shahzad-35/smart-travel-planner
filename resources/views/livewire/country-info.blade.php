@@ -40,7 +40,9 @@
                                 </div>
                                 <div>
                                     <dt class="text-sm text-foreground-muted">Languages</dt>
-                                    <dd class="font-medium text-foreground">{{ implode(', ', $country['languages']) ?: '—' }}</dd>
+                                    <dd class="font-medium text-foreground">
+                                        {{ implode(', ', array_column($country['languages'], 'name')) ?: '—' }}
+                                    </dd>
                                 </div>
                                 <div>
                                     <dt class="text-sm text-foreground-muted">Timezone</dt>

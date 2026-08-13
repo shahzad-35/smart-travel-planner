@@ -13,6 +13,7 @@ use Tests\TestCase;
 
 class WeatherServiceTest extends TestCase
 {
+    use RefreshDatabase;
 
     private WeatherService $weatherService;
 
@@ -101,10 +102,13 @@ class WeatherServiceTest extends TestCase
         $this->assertIsArray($forecast);
         $this->assertCount(7, $forecast);
 
+        // getForecast returns plain arrays (WeatherDTO::toArray shape)
         foreach ($forecast as $dayWeather) {
-            $this->assertInstanceOf(WeatherDTO::class, $dayWeather);
-            $this->assertEquals($location, $dayWeather->location);
-            $this->assertEquals('cloudy', $dayWeather->condition);
+            $this->assertIsArray($dayWeather);
+            $this->assertEquals($location, $dayWeather['location']);
+            $this->assertEquals('cloudy', $dayWeather['condition']);
+            $this->assertArrayHasKey('max_temp', $dayWeather);
+            $this->assertArrayHasKey('min_temp', $dayWeather);
         }
     }
 

@@ -230,6 +230,9 @@ class PackingChecklist extends Component
         }
 
         $this->shareToken = $this->shareTokenService->generateToken($this->trip);
+        // Re-show the link box: it may have been hidden by a previous
+        // copy/dismiss, which would make this button appear to do nothing.
+        $this->showShareLink = true;
     }
 
     /**
@@ -370,8 +373,8 @@ class PackingChecklist extends Component
             'progress' => $this->packingProgress,
         ]);
 
-        return $this->streamDownload(function () use ($pdf) {
-            return $pdf->output();
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
         }, 'packing-checklist-' . $this->trip->destination . '.pdf');
     }
 

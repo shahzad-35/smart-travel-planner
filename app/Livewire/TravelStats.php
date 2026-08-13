@@ -110,8 +110,8 @@ class TravelStats extends Component
 
         $pdf = Pdf::loadView('pdf.travel-stats', $data);
 
-        return $this->streamDownload(function () use ($pdf) {
-            return $pdf->output();
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
         }, 'travel-stats.pdf');
     }
 

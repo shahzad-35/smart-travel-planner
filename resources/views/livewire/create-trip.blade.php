@@ -130,31 +130,121 @@
             </div>
 
             <!-- Search Results -->
-            @if(count($searchResults) > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
-                @foreach($searchResults as $country)
-                <div wire:key="country-{{ $country['code'] }}" wire:click="selectDestination('{{ $country['code'] }}')"
-                    class="bg-surface-card border border-border rounded-lg p-4 hover:border-primary hover:shadow-md transition-all cursor-pointer group">
-                    <div class="flex items-start space-x-3">
-                        @if($country['flag'])
-                        <img src="{{ $country['flag'] }}" alt="{{ $country['name'] }} flag"
-                            class="w-12 h-8 object-cover rounded-sm shadow-sm">
-                        @endif
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-foreground group-hover:text-primary">
-                                {{ $country['name'] }}
-                            </h4>
-                            <p class="text-sm text-foreground-muted">{{ $country['capital'] }}</p>
-                            <p class="text-xs text-foreground-subtle">{{ $country['region'] }}</p>
+            @if($this->searchResultCount > 0)
+            <div class="space-y-4 max-h-96 overflow-y-auto">
+                @if(count($searchResults['countries']) > 0)
+                <div>
+                    <h5 class="text-xs font-semibold text-foreground-subtle uppercase tracking-wide mb-2">Countries</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @foreach($searchResults['countries'] as $index => $country)
+                        <div wire:key="country-{{ $country['code'] }}" wire:click="selectDestination('countries', {{ $index }})"
+                            class="bg-surface-card border border-border rounded-lg p-4 hover:border-primary hover:shadow-md transition-all cursor-pointer group">
+                            <div class="flex items-start space-x-3">
+                                @if($country['flag'])
+                                <img src="{{ $country['flag'] }}" alt="{{ $country['name'] }} flag"
+                                    class="w-12 h-8 object-cover rounded-sm shadow-sm">
+                                @endif
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-foreground group-hover:text-primary">
+                                        {{ $country['name'] }}
+                                    </h4>
+                                    <p class="text-sm text-foreground-muted">{{ $country['capital'] }}</p>
+                                    <p class="text-xs text-foreground-subtle">{{ $country['region'] }}</p>
+                                </div>
+                            </div>
                         </div>
+                        @endforeach
                     </div>
                 </div>
-                @endforeach
+                @endif
+
+                @if(count($searchResults['states']) > 0)
+                <div>
+                    <h5 class="text-xs font-semibold text-foreground-subtle uppercase tracking-wide mb-2">States &amp; Provinces</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @foreach($searchResults['states'] as $index => $place)
+                        <div wire:key="state-{{ $index }}"
+                            class="bg-surface-card border rounded-lg p-3 transition-all group {{ $expandedStateIndex === $index ? 'border-primary shadow-md md:col-span-2' : 'border-border hover:border-primary hover:shadow-md' }}">
+                            <div wire:click="toggleStateCities({{ $index }})" class="flex items-center space-x-3 cursor-pointer">
+                                @if($place['flag'])
+                                <img src="{{ $place['flag'] }}" alt="{{ $place['country_name'] }} flag"
+                                    class="w-10 h-7 object-cover rounded-sm shadow-sm">
+                                @endif
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-semibold text-foreground group-hover:text-primary truncate">{{ $place['name'] }}</h4>
+                                    <p class="text-xs text-foreground-subtle truncate">
+                                        <span class="capitalize">{{ $place['type'] }}</span> · {{ $place['country_name'] ?? $place['country_code'] }}
+                                    </p>
+                                </div>
+                                <svg class="w-4 h-4 text-foreground-subtle transition-transform {{ $expandedStateIndex === $index ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+
+                            @if($expandedStateIndex === $index)
+                            <div class="mt-3 pt-3 border-t border-border">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-medium text-foreground-subtle uppercase tracking-wide">
+                                        Cities
+                                        @if($stateCityTotal > count($stateCities))
+                                            <span class="normal-case font-normal">(top {{ count($stateCities) }} of {{ $stateCityTotal }})</span>
+                                        @endif
+                                    </span>
+                                    <button wire:click="selectDestination('states', {{ $index }})"
+                                        class="text-xs font-medium text-primary hover:text-primary-dark cursor-pointer">
+                                        Use entire {{ $place['type'] }} →
+                                    </button>
+                                </div>
+                                @if(count($stateCities) > 0)
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach($stateCities as $cityIndex => $city)
+                                    <button wire:key="state-city-{{ $index }}-{{ $cityIndex }}"
+                                        wire:click="selectStateCity({{ $cityIndex }})"
+                                        class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer">
+                                        {{ $city['name'] }}
+                                    </button>
+                                    @endforeach
+                                </div>
+                                @else
+                                <p class="text-sm text-foreground-subtle">No city data available for this {{ $place['type'] }}.</p>
+                                @endif
+                            </div>
+                            @endif
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                @if(count($searchResults['cities']) > 0)
+                <div>
+                    <h5 class="text-xs font-semibold text-foreground-subtle uppercase tracking-wide mb-2">Cities</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @foreach($searchResults['cities'] as $index => $place)
+                        <div wire:key="city-{{ $index }}" wire:click="selectDestination('cities', {{ $index }})"
+                            class="bg-surface-card border border-border rounded-lg p-3 hover:border-primary hover:shadow-md transition-all cursor-pointer group">
+                            <div class="flex items-center space-x-3">
+                                @if($place['flag'])
+                                <img src="{{ $place['flag'] }}" alt="{{ $place['country_code'] }} flag"
+                                    class="w-10 h-7 object-cover rounded-sm shadow-sm">
+                                @endif
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-semibold text-foreground group-hover:text-primary truncate">{{ $place['name'] }}</h4>
+                                    <p class="text-xs text-foreground-subtle truncate">
+                                        City · {{ trim(($place['state'] ? $place['state'] . ', ' : '') . $place['country_code']) }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
             </div>
             @endif
 
             <!-- Selected Destination -->
-            @if($countryCode && count($searchResults) === 0)
+            @if($countryCode && $this->searchResultCount === 0)
             <div class="bg-primary/5 border border-primary/20 rounded-lg p-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">

@@ -11,6 +11,7 @@ use Tests\TestCase;
 
 class HolidayServiceTest extends TestCase
 {
+    use RefreshDatabase;
 
     private HolidayService $holidayService;
 

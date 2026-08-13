@@ -354,18 +354,20 @@
             Livewire.on('token-generated', (data) => {
                 // Optional: Show success message
             });
+
+            // Hook into morphdom updates for this component.
+            // Must be registered inside livewire:init — the global Livewire
+            // object does not exist yet at script parse time.
+            Livewire.hook('morph.updated', ({ el, component }) => {
+                if (el.id === 'packing-list' || el.closest('#packing-list')) {
+                    setTimeout(initializeSortable, 100);
+                }
+            });
         });
 
         // Re-initialize after Livewire updates the DOM (Livewire v3 hook)
         document.addEventListener('livewire:navigated', () => {
             initializeSortable();
-        });
-
-        // Also hook into morphdom updates for this component
-        Livewire.hook('morph.updated', ({ el, component }) => {
-            if (el.id === 'packing-list' || el.closest('#packing-list')) {
-                setTimeout(initializeSortable, 100);
-            }
         });
     </script>
     @endpush

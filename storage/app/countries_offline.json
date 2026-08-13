@@ -1,154 +1,3913 @@
 [
-    {
-        "name": "United States",
-        "code": "US",
-        "capital": "Washington, D.C.",
-        "region": "Americas",
-        "population": 331900000,
-        "currency": "United States dollar",
-        "languages": [
-            "English"
-        ],
-        "timezone": "UTC-05:00",
-        "flag": "https:\/\/flagcdn.com\/us.svg",
-        "latitude": 39.8283,
-        "longitude": -98.5795
-    },
-    {
-        "name": "United Kingdom",
-        "code": "GB",
-        "capital": "London",
-        "region": "Europe",
-        "population": 67500000,
-        "currency": "British pound",
-        "languages": [
-            "English"
-        ],
-        "timezone": "UTC+00:00",
-        "flag": "https:\/\/flagcdn.com\/gb.svg",
-        "latitude": 54.7023545,
-        "longitude": -3.2765753
-    },
-    {
-        "name": "France",
-        "code": "FR",
-        "capital": "Paris",
-        "region": "Europe",
-        "population": 67000000,
-        "currency": "Euro",
-        "languages": [
-            "French"
-        ],
-        "timezone": "UTC+01:00",
-        "flag": "https:\/\/flagcdn.com\/fr.svg",
-        "latitude": 46.227638,
-        "longitude": 2.213749
-    },
-    {
-        "name": "Germany",
-        "code": "DE",
-        "capital": "Berlin",
-        "region": "Europe",
-        "population": 83000000,
-        "currency": "Euro",
-        "languages": [
-            "German"
-        ],
-        "timezone": "UTC+01:00",
-        "flag": "https:\/\/flagcdn.com\/de.svg",
-        "latitude": 51.165691,
-        "longitude": 10.451526
-    },
-    {
-        "name": "Japan",
-        "code": "JP",
-        "capital": "Tokyo",
-        "region": "Asia",
-        "population": 126500000,
-        "currency": "Japanese yen",
-        "languages": [
-            "Japanese"
-        ],
-        "timezone": "UTC+09:00",
-        "flag": "https:\/\/flagcdn.com\/jp.svg",
-        "latitude": 36.204824,
-        "longitude": 138.252924
-    },
-    {
-        "name": "Canada",
-        "code": "CA",
-        "capital": "Ottawa",
-        "region": "Americas",
-        "population": 38000000,
-        "currency": "Canadian dollar",
-        "languages": [
-            "English",
-            "French"
-        ],
-        "timezone": "UTC-05:00",
-        "flag": "https:\/\/flagcdn.com\/ca.svg",
-        "latitude": 56.130366,
-        "longitude": -106.346771
-    },
-    {
-        "name": "Australia",
-        "code": "AU",
-        "capital": "Canberra",
-        "region": "Oceania",
-        "population": 25600000,
-        "currency": "Australian dollar",
-        "languages": [
-            "English"
-        ],
-        "timezone": "UTC+10:00",
-        "flag": "https:\/\/flagcdn.com\/au.svg",
-        "latitude": -25.274398,
-        "longitude": 133.775136
-    },
-    {
-        "name": "Brazil",
-        "code": "BR",
-        "capital": "Bras\u00edlia",
-        "region": "Americas",
-        "population": 212600000,
-        "currency": "Brazilian real",
-        "languages": [
-            "Portuguese"
-        ],
-        "timezone": "UTC-03:00",
-        "flag": "https:\/\/flagcdn.com\/br.svg",
-        "latitude": -14.235004,
-        "longitude": -51.92528
-    },
-    {
-        "name": "Pakistan",
-        "code": "PK",
-        "capital": "Islamabad",
-        "region": "Asia",
-        "population": 240000000,
-        "currency": "Pakistani rupee",
-        "languages": [
-            "Urdu",
-            "English"
-        ],
-        "timezone": "UTC+05:00",
-        "flag": "https:\/\/flagcdn.com\/pk.svg",
-        "latitude": 30.375321,
-        "longitude": 69.345116
-    },
-    {
-        "name": "China",
-        "code": "CN",
-        "capital": "Beijing",
-        "region": "Asia",
-        "population": 1439000000,
-        "currency": "Chinese yuan",
-        "languages": [
-            "Chinese"
-        ],
-        "timezone": "UTC+08:00",
-        "flag": "https:\/\/flagcdn.com\/cn.svg",
-        "latitude": 35.86166,
-        "longitude": 104.195397
-    }
+  {
+    "name": "Afghanistan",
+    "code": "AF",
+    "capital": "Kabul",
+    "region": "Asia",
+    "population": 41454761,
+    "currency": "Afghan afghani",
+    "languages": [
+      "Dari",
+      "Pashto",
+      "Turkmen"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/af.svg",
+    "latitude": 33,
+    "longitude": 65
+  },
+  {
+    "name": "Albania",
+    "code": "AL",
+    "capital": "Tirana",
+    "region": "Europe",
+    "population": 2411658,
+    "currency": "Albanian lek",
+    "languages": [
+      "Albanian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/al.svg",
+    "latitude": 41,
+    "longitude": 20
+  },
+  {
+    "name": "Algeria",
+    "code": "DZ",
+    "capital": "Algiers",
+    "region": "Africa",
+    "population": 46164219,
+    "currency": "Algerian dinar",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/dz.svg",
+    "latitude": 28,
+    "longitude": 3
+  },
+  {
+    "name": "American Samoa",
+    "code": "AS",
+    "capital": "Pago Pago",
+    "region": "Oceania",
+    "population": 47521,
+    "currency": "United States dollar",
+    "languages": [
+      "English",
+      "Samoan"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/as.svg",
+    "latitude": -14.33333333,
+    "longitude": -170
+  },
+  {
+    "name": "Andorra",
+    "code": "AD",
+    "capital": "Andorra la Vella",
+    "region": "Europe",
+    "population": 80856,
+    "currency": "Euro",
+    "languages": [
+      "Catalan"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ad.svg",
+    "latitude": 42.5,
+    "longitude": 1.5
+  },
+  {
+    "name": "Angola",
+    "code": "AO",
+    "capital": "Luanda",
+    "region": "Africa",
+    "population": 36749906,
+    "currency": "Angolan kwanza",
+    "languages": [
+      "Portuguese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ao.svg",
+    "latitude": -12.5,
+    "longitude": 18.5
+  },
+  {
+    "name": "Anguilla",
+    "code": "AI",
+    "capital": "The Valley",
+    "region": "Americas",
+    "population": 0,
+    "currency": "Eastern Caribbean dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ai.svg",
+    "latitude": 18.25,
+    "longitude": -63.16666666
+  },
+  {
+    "name": "Antarctica",
+    "code": "AQ",
+    "capital": "",
+    "region": "Antarctic",
+    "population": 0,
+    "currency": null,
+    "languages": [],
+    "timezone": null,
+    "flag": "https://flagcdn.com/aq.svg",
+    "latitude": -90,
+    "longitude": 0
+  },
+  {
+    "name": "Antigua and Barbuda",
+    "code": "AG",
+    "capital": "Saint John's",
+    "region": "Americas",
+    "population": 93316,
+    "currency": "Eastern Caribbean dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ag.svg",
+    "latitude": 17.05,
+    "longitude": -61.8
+  },
+  {
+    "name": "Argentina",
+    "code": "AR",
+    "capital": "Buenos Aires",
+    "region": "Americas",
+    "population": 45538401,
+    "currency": "Argentine peso",
+    "languages": [
+      "Guaraní",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ar.svg",
+    "latitude": -34,
+    "longitude": -64
+  },
+  {
+    "name": "Armenia",
+    "code": "AM",
+    "capital": "Yerevan",
+    "region": "Asia",
+    "population": 2964300,
+    "currency": "Armenian dram",
+    "languages": [
+      "Armenian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/am.svg",
+    "latitude": 40,
+    "longitude": 45
+  },
+  {
+    "name": "Aruba",
+    "code": "AW",
+    "capital": "Oranjestad",
+    "region": "Americas",
+    "population": 107359,
+    "currency": "Aruban florin",
+    "languages": [
+      "Dutch",
+      "Papiamento"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/aw.svg",
+    "latitude": 12.5,
+    "longitude": -69.96666666
+  },
+  {
+    "name": "Australia",
+    "code": "AU",
+    "capital": "Canberra",
+    "region": "Oceania",
+    "population": 25600000,
+    "currency": "Australian dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": "UTC+10:00",
+    "flag": "https://flagcdn.com/au.svg",
+    "latitude": -27,
+    "longitude": 133
+  },
+  {
+    "name": "Austria",
+    "code": "AT",
+    "capital": "Vienna",
+    "region": "Europe",
+    "population": 9131761,
+    "currency": "Euro",
+    "languages": [
+      "Austro-Bavarian German"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/at.svg",
+    "latitude": 47.33333333,
+    "longitude": 13.33333333
+  },
+  {
+    "name": "Azerbaijan",
+    "code": "AZ",
+    "capital": "Baku",
+    "region": "Asia",
+    "population": 10153958,
+    "currency": "Azerbaijani manat",
+    "languages": [
+      "Azerbaijani",
+      "Russian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/az.svg",
+    "latitude": 40.5,
+    "longitude": 47.5
+  },
+  {
+    "name": "Bahamas",
+    "code": "BS",
+    "capital": "Nassau",
+    "region": "Americas",
+    "population": 399440,
+    "currency": "Bahamian dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bs.svg",
+    "latitude": 24.25,
+    "longitude": -76
+  },
+  {
+    "name": "Bahrain",
+    "code": "BH",
+    "capital": "Manama",
+    "region": "Asia",
+    "population": 1577059,
+    "currency": "Bahraini dinar",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bh.svg",
+    "latitude": 26,
+    "longitude": 50.55
+  },
+  {
+    "name": "Bangladesh",
+    "code": "BD",
+    "capital": "Dhaka",
+    "region": "Asia",
+    "population": 171466990,
+    "currency": "Bangladeshi taka",
+    "languages": [
+      "Bengali"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bd.svg",
+    "latitude": 24,
+    "longitude": 90
+  },
+  {
+    "name": "Barbados",
+    "code": "BB",
+    "capital": "Bridgetown",
+    "region": "Americas",
+    "population": 282336,
+    "currency": "Barbadian dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bb.svg",
+    "latitude": 13.16666666,
+    "longitude": -59.53333333
+  },
+  {
+    "name": "Belarus",
+    "code": "BY",
+    "capital": "Minsk",
+    "region": "Europe",
+    "population": 9178298,
+    "currency": "Belarusian ruble",
+    "languages": [
+      "Belarusian",
+      "Russian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/by.svg",
+    "latitude": 53,
+    "longitude": 28
+  },
+  {
+    "name": "Belgium",
+    "code": "BE",
+    "capital": "Brussels",
+    "region": "Europe",
+    "population": 11779946,
+    "currency": "Euro",
+    "languages": [
+      "Dutch",
+      "French",
+      "German"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/be.svg",
+    "latitude": 50.83333333,
+    "longitude": 4
+  },
+  {
+    "name": "Belize",
+    "code": "BZ",
+    "capital": "Belmopan",
+    "region": "Americas",
+    "population": 411106,
+    "currency": "Belize dollar",
+    "languages": [
+      "Belizean Creole",
+      "English",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bz.svg",
+    "latitude": 17.25,
+    "longitude": -88.75
+  },
+  {
+    "name": "Benin",
+    "code": "BJ",
+    "capital": "Porto-Novo",
+    "region": "Africa",
+    "population": 14111034,
+    "currency": "West African CFA franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bj.svg",
+    "latitude": 9.5,
+    "longitude": 2.25
+  },
+  {
+    "name": "Bermuda",
+    "code": "BM",
+    "capital": "Hamilton",
+    "region": "Americas",
+    "population": 64698,
+    "currency": "Bermudian dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bm.svg",
+    "latitude": 32.33333333,
+    "longitude": -64.75
+  },
+  {
+    "name": "Bhutan",
+    "code": "BT",
+    "capital": "Thimphu",
+    "region": "Asia",
+    "population": 786385,
+    "currency": "Bhutanese ngultrum",
+    "languages": [
+      "Dzongkha"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bt.svg",
+    "latitude": 27.5,
+    "longitude": 90.5
+  },
+  {
+    "name": "Bolivia",
+    "code": "BO",
+    "capital": "Sucre",
+    "region": "Americas",
+    "population": 12244159,
+    "currency": "Bolivian boliviano",
+    "languages": [
+      "Aymara",
+      "Guaraní",
+      "Quechua",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bo.svg",
+    "latitude": -17,
+    "longitude": -65
+  },
+  {
+    "name": "Bosnia and Herzegovina",
+    "code": "BA",
+    "capital": "Sarajevo",
+    "region": "Europe",
+    "population": 3185073,
+    "currency": "Bosnia and Herzegovina convertible mark",
+    "languages": [
+      "Bosnian",
+      "Croatian",
+      "Serbian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ba.svg",
+    "latitude": 44,
+    "longitude": 18
+  },
+  {
+    "name": "Botswana",
+    "code": "BW",
+    "capital": "Gaborone",
+    "region": "Africa",
+    "population": 2480244,
+    "currency": "Botswana pula",
+    "languages": [
+      "English",
+      "Tswana"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bw.svg",
+    "latitude": -22,
+    "longitude": 24
+  },
+  {
+    "name": "Bouvet Island",
+    "code": "BV",
+    "capital": "",
+    "region": "Antarctic",
+    "population": 0,
+    "currency": null,
+    "languages": [
+      "Norwegian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bv.svg",
+    "latitude": -54.43333333,
+    "longitude": 3.4
+  },
+  {
+    "name": "Brazil",
+    "code": "BR",
+    "capital": "Brasília",
+    "region": "Americas",
+    "population": 212600000,
+    "currency": "Brazilian real",
+    "languages": [
+      "Portuguese"
+    ],
+    "timezone": "UTC-03:00",
+    "flag": "https://flagcdn.com/br.svg",
+    "latitude": -10,
+    "longitude": -55
+  },
+  {
+    "name": "British Indian Ocean Territory",
+    "code": "IO",
+    "capital": "Diego Garcia",
+    "region": "Africa",
+    "population": 0,
+    "currency": "United States dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/io.svg",
+    "latitude": -6,
+    "longitude": 71.5
+  },
+  {
+    "name": "British Virgin Islands",
+    "code": "VG",
+    "capital": "Road Town",
+    "region": "Americas",
+    "population": 38985,
+    "currency": "United States dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/vg.svg",
+    "latitude": 18.431383,
+    "longitude": -64.62305
+  },
+  {
+    "name": "Brunei",
+    "code": "BN",
+    "capital": "Bandar Seri Begawan",
+    "region": "Asia",
+    "population": 458949,
+    "currency": "Brunei dollar",
+    "languages": [
+      "Malay"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bn.svg",
+    "latitude": 4.5,
+    "longitude": 114.66666666
+  },
+  {
+    "name": "Bulgaria",
+    "code": "BG",
+    "capital": "Sofia",
+    "region": "Europe",
+    "population": 6446596,
+    "currency": "Euro",
+    "languages": [
+      "Bulgarian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bg.svg",
+    "latitude": 43,
+    "longitude": 25
+  },
+  {
+    "name": "Burkina Faso",
+    "code": "BF",
+    "capital": "Ouagadougou",
+    "region": "Africa",
+    "population": 23025776,
+    "currency": "West African CFA franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bf.svg",
+    "latitude": 13,
+    "longitude": -2
+  },
+  {
+    "name": "Burundi",
+    "code": "BI",
+    "capital": "Gitega",
+    "region": "Africa",
+    "population": 13689450,
+    "currency": "Burundian franc",
+    "languages": [
+      "French",
+      "Kirundi"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bi.svg",
+    "latitude": -3.5,
+    "longitude": 30
+  },
+  {
+    "name": "Cambodia",
+    "code": "KH",
+    "capital": "Phnom Penh",
+    "region": "Asia",
+    "population": 17423880,
+    "currency": "Cambodian riel",
+    "languages": [
+      "Khmer"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/kh.svg",
+    "latitude": 13,
+    "longitude": 105
+  },
+  {
+    "name": "Cameroon",
+    "code": "CM",
+    "capital": "Yaoundé",
+    "region": "Africa",
+    "population": 28372687,
+    "currency": "Central African CFA franc",
+    "languages": [
+      "English",
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cm.svg",
+    "latitude": 6,
+    "longitude": 12
+  },
+  {
+    "name": "Canada",
+    "code": "CA",
+    "capital": "Ottawa",
+    "region": "Americas",
+    "population": 38000000,
+    "currency": "Canadian dollar",
+    "languages": [
+      "English",
+      "French"
+    ],
+    "timezone": "UTC-05:00",
+    "flag": "https://flagcdn.com/ca.svg",
+    "latitude": 60,
+    "longitude": -95
+  },
+  {
+    "name": "Cape Verde",
+    "code": "CV",
+    "capital": "Praia",
+    "region": "Africa",
+    "population": 522331,
+    "currency": "Cape Verdean escudo",
+    "languages": [
+      "Portuguese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cv.svg",
+    "latitude": 16,
+    "longitude": -24
+  },
+  {
+    "name": "Caribbean Netherlands",
+    "code": "BQ",
+    "capital": "Kralendijk",
+    "region": "Americas",
+    "population": 0,
+    "currency": "United States dollar",
+    "languages": [
+      "Dutch",
+      "English",
+      "Papiamento"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bq.svg",
+    "latitude": 12.18,
+    "longitude": -68.25
+  },
+  {
+    "name": "Cayman Islands",
+    "code": "KY",
+    "capital": "George Town",
+    "region": "Americas",
+    "population": 73038,
+    "currency": "Cayman Islands dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ky.svg",
+    "latitude": 19.5,
+    "longitude": -80.5
+  },
+  {
+    "name": "Central African Republic",
+    "code": "CF",
+    "capital": "Bangui",
+    "region": "Africa",
+    "population": 5152421,
+    "currency": "Central African CFA franc",
+    "languages": [
+      "French",
+      "Sango"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cf.svg",
+    "latitude": 7,
+    "longitude": 21
+  },
+  {
+    "name": "Chad",
+    "code": "TD",
+    "capital": "N'Djamena",
+    "region": "Africa",
+    "population": 19319064,
+    "currency": "Central African CFA franc",
+    "languages": [
+      "Arabic",
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/td.svg",
+    "latitude": 15,
+    "longitude": 19
+  },
+  {
+    "name": "Chile",
+    "code": "CL",
+    "capital": "Santiago",
+    "region": "Americas",
+    "population": 19658835,
+    "currency": "Chilean peso",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cl.svg",
+    "latitude": -30,
+    "longitude": -71
+  },
+  {
+    "name": "China",
+    "code": "CN",
+    "capital": "Beijing",
+    "region": "Asia",
+    "population": 1439000000,
+    "currency": "Chinese yuan",
+    "languages": [
+      "Chinese"
+    ],
+    "timezone": "UTC+08:00",
+    "flag": "https://flagcdn.com/cn.svg",
+    "latitude": 35,
+    "longitude": 105
+  },
+  {
+    "name": "Christmas Island",
+    "code": "CX",
+    "capital": "Flying Fish Cove",
+    "region": "Oceania",
+    "population": 0,
+    "currency": "Australian dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cx.svg",
+    "latitude": -10.5,
+    "longitude": 105.66666666
+  },
+  {
+    "name": "Cocos (Keeling) Islands",
+    "code": "CC",
+    "capital": "West Island",
+    "region": "Oceania",
+    "population": 0,
+    "currency": "Australian dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cc.svg",
+    "latitude": -12.5,
+    "longitude": 96.83333333
+  },
+  {
+    "name": "Colombia",
+    "code": "CO",
+    "capital": "Bogotá",
+    "region": "Americas",
+    "population": 52321152,
+    "currency": "Colombian peso",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/co.svg",
+    "latitude": 4,
+    "longitude": -72
+  },
+  {
+    "name": "Comoros",
+    "code": "KM",
+    "capital": "Moroni",
+    "region": "Africa",
+    "population": 850387,
+    "currency": "Comorian franc",
+    "languages": [
+      "Arabic",
+      "Comorian",
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/km.svg",
+    "latitude": -12.16666666,
+    "longitude": 44.25
+  },
+  {
+    "name": "Congo",
+    "code": "CG",
+    "capital": "Brazzaville",
+    "region": "Africa",
+    "population": 6182885,
+    "currency": "Central African CFA franc",
+    "languages": [
+      "French",
+      "Kikongo",
+      "Lingala"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cg.svg",
+    "latitude": -1,
+    "longitude": 15
+  },
+  {
+    "name": "Cook Islands",
+    "code": "CK",
+    "capital": "Avarua",
+    "region": "Oceania",
+    "population": 0,
+    "currency": "Cook Islands dollar",
+    "languages": [
+      "Cook Islands Māori",
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ck.svg",
+    "latitude": -21.23333333,
+    "longitude": -159.76666666
+  },
+  {
+    "name": "Costa Rica",
+    "code": "CR",
+    "capital": "San José",
+    "region": "Americas",
+    "population": 5105525,
+    "currency": "Costa Rican colón",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cr.svg",
+    "latitude": 10,
+    "longitude": -84
+  },
+  {
+    "name": "Croatia",
+    "code": "HR",
+    "capital": "Zagreb",
+    "region": "Europe",
+    "population": 3859686,
+    "currency": "Euro",
+    "languages": [
+      "Croatian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/hr.svg",
+    "latitude": 45.16666666,
+    "longitude": 15.5
+  },
+  {
+    "name": "Cuba",
+    "code": "CU",
+    "capital": "Havana",
+    "region": "Americas",
+    "population": 11019931,
+    "currency": "Cuban convertible peso",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cu.svg",
+    "latitude": 21.5,
+    "longitude": -80
+  },
+  {
+    "name": "Curaçao",
+    "code": "CW",
+    "capital": "Willemstad",
+    "region": "Americas",
+    "population": 154654,
+    "currency": "Netherlands Antillean guilder",
+    "languages": [
+      "Dutch",
+      "English",
+      "Papiamento"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cw.svg",
+    "latitude": 12.116667,
+    "longitude": -68.933333
+  },
+  {
+    "name": "Cyprus",
+    "code": "CY",
+    "capital": "Nicosia",
+    "region": "Europe",
+    "population": 1344976,
+    "currency": "Euro",
+    "languages": [
+      "Greek",
+      "Turkish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cy.svg",
+    "latitude": 35,
+    "longitude": 33
+  },
+  {
+    "name": "Czechia",
+    "code": "CZ",
+    "capital": "Prague",
+    "region": "Europe",
+    "population": 10864042,
+    "currency": "Czech koruna",
+    "languages": [
+      "Czech",
+      "Slovak"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cz.svg",
+    "latitude": 49.75,
+    "longitude": 15.5
+  },
+  {
+    "name": "DR Congo",
+    "code": "CD",
+    "capital": "Kinshasa",
+    "region": "Africa",
+    "population": 105789731,
+    "currency": "Congolese franc",
+    "languages": [
+      "French",
+      "Kikongo",
+      "Lingala",
+      "Swahili",
+      "Tshiluba"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/cd.svg",
+    "latitude": 0,
+    "longitude": 25
+  },
+  {
+    "name": "Denmark",
+    "code": "DK",
+    "capital": "Copenhagen",
+    "region": "Europe",
+    "population": 5946952,
+    "currency": "Danish krone",
+    "languages": [
+      "Danish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/dk.svg",
+    "latitude": 56,
+    "longitude": 10
+  },
+  {
+    "name": "Djibouti",
+    "code": "DJ",
+    "capital": "Djibouti",
+    "region": "Africa",
+    "population": 1152944,
+    "currency": "Djiboutian franc",
+    "languages": [
+      "Arabic",
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/dj.svg",
+    "latitude": 11.5,
+    "longitude": 43
+  },
+  {
+    "name": "Dominica",
+    "code": "DM",
+    "capital": "Roseau",
+    "region": "Americas",
+    "population": 66510,
+    "currency": "Eastern Caribbean dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/dm.svg",
+    "latitude": 15.41666666,
+    "longitude": -61.33333333
+  },
+  {
+    "name": "Dominican Republic",
+    "code": "DO",
+    "capital": "Santo Domingo",
+    "region": "Americas",
+    "population": 11331265,
+    "currency": "Dominican peso",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/do.svg",
+    "latitude": 19,
+    "longitude": -70.66666666
+  },
+  {
+    "name": "Ecuador",
+    "code": "EC",
+    "capital": "Quito",
+    "region": "Americas",
+    "population": 17980083,
+    "currency": "United States dollar",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ec.svg",
+    "latitude": -2,
+    "longitude": -77.5
+  },
+  {
+    "name": "Egypt",
+    "code": "EG",
+    "capital": "Cairo",
+    "region": "Africa",
+    "population": 114535772,
+    "currency": "Egyptian pound",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/eg.svg",
+    "latitude": 27,
+    "longitude": 30
+  },
+  {
+    "name": "El Salvador",
+    "code": "SV",
+    "capital": "San Salvador",
+    "region": "Americas",
+    "population": 6309624,
+    "currency": "United States dollar",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sv.svg",
+    "latitude": 13.83333333,
+    "longitude": -88.91666666
+  },
+  {
+    "name": "Equatorial Guinea",
+    "code": "GQ",
+    "capital": "Malabo",
+    "region": "Africa",
+    "population": 1847549,
+    "currency": "Central African CFA franc",
+    "languages": [
+      "French",
+      "Portuguese",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gq.svg",
+    "latitude": 2,
+    "longitude": 10
+  },
+  {
+    "name": "Eritrea",
+    "code": "ER",
+    "capital": "Asmara",
+    "region": "Africa",
+    "population": 3470390,
+    "currency": "Eritrean nakfa",
+    "languages": [
+      "Arabic",
+      "English",
+      "Tigrinya"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/er.svg",
+    "latitude": 15,
+    "longitude": 39
+  },
+  {
+    "name": "Estonia",
+    "code": "EE",
+    "capital": "Tallinn",
+    "region": "Europe",
+    "population": 1370286,
+    "currency": "Euro",
+    "languages": [
+      "Estonian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ee.svg",
+    "latitude": 59,
+    "longitude": 26
+  },
+  {
+    "name": "Eswatini",
+    "code": "SZ",
+    "capital": "Lobamba",
+    "region": "Africa",
+    "population": 1230506,
+    "currency": "Swazi lilangeni",
+    "languages": [
+      "English",
+      "Swazi"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sz.svg",
+    "latitude": -26.5,
+    "longitude": 31.5
+  },
+  {
+    "name": "Ethiopia",
+    "code": "ET",
+    "capital": "Addis Ababa",
+    "region": "Africa",
+    "population": 128691692,
+    "currency": "Ethiopian birr",
+    "languages": [
+      "Amharic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/et.svg",
+    "latitude": 8,
+    "longitude": 38
+  },
+  {
+    "name": "Falkland Islands",
+    "code": "FK",
+    "capital": "Stanley",
+    "region": "Americas",
+    "population": 0,
+    "currency": "Falkland Islands pound",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/fk.svg",
+    "latitude": -51.75,
+    "longitude": -59
+  },
+  {
+    "name": "Faroe Islands",
+    "code": "FO",
+    "capital": "Tórshavn",
+    "region": "Europe",
+    "population": 54398,
+    "currency": "Danish krone",
+    "languages": [
+      "Danish",
+      "Faroese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/fo.svg",
+    "latitude": 62,
+    "longitude": -7
+  },
+  {
+    "name": "Fiji",
+    "code": "FJ",
+    "capital": "Suva",
+    "region": "Oceania",
+    "population": 924145,
+    "currency": "Fijian dollar",
+    "languages": [
+      "English",
+      "Fiji Hindi",
+      "Fijian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/fj.svg",
+    "latitude": -18,
+    "longitude": 175
+  },
+  {
+    "name": "Finland",
+    "code": "FI",
+    "capital": "Helsinki",
+    "region": "Europe",
+    "population": 5583911,
+    "currency": "Euro",
+    "languages": [
+      "Finnish",
+      "Swedish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/fi.svg",
+    "latitude": 64,
+    "longitude": 26
+  },
+  {
+    "name": "France",
+    "code": "FR",
+    "capital": "Paris",
+    "region": "Europe",
+    "population": 67000000,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": "UTC+01:00",
+    "flag": "https://flagcdn.com/fr.svg",
+    "latitude": 46,
+    "longitude": 2
+  },
+  {
+    "name": "French Guiana",
+    "code": "GF",
+    "capital": "Cayenne",
+    "region": "Americas",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gf.svg",
+    "latitude": 4,
+    "longitude": -53
+  },
+  {
+    "name": "French Polynesia",
+    "code": "PF",
+    "capital": "Papeetē",
+    "region": "Oceania",
+    "population": 281118,
+    "currency": "CFP franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pf.svg",
+    "latitude": -15,
+    "longitude": -140
+  },
+  {
+    "name": "French Southern and Antarctic Lands",
+    "code": "TF",
+    "capital": "Port-aux-Français",
+    "region": "Antarctic",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tf.svg",
+    "latitude": -49.25,
+    "longitude": 69.167
+  },
+  {
+    "name": "Gabon",
+    "code": "GA",
+    "capital": "Libreville",
+    "region": "Africa",
+    "population": 2484789,
+    "currency": "Central African CFA franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ga.svg",
+    "latitude": -1,
+    "longitude": 11.75
+  },
+  {
+    "name": "Gambia",
+    "code": "GM",
+    "capital": "Banjul",
+    "region": "Africa",
+    "population": 2697845,
+    "currency": "dalasi",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gm.svg",
+    "latitude": 13.46666666,
+    "longitude": -16.56666666
+  },
+  {
+    "name": "Georgia",
+    "code": "GE",
+    "capital": "Tbilisi",
+    "region": "Asia",
+    "population": 3715483,
+    "currency": "lari",
+    "languages": [
+      "Georgian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ge.svg",
+    "latitude": 42,
+    "longitude": 43.5
+  },
+  {
+    "name": "Germany",
+    "code": "DE",
+    "capital": "Berlin",
+    "region": "Europe",
+    "population": 83000000,
+    "currency": "Euro",
+    "languages": [
+      "German"
+    ],
+    "timezone": "UTC+01:00",
+    "flag": "https://flagcdn.com/de.svg",
+    "latitude": 51,
+    "longitude": 9
+  },
+  {
+    "name": "Ghana",
+    "code": "GH",
+    "capital": "Accra",
+    "region": "Africa",
+    "population": 33787914,
+    "currency": "Ghanaian cedi",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gh.svg",
+    "latitude": 8,
+    "longitude": -2
+  },
+  {
+    "name": "Gibraltar",
+    "code": "GI",
+    "capital": "Gibraltar",
+    "region": "Europe",
+    "population": 38471,
+    "currency": "Gibraltar pound",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gi.svg",
+    "latitude": 36.13333333,
+    "longitude": -5.35
+  },
+  {
+    "name": "Greece",
+    "code": "GR",
+    "capital": "Athens",
+    "region": "Europe",
+    "population": 10407351,
+    "currency": "Euro",
+    "languages": [
+      "Greek"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gr.svg",
+    "latitude": 39,
+    "longitude": 22
+  },
+  {
+    "name": "Greenland",
+    "code": "GL",
+    "capital": "Nuuk",
+    "region": "Americas",
+    "population": 56865,
+    "currency": "krone",
+    "languages": [
+      "Greenlandic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gl.svg",
+    "latitude": 72,
+    "longitude": -40
+  },
+  {
+    "name": "Grenada",
+    "code": "GD",
+    "capital": "St. George's",
+    "region": "Americas",
+    "population": 117081,
+    "currency": "Eastern Caribbean dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gd.svg",
+    "latitude": 12.11666666,
+    "longitude": -61.66666666
+  },
+  {
+    "name": "Guadeloupe",
+    "code": "GP",
+    "capital": "Basse-Terre",
+    "region": "Americas",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gp.svg",
+    "latitude": 16.25,
+    "longitude": -61.583333
+  },
+  {
+    "name": "Guam",
+    "code": "GU",
+    "capital": "Hagåtña",
+    "region": "Oceania",
+    "population": 166506,
+    "currency": "United States dollar",
+    "languages": [
+      "Chamorro",
+      "English",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gu.svg",
+    "latitude": 13.46666666,
+    "longitude": 144.78333333
+  },
+  {
+    "name": "Guatemala",
+    "code": "GT",
+    "capital": "Guatemala City",
+    "region": "Americas",
+    "population": 18124838,
+    "currency": "Guatemalan quetzal",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gt.svg",
+    "latitude": 15.5,
+    "longitude": -90.25
+  },
+  {
+    "name": "Guernsey",
+    "code": "GG",
+    "capital": "St. Peter Port",
+    "region": "Europe",
+    "population": 0,
+    "currency": "British pound",
+    "languages": [
+      "English",
+      "French",
+      "Guernésiais"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gg.svg",
+    "latitude": 49.46666666,
+    "longitude": -2.58333333
+  },
+  {
+    "name": "Guinea",
+    "code": "GN",
+    "capital": "Conakry",
+    "region": "Africa",
+    "population": 14405468,
+    "currency": "Guinean franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gn.svg",
+    "latitude": 11,
+    "longitude": -10
+  },
+  {
+    "name": "Guinea-Bissau",
+    "code": "GW",
+    "capital": "Bissau",
+    "region": "Africa",
+    "population": 2153339,
+    "currency": "West African CFA franc",
+    "languages": [
+      "Portuguese",
+      "Upper Guinea Creole"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gw.svg",
+    "latitude": 12,
+    "longitude": -15
+  },
+  {
+    "name": "Guyana",
+    "code": "GY",
+    "capital": "Georgetown",
+    "region": "Americas",
+    "population": 826353,
+    "currency": "Guyanese dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gy.svg",
+    "latitude": 5,
+    "longitude": -59
+  },
+  {
+    "name": "Haiti",
+    "code": "HT",
+    "capital": "Port-au-Prince",
+    "region": "Americas",
+    "population": 11637398,
+    "currency": "Haitian gourde",
+    "languages": [
+      "French",
+      "Haitian Creole"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ht.svg",
+    "latitude": 19,
+    "longitude": -72.41666666
+  },
+  {
+    "name": "Heard Island and McDonald Islands",
+    "code": "HM",
+    "capital": "",
+    "region": "Antarctic",
+    "population": 0,
+    "currency": null,
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/hm.svg",
+    "latitude": -53.1,
+    "longitude": 72.51666666
+  },
+  {
+    "name": "Honduras",
+    "code": "HN",
+    "capital": "Tegucigalpa",
+    "region": "Americas",
+    "population": 10644851,
+    "currency": "Honduran lempira",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/hn.svg",
+    "latitude": 15,
+    "longitude": -86.5
+  },
+  {
+    "name": "Hong Kong",
+    "code": "HK",
+    "capital": "City of Victoria",
+    "region": "Asia",
+    "population": 7536100,
+    "currency": "Hong Kong dollar",
+    "languages": [
+      "Chinese",
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/hk.svg",
+    "latitude": 22.267,
+    "longitude": 114.188
+  },
+  {
+    "name": "Hungary",
+    "code": "HU",
+    "capital": "Budapest",
+    "region": "Europe",
+    "population": 9592186,
+    "currency": "Hungarian forint",
+    "languages": [
+      "Hungarian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/hu.svg",
+    "latitude": 47,
+    "longitude": 20
+  },
+  {
+    "name": "Iceland",
+    "code": "IS",
+    "capital": "Reykjavik",
+    "region": "Europe",
+    "population": 385663,
+    "currency": "Icelandic króna",
+    "languages": [
+      "Icelandic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/is.svg",
+    "latitude": 65,
+    "longitude": -18
+  },
+  {
+    "name": "India",
+    "code": "IN",
+    "capital": "New Delhi",
+    "region": "Asia",
+    "population": 1438069596,
+    "currency": "Indian rupee",
+    "languages": [
+      "English",
+      "Hindi",
+      "Tamil"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/in.svg",
+    "latitude": 20,
+    "longitude": 77
+  },
+  {
+    "name": "Indonesia",
+    "code": "ID",
+    "capital": "Jakarta",
+    "region": "Asia",
+    "population": 281190067,
+    "currency": "Indonesian rupiah",
+    "languages": [
+      "Indonesian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/id.svg",
+    "latitude": -5,
+    "longitude": 120
+  },
+  {
+    "name": "Iran",
+    "code": "IR",
+    "capital": "Tehran",
+    "region": "Asia",
+    "population": 90608707,
+    "currency": "Iranian rial",
+    "languages": [
+      "Persian (Farsi)"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ir.svg",
+    "latitude": 32,
+    "longitude": 53
+  },
+  {
+    "name": "Iraq",
+    "code": "IQ",
+    "capital": "Baghdad",
+    "region": "Asia",
+    "population": 45074049,
+    "currency": "Iraqi dinar",
+    "languages": [
+      "Arabic",
+      "Aramaic",
+      "Sorani"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/iq.svg",
+    "latitude": 33,
+    "longitude": 44
+  },
+  {
+    "name": "Ireland",
+    "code": "IE",
+    "capital": "Dublin",
+    "region": "Europe",
+    "population": 5311538,
+    "currency": "Euro",
+    "languages": [
+      "English",
+      "Irish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ie.svg",
+    "latitude": 53,
+    "longitude": -8
+  },
+  {
+    "name": "Isle of Man",
+    "code": "IM",
+    "capital": "Douglas",
+    "region": "Europe",
+    "population": 84165,
+    "currency": "British pound",
+    "languages": [
+      "English",
+      "Manx"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/im.svg",
+    "latitude": 54.25,
+    "longitude": -4.5
+  },
+  {
+    "name": "Israel",
+    "code": "IL",
+    "capital": "Jerusalem",
+    "region": "Asia",
+    "population": 9849000,
+    "currency": "Israeli new shekel",
+    "languages": [
+      "Arabic",
+      "Hebrew"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/il.svg",
+    "latitude": 31.47,
+    "longitude": 35.13
+  },
+  {
+    "name": "Italy",
+    "code": "IT",
+    "capital": "Rome",
+    "region": "Europe",
+    "population": 58984216,
+    "currency": "Euro",
+    "languages": [
+      "Italian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/it.svg",
+    "latitude": 42.83333333,
+    "longitude": 12.83333333
+  },
+  {
+    "name": "Ivory Coast",
+    "code": "CI",
+    "capital": "Yamoussoukro",
+    "region": "Africa",
+    "population": 31165654,
+    "currency": "West African CFA franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ci.svg",
+    "latitude": 8,
+    "longitude": -5
+  },
+  {
+    "name": "Jamaica",
+    "code": "JM",
+    "capital": "Kingston",
+    "region": "Americas",
+    "population": 2839786,
+    "currency": "Jamaican dollar",
+    "languages": [
+      "English",
+      "Jamaican Patois"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/jm.svg",
+    "latitude": 18.25,
+    "longitude": -77.5
+  },
+  {
+    "name": "Japan",
+    "code": "JP",
+    "capital": "Tokyo",
+    "region": "Asia",
+    "population": 126500000,
+    "currency": "Japanese yen",
+    "languages": [
+      "Japanese"
+    ],
+    "timezone": "UTC+09:00",
+    "flag": "https://flagcdn.com/jp.svg",
+    "latitude": 36,
+    "longitude": 138
+  },
+  {
+    "name": "Jersey",
+    "code": "JE",
+    "capital": "Saint Helier",
+    "region": "Europe",
+    "population": 0,
+    "currency": "British pound",
+    "languages": [
+      "English",
+      "French",
+      "Jèrriais"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/je.svg",
+    "latitude": 49.25,
+    "longitude": -2.16666666
+  },
+  {
+    "name": "Jordan",
+    "code": "JO",
+    "capital": "Amman",
+    "region": "Asia",
+    "population": 11439213,
+    "currency": "Jordanian dinar",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/jo.svg",
+    "latitude": 31,
+    "longitude": 36
+  },
+  {
+    "name": "Kazakhstan",
+    "code": "KZ",
+    "capital": "Astana",
+    "region": "Asia",
+    "population": 20330104,
+    "currency": "Kazakhstani tenge",
+    "languages": [
+      "Kazakh",
+      "Russian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/kz.svg",
+    "latitude": 48,
+    "longitude": 68
+  },
+  {
+    "name": "Kenya",
+    "code": "KE",
+    "capital": "Nairobi",
+    "region": "Africa",
+    "population": 55339003,
+    "currency": "Kenyan shilling",
+    "languages": [
+      "English",
+      "Swahili"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ke.svg",
+    "latitude": 1,
+    "longitude": 38
+  },
+  {
+    "name": "Kiribati",
+    "code": "KI",
+    "capital": "South Tarawa",
+    "region": "Oceania",
+    "population": 132530,
+    "currency": "Australian dollar",
+    "languages": [
+      "English",
+      "Gilbertese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ki.svg",
+    "latitude": 1.41666666,
+    "longitude": 173
+  },
+  {
+    "name": "Kosovo",
+    "code": "XK",
+    "capital": "Pristina",
+    "region": "Europe",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "Albanian",
+      "Serbian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/xk.svg",
+    "latitude": 42.666667,
+    "longitude": 21.166667
+  },
+  {
+    "name": "Kuwait",
+    "code": "KW",
+    "capital": "Kuwait City",
+    "region": "Asia",
+    "population": 4853420,
+    "currency": "Kuwaiti dinar",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/kw.svg",
+    "latitude": 29.5,
+    "longitude": 45.75
+  },
+  {
+    "name": "Kyrgyzstan",
+    "code": "KG",
+    "capital": "Bishkek",
+    "region": "Asia",
+    "population": 7099750,
+    "currency": "Kyrgyzstani som",
+    "languages": [
+      "Kyrgyz",
+      "Russian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/kg.svg",
+    "latitude": 41,
+    "longitude": 75
+  },
+  {
+    "name": "Laos",
+    "code": "LA",
+    "capital": "Vientiane",
+    "region": "Asia",
+    "population": 7664993,
+    "currency": "Lao kip",
+    "languages": [
+      "Lao"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/la.svg",
+    "latitude": 18,
+    "longitude": 105
+  },
+  {
+    "name": "Latvia",
+    "code": "LV",
+    "capital": "Riga",
+    "region": "Europe",
+    "population": 1883710,
+    "currency": "Euro",
+    "languages": [
+      "Latvian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/lv.svg",
+    "latitude": 57,
+    "longitude": 25
+  },
+  {
+    "name": "Lebanon",
+    "code": "LB",
+    "capital": "Beirut",
+    "region": "Asia",
+    "population": 5773493,
+    "currency": "Lebanese pound",
+    "languages": [
+      "Arabic",
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/lb.svg",
+    "latitude": 33.83333333,
+    "longitude": 35.83333333
+  },
+  {
+    "name": "Lesotho",
+    "code": "LS",
+    "capital": "Maseru",
+    "region": "Africa",
+    "population": 2311472,
+    "currency": "Lesotho loti",
+    "languages": [
+      "English",
+      "Sotho"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ls.svg",
+    "latitude": -29.5,
+    "longitude": 28.5
+  },
+  {
+    "name": "Liberia",
+    "code": "LR",
+    "capital": "Monrovia",
+    "region": "Africa",
+    "population": 5493031,
+    "currency": "Liberian dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/lr.svg",
+    "latitude": 6.5,
+    "longitude": -9.5
+  },
+  {
+    "name": "Libya",
+    "code": "LY",
+    "capital": "Tripoli",
+    "region": "Africa",
+    "population": 7305659,
+    "currency": "Libyan dinar",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ly.svg",
+    "latitude": 25,
+    "longitude": 17
+  },
+  {
+    "name": "Liechtenstein",
+    "code": "LI",
+    "capital": "Vaduz",
+    "region": "Europe",
+    "population": 39846,
+    "currency": "Swiss franc",
+    "languages": [
+      "German"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/li.svg",
+    "latitude": 47.26666666,
+    "longitude": 9.53333333
+  },
+  {
+    "name": "Lithuania",
+    "code": "LT",
+    "capital": "Vilnius",
+    "region": "Europe",
+    "population": 2871585,
+    "currency": "Euro",
+    "languages": [
+      "Lithuanian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/lt.svg",
+    "latitude": 56,
+    "longitude": 24
+  },
+  {
+    "name": "Luxembourg",
+    "code": "LU",
+    "capital": "Luxembourg",
+    "region": "Europe",
+    "population": 666430,
+    "currency": "Euro",
+    "languages": [
+      "French",
+      "German",
+      "Luxembourgish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/lu.svg",
+    "latitude": 49.75,
+    "longitude": 6.16666666
+  },
+  {
+    "name": "Macau",
+    "code": "MO",
+    "capital": "",
+    "region": "Asia",
+    "population": 678800,
+    "currency": "Macanese pataca",
+    "languages": [
+      "Chinese",
+      "Portuguese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mo.svg",
+    "latitude": 22.16666666,
+    "longitude": 113.55
+  },
+  {
+    "name": "Madagascar",
+    "code": "MG",
+    "capital": "Antananarivo",
+    "region": "Africa",
+    "population": 31195932,
+    "currency": "Malagasy ariary",
+    "languages": [
+      "French",
+      "Malagasy"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mg.svg",
+    "latitude": -20,
+    "longitude": 47
+  },
+  {
+    "name": "Malawi",
+    "code": "MW",
+    "capital": "Lilongwe",
+    "region": "Africa",
+    "population": 21104482,
+    "currency": "Malawian kwacha",
+    "languages": [
+      "Chewa",
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mw.svg",
+    "latitude": -13.5,
+    "longitude": 34
+  },
+  {
+    "name": "Malaysia",
+    "code": "MY",
+    "capital": "Kuala Lumpur",
+    "region": "Asia",
+    "population": 35126298,
+    "currency": "Malaysian ringgit",
+    "languages": [
+      "English",
+      "Malay"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/my.svg",
+    "latitude": 2.5,
+    "longitude": 112.5
+  },
+  {
+    "name": "Maldives",
+    "code": "MV",
+    "capital": "Malé",
+    "region": "Asia",
+    "population": 525994,
+    "currency": "Maldivian rufiyaa",
+    "languages": [
+      "Maldivian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mv.svg",
+    "latitude": 3.25,
+    "longitude": 73
+  },
+  {
+    "name": "Mali",
+    "code": "ML",
+    "capital": "Bamako",
+    "region": "Africa",
+    "population": 23769127,
+    "currency": "West African CFA franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ml.svg",
+    "latitude": 17,
+    "longitude": -4
+  },
+  {
+    "name": "Malta",
+    "code": "MT",
+    "capital": "Valletta",
+    "region": "Europe",
+    "population": 552747,
+    "currency": "Euro",
+    "languages": [
+      "English",
+      "Maltese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mt.svg",
+    "latitude": 35.83333333,
+    "longitude": 14.58333333
+  },
+  {
+    "name": "Marshall Islands",
+    "code": "MH",
+    "capital": "Majuro",
+    "region": "Oceania",
+    "population": 38827,
+    "currency": "United States dollar",
+    "languages": [
+      "English",
+      "Marshallese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mh.svg",
+    "latitude": 9,
+    "longitude": 168
+  },
+  {
+    "name": "Martinique",
+    "code": "MQ",
+    "capital": "Fort-de-France",
+    "region": "Americas",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mq.svg",
+    "latitude": 14.666667,
+    "longitude": -61
+  },
+  {
+    "name": "Mauritania",
+    "code": "MR",
+    "capital": "Nouakchott",
+    "region": "Africa",
+    "population": 5022441,
+    "currency": "Mauritanian ouguiya",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mr.svg",
+    "latitude": 20,
+    "longitude": -12
+  },
+  {
+    "name": "Mauritius",
+    "code": "MU",
+    "capital": "Port Louis",
+    "region": "Africa",
+    "population": 1248647,
+    "currency": "Mauritian rupee",
+    "languages": [
+      "English",
+      "French",
+      "Mauritian Creole"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mu.svg",
+    "latitude": -20.28333333,
+    "longitude": 57.55
+  },
+  {
+    "name": "Mayotte",
+    "code": "YT",
+    "capital": "Mamoudzou",
+    "region": "Africa",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/yt.svg",
+    "latitude": -12.83333333,
+    "longitude": 45.16666666
+  },
+  {
+    "name": "Mexico",
+    "code": "MX",
+    "capital": "Mexico City",
+    "region": "Americas",
+    "population": 129739759,
+    "currency": "Mexican peso",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mx.svg",
+    "latitude": 23,
+    "longitude": -102
+  },
+  {
+    "name": "Micronesia",
+    "code": "FM",
+    "capital": "Palikir",
+    "region": "Oceania",
+    "population": 112630,
+    "currency": null,
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/fm.svg",
+    "latitude": 6.91666666,
+    "longitude": 158.25
+  },
+  {
+    "name": "Moldova",
+    "code": "MD",
+    "capital": "Chișinău",
+    "region": "Europe",
+    "population": 2457783,
+    "currency": "Moldovan leu",
+    "languages": [
+      "Moldavian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/md.svg",
+    "latitude": 47,
+    "longitude": 29
+  },
+  {
+    "name": "Monaco",
+    "code": "MC",
+    "capital": "Monaco",
+    "region": "Europe",
+    "population": 38956,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mc.svg",
+    "latitude": 43.73333333,
+    "longitude": 7.4
+  },
+  {
+    "name": "Mongolia",
+    "code": "MN",
+    "capital": "Ulan Bator",
+    "region": "Asia",
+    "population": 3481145,
+    "currency": "Mongolian tögrög",
+    "languages": [
+      "Mongolian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mn.svg",
+    "latitude": 46,
+    "longitude": 105
+  },
+  {
+    "name": "Montenegro",
+    "code": "ME",
+    "capital": "Podgorica",
+    "region": "Europe",
+    "population": 623529,
+    "currency": "Euro",
+    "languages": [
+      "Montenegrin"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/me.svg",
+    "latitude": 42.5,
+    "longitude": 19.3
+  },
+  {
+    "name": "Montserrat",
+    "code": "MS",
+    "capital": "Plymouth",
+    "region": "Americas",
+    "population": 0,
+    "currency": "Eastern Caribbean dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ms.svg",
+    "latitude": 16.75,
+    "longitude": -62.2
+  },
+  {
+    "name": "Morocco",
+    "code": "MA",
+    "capital": "Rabat",
+    "region": "Africa",
+    "population": 37712505,
+    "currency": "Moroccan dirham",
+    "languages": [
+      "Arabic",
+      "Berber"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ma.svg",
+    "latitude": 32,
+    "longitude": -5
+  },
+  {
+    "name": "Mozambique",
+    "code": "MZ",
+    "capital": "Maputo",
+    "region": "Africa",
+    "population": 33635160,
+    "currency": "Mozambican metical",
+    "languages": [
+      "Portuguese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mz.svg",
+    "latitude": -18.25,
+    "longitude": 35
+  },
+  {
+    "name": "Myanmar",
+    "code": "MM",
+    "capital": "Naypyidaw",
+    "region": "Asia",
+    "population": 54133798,
+    "currency": "Burmese kyat",
+    "languages": [
+      "Burmese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mm.svg",
+    "latitude": 22,
+    "longitude": 98
+  },
+  {
+    "name": "Namibia",
+    "code": "NA",
+    "capital": "Windhoek",
+    "region": "Africa",
+    "population": 2963095,
+    "currency": "Namibian dollar",
+    "languages": [
+      "Afrikaans",
+      "English",
+      "German",
+      "Herero",
+      "Khoekhoe",
+      "Kwangali",
+      "Lozi",
+      "Ndonga",
+      "Tswana"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/na.svg",
+    "latitude": -22,
+    "longitude": 17
+  },
+  {
+    "name": "Nauru",
+    "code": "NR",
+    "capital": "Yaren",
+    "region": "Oceania",
+    "population": 11875,
+    "currency": "Australian dollar",
+    "languages": [
+      "English",
+      "Nauru"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/nr.svg",
+    "latitude": -0.53333333,
+    "longitude": 166.91666666
+  },
+  {
+    "name": "Nepal",
+    "code": "NP",
+    "capital": "Kathmandu",
+    "region": "Asia",
+    "population": 29694614,
+    "currency": "Nepalese rupee",
+    "languages": [
+      "Nepali"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/np.svg",
+    "latitude": 28,
+    "longitude": 84
+  },
+  {
+    "name": "Netherlands",
+    "code": "NL",
+    "capital": "Amsterdam",
+    "region": "Europe",
+    "population": 17877117,
+    "currency": "Euro",
+    "languages": [
+      "Dutch"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/nl.svg",
+    "latitude": 52.5,
+    "longitude": 5.75
+  },
+  {
+    "name": "New Caledonia",
+    "code": "NC",
+    "capital": "Nouméa",
+    "region": "Oceania",
+    "population": 289870,
+    "currency": "CFP franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/nc.svg",
+    "latitude": -21.5,
+    "longitude": 165.5
+  },
+  {
+    "name": "New Zealand",
+    "code": "NZ",
+    "capital": "Wellington",
+    "region": "Oceania",
+    "population": 5200000,
+    "currency": "New Zealand dollar",
+    "languages": [
+      "English",
+      "Māori",
+      "New Zealand Sign Language"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/nz.svg",
+    "latitude": -41,
+    "longitude": 174
+  },
+  {
+    "name": "Nicaragua",
+    "code": "NI",
+    "capital": "Managua",
+    "region": "Americas",
+    "population": 6823613,
+    "currency": "Nicaraguan córdoba",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ni.svg",
+    "latitude": 13,
+    "longitude": -85
+  },
+  {
+    "name": "Niger",
+    "code": "NE",
+    "capital": "Niamey",
+    "region": "Africa",
+    "population": 26159867,
+    "currency": "West African CFA franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ne.svg",
+    "latitude": 16,
+    "longitude": 8
+  },
+  {
+    "name": "Nigeria",
+    "code": "NG",
+    "capital": "Abuja",
+    "region": "Africa",
+    "population": 227882945,
+    "currency": "Nigerian naira",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ng.svg",
+    "latitude": 10,
+    "longitude": 8
+  },
+  {
+    "name": "Niue",
+    "code": "NU",
+    "capital": "Alofi",
+    "region": "Oceania",
+    "population": 0,
+    "currency": "New Zealand dollar",
+    "languages": [
+      "English",
+      "Niuean"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/nu.svg",
+    "latitude": -19.03333333,
+    "longitude": -169.86666666
+  },
+  {
+    "name": "Norfolk Island",
+    "code": "NF",
+    "capital": "Kingston",
+    "region": "Oceania",
+    "population": 0,
+    "currency": "Australian dollar",
+    "languages": [
+      "English",
+      "Norfuk"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/nf.svg",
+    "latitude": -29.03333333,
+    "longitude": 167.95
+  },
+  {
+    "name": "North Korea",
+    "code": "KP",
+    "capital": "Pyongyang",
+    "region": "Asia",
+    "population": 26418204,
+    "currency": "North Korean won",
+    "languages": [
+      "Korean"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/kp.svg",
+    "latitude": 40,
+    "longitude": 127
+  },
+  {
+    "name": "North Macedonia",
+    "code": "MK",
+    "capital": "Skopje",
+    "region": "Europe",
+    "population": 1827816,
+    "currency": "denar",
+    "languages": [
+      "Macedonian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mk.svg",
+    "latitude": 41.83333333,
+    "longitude": 22
+  },
+  {
+    "name": "Northern Mariana Islands",
+    "code": "MP",
+    "capital": "Saipan",
+    "region": "Oceania",
+    "population": 45143,
+    "currency": "United States dollar",
+    "languages": [
+      "Carolinian",
+      "Chamorro",
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mp.svg",
+    "latitude": 15.2,
+    "longitude": 145.75
+  },
+  {
+    "name": "Norway",
+    "code": "NO",
+    "capital": "Oslo",
+    "region": "Europe",
+    "population": 5519601,
+    "currency": "Norwegian krone",
+    "languages": [
+      "Norwegian Bokmål",
+      "Norwegian Nynorsk",
+      "Sami"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/no.svg",
+    "latitude": 62,
+    "longitude": 10
+  },
+  {
+    "name": "Oman",
+    "code": "OM",
+    "capital": "Muscat",
+    "region": "Asia",
+    "population": 5049269,
+    "currency": "Omani rial",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/om.svg",
+    "latitude": 21,
+    "longitude": 57
+  },
+  {
+    "name": "Pakistan",
+    "code": "PK",
+    "capital": "Islamabad",
+    "region": "Asia",
+    "population": 240000000,
+    "currency": "Pakistani rupee",
+    "languages": [
+      "English",
+      "Urdu"
+    ],
+    "timezone": "UTC+05:00",
+    "flag": "https://flagcdn.com/pk.svg",
+    "latitude": 30,
+    "longitude": 70
+  },
+  {
+    "name": "Palau",
+    "code": "PW",
+    "capital": "Ngerulmud",
+    "region": "Oceania",
+    "population": 17727,
+    "currency": "United States dollar",
+    "languages": [
+      "English",
+      "Palauan"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pw.svg",
+    "latitude": 7.5,
+    "longitude": 134.5
+  },
+  {
+    "name": "Palestine",
+    "code": "PS",
+    "capital": "Ramallah",
+    "region": "Asia",
+    "population": 5165775,
+    "currency": "Egyptian pound",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ps.svg",
+    "latitude": 31.9,
+    "longitude": 35.2
+  },
+  {
+    "name": "Panama",
+    "code": "PA",
+    "capital": "Panama City",
+    "region": "Americas",
+    "population": 4458759,
+    "currency": "Panamanian balboa",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pa.svg",
+    "latitude": 9,
+    "longitude": -80
+  },
+  {
+    "name": "Papua New Guinea",
+    "code": "PG",
+    "capital": "Port Moresby",
+    "region": "Oceania",
+    "population": 10389635,
+    "currency": "Papua New Guinean kina",
+    "languages": [
+      "English",
+      "Hiri Motu",
+      "Tok Pisin"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pg.svg",
+    "latitude": -6,
+    "longitude": 147
+  },
+  {
+    "name": "Paraguay",
+    "code": "PY",
+    "capital": "Asunción",
+    "region": "Americas",
+    "population": 6844146,
+    "currency": "Paraguayan guaraní",
+    "languages": [
+      "Guaraní",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/py.svg",
+    "latitude": -23,
+    "longitude": -58
+  },
+  {
+    "name": "Peru",
+    "code": "PE",
+    "capital": "Lima",
+    "region": "Americas",
+    "population": 33845617,
+    "currency": "Peruvian sol",
+    "languages": [
+      "Aymara",
+      "Quechua",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pe.svg",
+    "latitude": -10,
+    "longitude": -76
+  },
+  {
+    "name": "Philippines",
+    "code": "PH",
+    "capital": "Manila",
+    "region": "Asia",
+    "population": 114891199,
+    "currency": "Philippine peso",
+    "languages": [
+      "English",
+      "Filipino"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ph.svg",
+    "latitude": 13,
+    "longitude": 122
+  },
+  {
+    "name": "Pitcairn Islands",
+    "code": "PN",
+    "capital": "Adamstown",
+    "region": "Oceania",
+    "population": 0,
+    "currency": "New Zealand dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pn.svg",
+    "latitude": -25.06666666,
+    "longitude": -130.1
+  },
+  {
+    "name": "Poland",
+    "code": "PL",
+    "capital": "Warsaw",
+    "region": "Europe",
+    "population": 36687353,
+    "currency": "Polish złoty",
+    "languages": [
+      "Polish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pl.svg",
+    "latitude": 52,
+    "longitude": 20
+  },
+  {
+    "name": "Portugal",
+    "code": "PT",
+    "capital": "Lisbon",
+    "region": "Europe",
+    "population": 10578174,
+    "currency": "Euro",
+    "languages": [
+      "Portuguese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pt.svg",
+    "latitude": 39.5,
+    "longitude": -8
+  },
+  {
+    "name": "Puerto Rico",
+    "code": "PR",
+    "capital": "San Juan",
+    "region": "Americas",
+    "population": 3203794,
+    "currency": "United States dollar",
+    "languages": [
+      "English",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pr.svg",
+    "latitude": 18.25,
+    "longitude": -66.5
+  },
+  {
+    "name": "Qatar",
+    "code": "QA",
+    "capital": "Doha",
+    "region": "Asia",
+    "population": 2656032,
+    "currency": "Qatari riyal",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/qa.svg",
+    "latitude": 25.5,
+    "longitude": 51.25
+  },
+  {
+    "name": "Romania",
+    "code": "RO",
+    "capital": "Bucharest",
+    "region": "Europe",
+    "population": 19061062,
+    "currency": "Romanian leu",
+    "languages": [
+      "Romanian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ro.svg",
+    "latitude": 46,
+    "longitude": 25
+  },
+  {
+    "name": "Russia",
+    "code": "RU",
+    "capital": "Moscow",
+    "region": "Europe",
+    "population": 143826130,
+    "currency": "Russian ruble",
+    "languages": [
+      "Russian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ru.svg",
+    "latitude": 60,
+    "longitude": 100
+  },
+  {
+    "name": "Rwanda",
+    "code": "RW",
+    "capital": "Kigali",
+    "region": "Africa",
+    "population": 13954471,
+    "currency": "Rwandan franc",
+    "languages": [
+      "English",
+      "French",
+      "Kinyarwanda"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/rw.svg",
+    "latitude": -2,
+    "longitude": 30
+  },
+  {
+    "name": "Réunion",
+    "code": "RE",
+    "capital": "Saint-Denis",
+    "region": "Africa",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/re.svg",
+    "latitude": -21.15,
+    "longitude": 55.5
+  },
+  {
+    "name": "Saint Barthélemy",
+    "code": "BL",
+    "capital": "Gustavia",
+    "region": "Americas",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/bl.svg",
+    "latitude": 18.5,
+    "longitude": -63.41666666
+  },
+  {
+    "name": "Saint Helena, Ascension and Tristan da Cunha",
+    "code": "SH",
+    "capital": "Jamestown",
+    "region": "Africa",
+    "population": 0,
+    "currency": "Pound sterling",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sh.svg",
+    "latitude": -15.95,
+    "longitude": -5.72
+  },
+  {
+    "name": "Saint Kitts and Nevis",
+    "code": "KN",
+    "capital": "Basseterre",
+    "region": "Americas",
+    "population": 46758,
+    "currency": "Eastern Caribbean dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/kn.svg",
+    "latitude": 17.33333333,
+    "longitude": -62.75
+  },
+  {
+    "name": "Saint Lucia",
+    "code": "LC",
+    "capital": "Castries",
+    "region": "Americas",
+    "population": 179285,
+    "currency": "Eastern Caribbean dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/lc.svg",
+    "latitude": 13.88333333,
+    "longitude": -60.96666666
+  },
+  {
+    "name": "Saint Martin",
+    "code": "MF",
+    "capital": "Marigot",
+    "region": "Americas",
+    "population": 27515,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/mf.svg",
+    "latitude": 18.08333333,
+    "longitude": -63.95
+  },
+  {
+    "name": "Saint Pierre and Miquelon",
+    "code": "PM",
+    "capital": "Saint-Pierre",
+    "region": "Americas",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/pm.svg",
+    "latitude": 46.83333333,
+    "longitude": -56.33333333
+  },
+  {
+    "name": "Saint Vincent and the Grenadines",
+    "code": "VC",
+    "capital": "Kingstown",
+    "region": "Americas",
+    "population": 101323,
+    "currency": "Eastern Caribbean dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/vc.svg",
+    "latitude": 13.25,
+    "longitude": -61.2
+  },
+  {
+    "name": "Samoa",
+    "code": "WS",
+    "capital": "Apia",
+    "region": "Oceania",
+    "population": 216663,
+    "currency": "Samoan tālā",
+    "languages": [
+      "English",
+      "Samoan"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ws.svg",
+    "latitude": -13.58333333,
+    "longitude": -172.33333333
+  },
+  {
+    "name": "San Marino",
+    "code": "SM",
+    "capital": "City of San Marino",
+    "region": "Europe",
+    "population": 33860,
+    "currency": "Euro",
+    "languages": [
+      "Italian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sm.svg",
+    "latitude": 43.76666666,
+    "longitude": 12.41666666
+  },
+  {
+    "name": "Saudi Arabia",
+    "code": "SA",
+    "capital": "Riyadh",
+    "region": "Asia",
+    "population": 33702731,
+    "currency": "Saudi riyal",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sa.svg",
+    "latitude": 25,
+    "longitude": 45
+  },
+  {
+    "name": "Senegal",
+    "code": "SN",
+    "capital": "Dakar",
+    "region": "Africa",
+    "population": 18077573,
+    "currency": "West African CFA franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sn.svg",
+    "latitude": 14,
+    "longitude": -14
+  },
+  {
+    "name": "Serbia",
+    "code": "RS",
+    "capital": "Belgrade",
+    "region": "Europe",
+    "population": 6623183,
+    "currency": "Serbian dinar",
+    "languages": [
+      "Serbian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/rs.svg",
+    "latitude": 44,
+    "longitude": 21
+  },
+  {
+    "name": "Seychelles",
+    "code": "SC",
+    "capital": "Victoria",
+    "region": "Africa",
+    "population": 119773,
+    "currency": "Seychellois rupee",
+    "languages": [
+      "English",
+      "French",
+      "Seychellois Creole"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sc.svg",
+    "latitude": -4.58333333,
+    "longitude": 55.66666666
+  },
+  {
+    "name": "Sierra Leone",
+    "code": "SL",
+    "capital": "Freetown",
+    "region": "Africa",
+    "population": 8460512,
+    "currency": "Sierra Leonean leone",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sl.svg",
+    "latitude": 8.5,
+    "longitude": -11.5
+  },
+  {
+    "name": "Singapore",
+    "code": "SG",
+    "capital": "Singapore",
+    "region": "Asia",
+    "population": 5917648,
+    "currency": "Singapore dollar",
+    "languages": [
+      "Chinese",
+      "English",
+      "Malay",
+      "Tamil"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sg.svg",
+    "latitude": 1.36666666,
+    "longitude": 103.8
+  },
+  {
+    "name": "Sint Maarten",
+    "code": "SX",
+    "capital": "Philipsburg",
+    "region": "Americas",
+    "population": 42749,
+    "currency": "Netherlands Antillean guilder",
+    "languages": [
+      "Dutch",
+      "English",
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sx.svg",
+    "latitude": 18.033333,
+    "longitude": -63.05
+  },
+  {
+    "name": "Slovakia",
+    "code": "SK",
+    "capital": "Bratislava",
+    "region": "Europe",
+    "population": 5426740,
+    "currency": "Euro",
+    "languages": [
+      "Slovak"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sk.svg",
+    "latitude": 48.66666666,
+    "longitude": 19.5
+  },
+  {
+    "name": "Slovenia",
+    "code": "SI",
+    "capital": "Ljubljana",
+    "region": "Europe",
+    "population": 2120461,
+    "currency": "Euro",
+    "languages": [
+      "Slovene"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/si.svg",
+    "latitude": 46.11666666,
+    "longitude": 14.81666666
+  },
+  {
+    "name": "Solomon Islands",
+    "code": "SB",
+    "capital": "Honiara",
+    "region": "Oceania",
+    "population": 800005,
+    "currency": "Solomon Islands dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sb.svg",
+    "latitude": -8,
+    "longitude": 159
+  },
+  {
+    "name": "Somalia",
+    "code": "SO",
+    "capital": "Mogadishu",
+    "region": "Africa",
+    "population": 18358615,
+    "currency": "Somali shilling",
+    "languages": [
+      "Arabic",
+      "Somali"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/so.svg",
+    "latitude": 10,
+    "longitude": 49
+  },
+  {
+    "name": "South Africa",
+    "code": "ZA",
+    "capital": "Pretoria",
+    "region": "Africa",
+    "population": 63212384,
+    "currency": "South African rand",
+    "languages": [
+      "Afrikaans",
+      "English",
+      "Northern Sotho",
+      "Southern Ndebele",
+      "Southern Sotho",
+      "Swazi",
+      "Tsonga",
+      "Tswana",
+      "Venda",
+      "Xhosa",
+      "Zulu"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/za.svg",
+    "latitude": -29,
+    "longitude": 24
+  },
+  {
+    "name": "South Georgia",
+    "code": "GS",
+    "capital": "King Edward Point",
+    "region": "Antarctic",
+    "population": 0,
+    "currency": "Saint Helena pound",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/gs.svg",
+    "latitude": -54.5,
+    "longitude": -37
+  },
+  {
+    "name": "South Korea",
+    "code": "KR",
+    "capital": "Seoul",
+    "region": "Asia",
+    "population": 51712619,
+    "currency": "South Korean won",
+    "languages": [
+      "Korean"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/kr.svg",
+    "latitude": 37,
+    "longitude": 127.5
+  },
+  {
+    "name": "South Sudan",
+    "code": "SS",
+    "capital": "Juba",
+    "region": "Africa",
+    "population": 11483374,
+    "currency": "South Sudanese pound",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ss.svg",
+    "latitude": 7,
+    "longitude": 30
+  },
+  {
+    "name": "Spain",
+    "code": "ES",
+    "capital": "Madrid",
+    "region": "Europe",
+    "population": 48352528,
+    "currency": "Euro",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/es.svg",
+    "latitude": 40,
+    "longitude": -4
+  },
+  {
+    "name": "Sri Lanka",
+    "code": "LK",
+    "capital": "Colombo",
+    "region": "Asia",
+    "population": 22037000,
+    "currency": "Sri Lankan rupee",
+    "languages": [
+      "Sinhala",
+      "Tamil"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/lk.svg",
+    "latitude": 7,
+    "longitude": 81
+  },
+  {
+    "name": "Sudan",
+    "code": "SD",
+    "capital": "Khartoum",
+    "region": "Africa",
+    "population": 50042791,
+    "currency": "Sudanese pound",
+    "languages": [
+      "Arabic",
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sd.svg",
+    "latitude": 15,
+    "longitude": 30
+  },
+  {
+    "name": "Suriname",
+    "code": "SR",
+    "capital": "Paramaribo",
+    "region": "Americas",
+    "population": 628886,
+    "currency": "Surinamese dollar",
+    "languages": [
+      "Dutch"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sr.svg",
+    "latitude": 4,
+    "longitude": -56
+  },
+  {
+    "name": "Svalbard and Jan Mayen",
+    "code": "SJ",
+    "capital": "Longyearbyen",
+    "region": "Europe",
+    "population": 0,
+    "currency": "krone",
+    "languages": [
+      "Norwegian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sj.svg",
+    "latitude": 78,
+    "longitude": 20
+  },
+  {
+    "name": "Sweden",
+    "code": "SE",
+    "capital": "Stockholm",
+    "region": "Europe",
+    "population": 10536632,
+    "currency": "Swedish krona",
+    "languages": [
+      "Swedish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/se.svg",
+    "latitude": 62,
+    "longitude": 15
+  },
+  {
+    "name": "Switzerland",
+    "code": "CH",
+    "capital": "Bern",
+    "region": "Europe",
+    "population": 8888822,
+    "currency": "Swiss franc",
+    "languages": [
+      "French",
+      "Italian",
+      "Romansh",
+      "Swiss German"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ch.svg",
+    "latitude": 47,
+    "longitude": 8
+  },
+  {
+    "name": "Syria",
+    "code": "SY",
+    "capital": "Damascus",
+    "region": "Asia",
+    "population": 23594623,
+    "currency": "Syrian pound",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/sy.svg",
+    "latitude": 35,
+    "longitude": 38
+  },
+  {
+    "name": "São Tomé and Príncipe",
+    "code": "ST",
+    "capital": "São Tomé",
+    "region": "Africa",
+    "population": 230871,
+    "currency": "São Tomé and Príncipe dobra",
+    "languages": [
+      "Portuguese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/st.svg",
+    "latitude": 1,
+    "longitude": 7
+  },
+  {
+    "name": "Taiwan",
+    "code": "TW",
+    "capital": "Taipei",
+    "region": "Asia",
+    "population": 0,
+    "currency": "New Taiwan dollar",
+    "languages": [
+      "Chinese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tw.svg",
+    "latitude": 23.5,
+    "longitude": 121
+  },
+  {
+    "name": "Tajikistan",
+    "code": "TJ",
+    "capital": "Dushanbe",
+    "region": "Asia",
+    "population": 10389799,
+    "currency": "Tajikistani somoni",
+    "languages": [
+      "Russian",
+      "Tajik"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tj.svg",
+    "latitude": 39,
+    "longitude": 71
+  },
+  {
+    "name": "Tanzania",
+    "code": "TZ",
+    "capital": "Dodoma",
+    "region": "Africa",
+    "population": 66617606,
+    "currency": "Tanzanian shilling",
+    "languages": [
+      "English",
+      "Swahili"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tz.svg",
+    "latitude": -6,
+    "longitude": 35
+  },
+  {
+    "name": "Thailand",
+    "code": "TH",
+    "capital": "Bangkok",
+    "region": "Asia",
+    "population": 71702435,
+    "currency": "Thai baht",
+    "languages": [
+      "Thai"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/th.svg",
+    "latitude": 15,
+    "longitude": 100
+  },
+  {
+    "name": "Timor-Leste",
+    "code": "TL",
+    "capital": "Dili",
+    "region": "Asia",
+    "population": 1384286,
+    "currency": "United States dollar",
+    "languages": [
+      "Portuguese",
+      "Tetum"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tl.svg",
+    "latitude": -8.83333333,
+    "longitude": 125.91666666
+  },
+  {
+    "name": "Togo",
+    "code": "TG",
+    "capital": "Lomé",
+    "region": "Africa",
+    "population": 8223850,
+    "currency": "West African CFA franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tg.svg",
+    "latitude": 8,
+    "longitude": 1.16666666
+  },
+  {
+    "name": "Tokelau",
+    "code": "TK",
+    "capital": "Fakaofo",
+    "region": "Oceania",
+    "population": 0,
+    "currency": "New Zealand dollar",
+    "languages": [
+      "English",
+      "Samoan",
+      "Tokelauan"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tk.svg",
+    "latitude": -9,
+    "longitude": -172
+  },
+  {
+    "name": "Tonga",
+    "code": "TO",
+    "capital": "Nuku'alofa",
+    "region": "Oceania",
+    "population": 104597,
+    "currency": "Tongan paʻanga",
+    "languages": [
+      "English",
+      "Tongan"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/to.svg",
+    "latitude": -20,
+    "longitude": -175
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "code": "TT",
+    "capital": "Port of Spain",
+    "region": "Americas",
+    "population": 1367510,
+    "currency": "Trinidad and Tobago dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tt.svg",
+    "latitude": 11,
+    "longitude": -61
+  },
+  {
+    "name": "Tunisia",
+    "code": "TN",
+    "capital": "Tunis",
+    "region": "Africa",
+    "population": 12200431,
+    "currency": "Tunisian dinar",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tn.svg",
+    "latitude": 34,
+    "longitude": 9
+  },
+  {
+    "name": "Turkmenistan",
+    "code": "TM",
+    "capital": "Ashgabat",
+    "region": "Asia",
+    "population": 7364438,
+    "currency": "Turkmenistan manat",
+    "languages": [
+      "Russian",
+      "Turkmen"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tm.svg",
+    "latitude": 40,
+    "longitude": 60
+  },
+  {
+    "name": "Turks and Caicos Islands",
+    "code": "TC",
+    "capital": "Cockburn Town",
+    "region": "Americas",
+    "population": 46198,
+    "currency": "United States dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tc.svg",
+    "latitude": 21.75,
+    "longitude": -71.58333333
+  },
+  {
+    "name": "Tuvalu",
+    "code": "TV",
+    "capital": "Funafuti",
+    "region": "Oceania",
+    "population": 9816,
+    "currency": "Australian dollar",
+    "languages": [
+      "English",
+      "Tuvaluan"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tv.svg",
+    "latitude": -8,
+    "longitude": 178
+  },
+  {
+    "name": "Türkiye",
+    "code": "TR",
+    "capital": "Ankara",
+    "region": "Asia",
+    "population": 85325965,
+    "currency": "Turkish lira",
+    "languages": [
+      "Turkish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/tr.svg",
+    "latitude": 39,
+    "longitude": 35
+  },
+  {
+    "name": "Uganda",
+    "code": "UG",
+    "capital": "Kampala",
+    "region": "Africa",
+    "population": 48656601,
+    "currency": "Ugandan shilling",
+    "languages": [
+      "English",
+      "Swahili"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ug.svg",
+    "latitude": 1,
+    "longitude": 32
+  },
+  {
+    "name": "Ukraine",
+    "code": "UA",
+    "capital": "Kyiv",
+    "region": "Europe",
+    "population": 37732836,
+    "currency": "Ukrainian hryvnia",
+    "languages": [
+      "Ukrainian"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ua.svg",
+    "latitude": 49,
+    "longitude": 32
+  },
+  {
+    "name": "United Arab Emirates",
+    "code": "AE",
+    "capital": "Abu Dhabi",
+    "region": "Asia",
+    "population": 10483751,
+    "currency": "United Arab Emirates dirham",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ae.svg",
+    "latitude": 24,
+    "longitude": 54
+  },
+  {
+    "name": "United Kingdom",
+    "code": "GB",
+    "capital": "London",
+    "region": "Europe",
+    "population": 67500000,
+    "currency": "British pound",
+    "languages": [
+      "English"
+    ],
+    "timezone": "UTC+00:00",
+    "flag": "https://flagcdn.com/gb.svg",
+    "latitude": 54,
+    "longitude": -2
+  },
+  {
+    "name": "United States",
+    "code": "US",
+    "capital": "Washington D.C.",
+    "region": "Americas",
+    "population": 331900000,
+    "currency": "United States dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": "UTC-05:00",
+    "flag": "https://flagcdn.com/us.svg",
+    "latitude": 38,
+    "longitude": -97
+  },
+  {
+    "name": "United States Minor Outlying Islands",
+    "code": "UM",
+    "capital": "",
+    "region": "Americas",
+    "population": 0,
+    "currency": "United States dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/um.svg",
+    "latitude": 19.3,
+    "longitude": 166.633333
+  },
+  {
+    "name": "United States Virgin Islands",
+    "code": "VI",
+    "capital": "Charlotte Amalie",
+    "region": "Americas",
+    "population": 104917,
+    "currency": "United States dollar",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/vi.svg",
+    "latitude": 18.35,
+    "longitude": -64.933333
+  },
+  {
+    "name": "Uruguay",
+    "code": "UY",
+    "capital": "Montevideo",
+    "region": "Americas",
+    "population": 3388081,
+    "currency": "Uruguayan peso",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/uy.svg",
+    "latitude": -33,
+    "longitude": -56
+  },
+  {
+    "name": "Uzbekistan",
+    "code": "UZ",
+    "capital": "Tashkent",
+    "region": "Asia",
+    "population": 35652307,
+    "currency": "Uzbekistani soʻm",
+    "languages": [
+      "Russian",
+      "Uzbek"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/uz.svg",
+    "latitude": 41,
+    "longitude": 64
+  },
+  {
+    "name": "Vanuatu",
+    "code": "VU",
+    "capital": "Port Vila",
+    "region": "Oceania",
+    "population": 320409,
+    "currency": "Vanuatu vatu",
+    "languages": [
+      "Bislama",
+      "English",
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/vu.svg",
+    "latitude": -16,
+    "longitude": 167
+  },
+  {
+    "name": "Vatican City",
+    "code": "VA",
+    "capital": "Vatican City",
+    "region": "Europe",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "Italian",
+      "Latin"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/va.svg",
+    "latitude": 41.9,
+    "longitude": 12.45
+  },
+  {
+    "name": "Venezuela",
+    "code": "VE",
+    "capital": "Caracas",
+    "region": "Americas",
+    "population": 28300854,
+    "currency": "Venezuelan bolívar soberano",
+    "languages": [
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ve.svg",
+    "latitude": 8,
+    "longitude": -66
+  },
+  {
+    "name": "Vietnam",
+    "code": "VN",
+    "capital": "Hanoi",
+    "region": "Asia",
+    "population": 100352192,
+    "currency": "Vietnamese đồng",
+    "languages": [
+      "Vietnamese"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/vn.svg",
+    "latitude": 16.16666666,
+    "longitude": 107.83333333
+  },
+  {
+    "name": "Wallis and Futuna",
+    "code": "WF",
+    "capital": "Mata-Utu",
+    "region": "Oceania",
+    "population": 0,
+    "currency": "CFP franc",
+    "languages": [
+      "French"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/wf.svg",
+    "latitude": -13.3,
+    "longitude": -176.2
+  },
+  {
+    "name": "Western Sahara",
+    "code": "EH",
+    "capital": "El Aaiún",
+    "region": "Africa",
+    "population": 0,
+    "currency": "Algerian dinar",
+    "languages": [
+      "Berber",
+      "Hassaniya",
+      "Spanish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/eh.svg",
+    "latitude": 24.5,
+    "longitude": -13
+  },
+  {
+    "name": "Yemen",
+    "code": "YE",
+    "capital": "Sana'a",
+    "region": "Asia",
+    "population": 39390799,
+    "currency": "Yemeni rial",
+    "languages": [
+      "Arabic"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ye.svg",
+    "latitude": 15,
+    "longitude": 48
+  },
+  {
+    "name": "Zambia",
+    "code": "ZM",
+    "capital": "Lusaka",
+    "region": "Africa",
+    "population": 20723965,
+    "currency": "Zambian kwacha",
+    "languages": [
+      "English"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/zm.svg",
+    "latitude": -15,
+    "longitude": 30
+  },
+  {
+    "name": "Zimbabwe",
+    "code": "ZW",
+    "capital": "Harare",
+    "region": "Africa",
+    "population": 16340822,
+    "currency": "Botswana pula",
+    "languages": [
+      "Chewa",
+      "Chibarwe",
+      "English",
+      "Kalanga",
+      "Khoisan",
+      "Ndau",
+      "Northern Ndebele",
+      "Shona",
+      "Sotho",
+      "Tonga",
+      "Tsonga",
+      "Tswana",
+      "Venda",
+      "Xhosa",
+      "Zimbabwean Sign Language"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/zw.svg",
+    "latitude": -20,
+    "longitude": 30
+  },
+  {
+    "name": "Åland Islands",
+    "code": "AX",
+    "capital": "Mariehamn",
+    "region": "Europe",
+    "population": 0,
+    "currency": "Euro",
+    "languages": [
+      "Swedish"
+    ],
+    "timezone": null,
+    "flag": "https://flagcdn.com/ax.svg",
+    "latitude": 60.116667,
+    "longitude": 19.9
+  }
 ]

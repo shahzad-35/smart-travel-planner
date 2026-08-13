@@ -133,7 +133,12 @@ class HolidayService extends BaseService
                 }, ['country' => $countryCode, 'year' => $year, 'api' => 'nager_date']);
 
                 if ($response->successful()) {
+                    // Nager.Date answers 204 with an empty body for countries it
+                    // does not cover (e.g. PK) — json() is null then, not an array.
                     $data = $response->json();
+                    if (!is_array($data)) {
+                        continue;
+                    }
                     $yearHolidays = $this->mapNagerDateResponse($data, $startDate, $endDate);
                     $holidays = array_merge($holidays, $yearHolidays);
                 } else {
@@ -165,7 +170,9 @@ class HolidayService extends BaseService
         $holidays = [];
 
         foreach ($data['response']['holidays'] ?? [] as $holiday) {
-            $holidayDate = $holiday['date']['iso'] ?? '';
+            // The iso value can carry a time suffix (2026-01-01T00:00:00+05:00),
+            // which would break the lexicographic range comparison below.
+            $holidayDate = substr($holiday['date']['iso'] ?? '', 0, 10);
             if ($holidayDate >= $startDate && $holidayDate <= $endDate) {
                 $holidays[] = new HolidayDTO(
                     date: $holidayDate,
@@ -196,8 +203,10 @@ class HolidayService extends BaseService
             if ($holidayDate >= $startDate && $holidayDate <= $endDate) {
                 $holidays[] = new HolidayDTO(
                     date: $holidayDate,
+                    // Nager.Date v3 returns a `types` array (["Public"]),
+                    // older payloads used a singular `type` string.
+                    type: $holiday['types'][0] ?? ($holiday['type'] ?? 'Public'),
                     name: $holiday['name'] ?? '',
-                    type: $holiday['type'] ?? 'Public',
                     description: $holiday['localName'] ?? null
                 );
             }

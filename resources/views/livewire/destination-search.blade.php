@@ -24,7 +24,7 @@
                     wire:model.live.debounce.300ms="searchQuery"
                     wire:keydown.enter="triggerSearch"
                     class="block w-full rounded-xl py-4 pr-4 pl-12 border border-border bg-surface-card shadow-sm focus:ring-2 focus:ring-primary focus:border-primary text-base text-foreground"
-                    placeholder="Search for countries, capitals, or regions..."
+                    placeholder="Search for countries, cities, states or provinces..."
                     autocomplete="off"
                 >
                 @if($searchQuery)
@@ -71,9 +71,12 @@
                             <div class="flex-1 min-w-0">
                                 <h4 class="text-sm font-medium text-foreground group-hover:text-primary truncate">
                                     {{ $search['name'] }}
+                                    @if(($search['type'] ?? 'country') !== 'country')
+                                        <span class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-primary/10 text-primary capitalize">{{ $search['type'] }}</span>
+                                    @endif
                                 </h4>
                                 <p class="text-xs text-foreground-subtle truncate">
-                                    {{ $search['capital'] }}, {{ $search['region'] }}
+                                    {{ trim(($search['capital'] ?? '') . (($search['capital'] ?? '') && ($search['region'] ?? '') ? ', ' : '') . ($search['region'] ?? '')) }}
                                 </p>
                             </div>
                         </div>
@@ -114,16 +117,19 @@
     @endif
 
     <!-- Search Results -->
-    @if(!$isLoading && count($searchResults) > 0)
-        <div class="space-y-4">
+    @if(!$isLoading && $this->resultCount > 0)
+        <div class="space-y-6">
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold text-foreground">
-                    Search Results ({{ count($searchResults) }} found)
+                    Search Results ({{ $this->resultCount }} found)
                 </h3>
             </div>
 
+            @if(count($searchResults['countries']) > 0)
+            <div>
+            <h4 class="text-sm font-semibold text-foreground-subtle uppercase tracking-wide mb-3">Countries</h4>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach($searchResults as $country)
+                @foreach($searchResults['countries'] as $country)
                     <div
                         wire:click="selectCountry('{{ $country['code'] }}')"
                         class="bg-surface-card rounded-xl border border-border p-5 hover:border-primary hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group"
@@ -201,7 +207,7 @@
                                 <div class="flex flex-wrap gap-1">
                                     @foreach(array_slice($country['languages'], 0, 3) as $language)
                                         <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                                            {{ $language }}
+                                            {{ $language['name'] }}
                                         </span>
                                     @endforeach
                                     @if(count($country['languages']) > 3)
@@ -227,11 +233,105 @@
                     </div>
                 @endforeach
             </div>
+            </div>
+            @endif
+
+            @if(count($searchResults['states']) > 0)
+            <div>
+            <h4 class="text-sm font-semibold text-foreground-subtle uppercase tracking-wide mb-3">States &amp; Provinces</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach($searchResults['states'] as $index => $place)
+                    <div
+                        wire:key="state-{{ $index }}"
+                        class="bg-surface-card rounded-xl border {{ $expandedStateIndex === $index ? 'border-primary shadow-md sm:col-span-2 lg:col-span-3' : 'border-border hover:border-primary hover:shadow-md' }} p-4 transition-all duration-200 group"
+                    >
+                        <div wire:click="toggleStateCities({{ $index }})" class="flex items-center space-x-3 cursor-pointer">
+                            @if($place['flag'])
+                                <img src="{{ $place['flag'] }}" alt="{{ $place['country_name'] }} flag" class="w-10 h-7 object-cover rounded-sm shadow-sm">
+                            @endif
+                            <div class="flex-1 min-w-0">
+                                <h4 class="text-base font-semibold text-foreground group-hover:text-primary truncate">{{ $place['name'] }}</h4>
+                                <div class="flex items-center gap-2 text-xs text-foreground-muted">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-accent/10 text-accent capitalize">{{ $place['type'] }}</span>
+                                    <span class="truncate">{{ $place['country_name'] ?? $place['country_code'] }}</span>
+                                </div>
+                            </div>
+                            <svg class="w-4 h-4 text-foreground-subtle transition-transform {{ $expandedStateIndex === $index ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+
+                        @if($expandedStateIndex === $index)
+                            <div class="mt-4 pt-4 border-t border-border">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xs font-medium text-foreground-subtle uppercase tracking-wide">
+                                        Cities in {{ $place['name'] }}
+                                        @if($stateCityTotal > count($stateCities))
+                                            <span class="normal-case font-normal">(top {{ count($stateCities) }} of {{ $stateCityTotal }})</span>
+                                        @endif
+                                    </span>
+                                    <button
+                                        wire:click="selectPlace('states', {{ $index }})"
+                                        class="text-xs font-medium text-primary hover:text-primary-dark cursor-pointer"
+                                    >
+                                        Select entire {{ $place['type'] }} →
+                                    </button>
+                                </div>
+                                @if(count($stateCities) > 0)
+                                    <div class="flex flex-wrap gap-2">
+                                        @foreach($stateCities as $cityIndex => $city)
+                                            <button
+                                                wire:key="state-city-{{ $index }}-{{ $cityIndex }}"
+                                                wire:click="selectStateCity({{ $cityIndex }})"
+                                                class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer"
+                                            >
+                                                {{ $city['name'] }}
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-sm text-foreground-subtle">No city data available for this {{ $place['type'] }}.</p>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+            </div>
+            @endif
+
+            @if(count($searchResults['cities']) > 0)
+            <div>
+            <h4 class="text-sm font-semibold text-foreground-subtle uppercase tracking-wide mb-3">Cities</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach($searchResults['cities'] as $index => $place)
+                    <div
+                        wire:key="city-{{ $index }}"
+                        wire:click="selectPlace('cities', {{ $index }})"
+                        class="bg-surface-card rounded-xl border border-border p-4 hover:border-primary hover:shadow-md transition-all duration-200 cursor-pointer group"
+                    >
+                        <div class="flex items-center space-x-3">
+                            @if($place['flag'])
+                                <img src="{{ $place['flag'] }}" alt="{{ $place['country_code'] }} flag" class="w-10 h-7 object-cover rounded-sm shadow-sm">
+                            @endif
+                            <div class="flex-1 min-w-0">
+                                <h4 class="text-base font-semibold text-foreground group-hover:text-primary truncate">{{ $place['name'] }}</h4>
+                                <div class="flex items-center gap-2 text-xs text-foreground-muted">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/10 text-primary">City</span>
+                                    <span class="truncate">{{ trim(($place['state'] ? $place['state'] . ', ' : '') . $place['country_code']) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            </div>
+            @endif
         </div>
     @endif
 
     <!-- No Results -->
-    @if(!$isLoading && $searchQuery && count($searchResults) === 0)
+    @if(!$isLoading && $searchQuery && $this->resultCount === 0)
         <div class="text-center py-12">
             <svg class="mx-auto h-12 w-12 text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>

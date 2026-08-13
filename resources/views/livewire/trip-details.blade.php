@@ -108,6 +108,27 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Share Link -->
+            @if($shareUrl)
+                <div class="mt-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4">
+                    <h3 class="text-sm font-medium text-emerald-800 dark:text-emerald-300 mb-2">Shareable Link Generated (valid for 7 days)</h3>
+                    <div class="flex items-center gap-2">
+                        <input type="text" readonly value="{{ $shareUrl }}"
+                            class="flex-1 text-sm rounded-md border-emerald-300 dark:border-emerald-700 bg-white dark:bg-surface text-foreground"
+                            onclick="this.select()">
+                        <button type="button"
+                            onclick="navigator.clipboard.writeText(this.previousElementSibling.value).then(() => { this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 1500); })"
+                            class="px-3 py-2 text-sm font-medium rounded-md bg-emerald-600 text-white hover:bg-emerald-700 cursor-pointer">
+                            Copy
+                        </button>
+                        <button type="button" wire:click="hideShareUrl"
+                            class="px-2 py-2 text-sm text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 cursor-pointer" aria-label="Dismiss">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -127,7 +148,7 @@
                                     <div class="text-lg font-semibold text-foreground">{{ round($weather['temperature']) }}°C</div>
                                     <div class="text-xs text-foreground-muted">{{ $weather['condition'] }}</div>
                                     <div class="text-xs text-foreground-subtle mt-1">
-                                        H: {{ round($weather['maxTemp'] ?? $weather['temperature']) }}° L: {{ round($weather['minTemp'] ?? $weather['temperature']) }}°
+                                        H: {{ round($weather['max_temp'] ?? $weather['temperature']) }}° L: {{ round($weather['min_temp'] ?? $weather['temperature']) }}°
                                     </div>
                                 </div>
                             @endforeach

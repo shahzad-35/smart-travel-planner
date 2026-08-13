@@ -5,7 +5,9 @@ namespace App\Livewire;
 use App\Models\Trip;
 use App\Services\External\WeatherService;
 use App\Services\External\HolidayService;
+use App\Services\ShareTokenService;
 use App\Repositories\TripRepository;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -19,6 +21,7 @@ class TripDetails extends Component
     public $budgetUsed = 0;
     public $editingNote = false;
     public $noteContent = '';
+    public ?string $shareUrl = null;
 
     protected $listeners = ['refreshTripDetails' => '$refresh'];
 
@@ -104,16 +107,40 @@ class TripDetails extends Component
         return $this->redirectRoute('trips.listing');
     }
 
-    public function shareTrip()
+    /**
+     * Generate a public, read-only share link for this trip (expires in 7 days).
+     */
+    public function shareTrip(ShareTokenService $shareTokenService)
     {
-        // TODO: Implement trip sharing functionality
-        $this->dispatch('show-toast', ['message' => 'Trip sharing coming soon!', 'type' => 'info']);
+        $token = $shareTokenService->generateToken($this->trip);
+        $this->shareUrl = route('trips.shared', ['token' => $token]);
     }
 
+    public function hideShareUrl()
+    {
+        $this->shareUrl = null;
+    }
+
+    /**
+     * Download a complete PDF report of the trip: overview, notes, expenses,
+     * packing checklist, weather forecast, holidays, and status history.
+     */
     public function exportTrip()
     {
-        // TODO: Implement trip export functionality
-        $this->dispatch('show-toast', ['message' => 'Trip export coming soon!', 'type' => 'info']);
+        $this->trip->loadMissing(['expenses', 'packingItems', 'tripNotes', 'statusHistories']);
+
+        $pdf = Pdf::loadView('pdf.trip-summary', [
+            'trip' => $this->trip,
+            'weatherForecast' => $this->weatherForecast,
+            'holidays' => $this->holidays,
+            'packingProgress' => $this->packingProgress,
+            'totalExpenses' => $this->totalExpenses,
+            'budgetUsed' => $this->budgetUsed,
+        ]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'trip-' . str_replace(' ', '-', strtolower($this->trip->destination)) . '.pdf');
     }
 
     public function getWeatherForDate($date)

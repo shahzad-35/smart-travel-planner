@@ -31,6 +31,10 @@ Route::get('weather/compare', \App\Livewire\WeatherComparison::class)
 Route::get('packing-checklist/shared/{token}', \App\Livewire\PackingChecklist::class)
     ->name('packing-checklist.share');
 
+// Public shared trip summary (no auth required, token-gated)
+Route::get('trips/shared/{token}', \App\Http\Controllers\SharedTripController::class)
+    ->name('trips.shared');
+
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('country', CountryInfo::class)->name('country.info');
 
