@@ -1,7 +1,7 @@
 <div class="w-full max-w-5xl mx-auto">
     <!-- Search Header -->
     <div class="mb-6">
-        <h1 class="text-3xl font-bold text-foreground mb-1">Discover Destinations</h1>
+        <h1 class="page-title mb-1.5">Discover Destinations</h1>
         <p class="text-foreground-muted">Search and explore amazing places around the world</p>
     </div>
 
@@ -86,39 +86,22 @@
         </div>
     @endif
 
-    <!-- Loading State -->
-    @if($isLoading)
-        <div class="space-y-4">
-            <div class="flex items-center space-x-2 mb-4">
-                <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-                <span class="text-foreground-muted">Searching destinations...</span>
-            </div>
-
-            <!-- Skeleton Loaders -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                @for($i = 0; $i < 6; $i++)
-                    <div class="bg-surface-card rounded-xl border border-border p-5 animate-pulse">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-8 bg-surface-muted dark:bg-surface rounded-sm"></div>
-                            <div class="flex-1 space-y-2">
-                                <div class="h-4 bg-surface-muted dark:bg-surface rounded w-3/4"></div>
-                                <div class="h-3 bg-surface-muted dark:bg-surface rounded w-1/2"></div>
-                                <div class="h-3 bg-surface-muted dark:bg-surface rounded w-2/3"></div>
-                            </div>
-                        </div>
-                        <div class="mt-4 space-y-2">
-                            <div class="h-3 bg-surface-muted dark:bg-surface rounded w-full"></div>
-                            <div class="h-3 bg-surface-muted dark:bg-surface rounded w-4/5"></div>
-                        </div>
-                    </div>
-                @endfor
-            </div>
+    <!-- Loading State (server round-trip in flight) -->
+    <div wire:loading.delay.block wire:target="searchQuery, triggerSearch" class="space-y-4">
+        <div class="flex items-center space-x-2 mb-4">
+            <x-ui.spinner size="md" class="text-primary" />
+            <span class="text-foreground-muted">Searching destinations...</span>
         </div>
-    @endif
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <x-ui.skeleton variant="card" :count="6" />
+        </div>
+    </div>
 
+    <div wire:loading.remove.delay wire:target="searchQuery, triggerSearch">
     <!-- Search Results -->
-    @if(!$isLoading && $this->resultCount > 0)
-        <div class="space-y-6">
+    @if($this->resultCount > 0)
+        <div class="space-y-6"
+             wire:loading.delay.class="opacity-40 pointer-events-none" wire:target="selectCountry, selectPlace, selectStateCity">
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold text-foreground">
                     Search Results ({{ $this->resultCount }} found)
@@ -256,7 +239,8 @@
                                     <span class="truncate">{{ $place['country_name'] ?? $place['country_code'] }}</span>
                                 </div>
                             </div>
-                            <svg class="w-4 h-4 text-foreground-subtle transition-transform {{ $expandedStateIndex === $index ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <x-ui.spinner wire:loading.delay wire:target="toggleStateCities({{ $index }})" size="xs" class="text-primary shrink-0" />
+                            <svg wire:loading.remove.delay wire:target="toggleStateCities({{ $index }})" class="w-4 h-4 text-foreground-subtle transition-transform {{ $expandedStateIndex === $index ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </div>
@@ -331,7 +315,7 @@
     @endif
 
     <!-- No Results -->
-    @if(!$isLoading && $searchQuery && $this->resultCount === 0)
+    @if($searchQuery && $this->resultCount === 0)
         <div class="text-center py-12">
             <svg class="mx-auto h-12 w-12 text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -340,6 +324,7 @@
             <p class="mt-1 text-sm text-foreground-subtle">Try searching with different keywords or check your spelling.</p>
         </div>
     @endif
+    </div>
 
     <!-- Empty State (when no search and no recent searches) -->
     @if(!$searchQuery && count($recentSearches) === 0)

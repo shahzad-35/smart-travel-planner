@@ -56,6 +56,11 @@ class HolidayList extends Component
         $this->holidays = array_map(fn($h) => $h->toArray(), $holidays);
     }
 
+    public function placeholder()
+    {
+        return view('livewire.placeholders.rows');
+    }
+
     public function render()
     {
         return view('livewire.holiday-list');

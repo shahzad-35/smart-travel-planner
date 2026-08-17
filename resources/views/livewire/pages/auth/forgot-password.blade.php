@@ -37,8 +37,9 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div class="mb-4 text-sm text-foreground-muted">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="mb-8">
+        <h2 class="text-2xl font-extrabold text-foreground tracking-tight">Reset your password</h2>
+        <p class="mt-1.5 text-foreground-muted">Enter your email address and we'll send you a link to choose a new password.</p>
     </div>
 
     <!-- Session Status -->

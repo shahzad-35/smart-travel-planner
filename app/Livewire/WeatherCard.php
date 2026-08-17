@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\DTOs\WeatherDTO;
+use App\Services\External\GeoIpService;
 use App\Services\External\WeatherService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -11,6 +12,9 @@ use Livewire\Component;
 class WeatherCard extends Component
 {
     public string $location = '';
+    public string $locationLabel = '';
+    public bool $autoDetected = false;
+    public string $query = '';
     public string $units = 'metric'; // 'metric' or 'imperial'
     /** @var array<string, mixed>|null */
     public ?array $current = null;
@@ -24,17 +28,13 @@ class WeatherCard extends Component
         $this->weatherService = $weatherService;
     }
 
-    public function mount(string $location = ''): void
+    public function mount(GeoIpService $geoIpService, string $location = ''): void
     {
-        try {
-            $response = \Illuminate\Support\Facades\Http::timeout(3)->get('https://ipwho.is/');
-            $data = $response->json();
-            $detectedCountry = $data['country'] ?? '';
-        } catch (\Throwable $e) {
-            $detectedCountry = '';
-        }
+        $this->location = $location ?: $this->location;
 
-        $this->location = $location ?: ($this->location ?: $detectedCountry);
+        if ($this->location === '') {
+            $this->detectLocation($geoIpService);
+        }
 
         if (Auth::check()) {
             $pref = Auth::user()->preference;
@@ -43,6 +43,54 @@ class WeatherCard extends Component
         }
 
         $this->loadWeather();
+    }
+
+    /**
+     * Manual city search from the page's search box.
+     */
+    public function search(): void
+    {
+        $query = trim($this->query);
+        if ($query === '') {
+            return;
+        }
+
+        $this->location = $query;
+        $this->locationLabel = '';
+        $this->autoDetected = false;
+        $this->loadWeather();
+    }
+
+    /**
+     * Switch back to the visitor's auto-detected location.
+     */
+    public function useMyLocation(GeoIpService $geoIpService): void
+    {
+        $this->query = '';
+        $this->location = '';
+        $this->locationLabel = '';
+        $this->autoDetected = false;
+        $this->detectLocation($geoIpService);
+        $this->loadWeather();
+    }
+
+    private function detectLocation(GeoIpService $geoIpService): void
+    {
+        $place = $geoIpService->locate(request()->ip());
+
+        if (!empty($place['city'])) {
+            // Query as "City,CC" so OpenWeather resolves the right city
+            // among same-named ones; keep a friendlier label for display.
+            $this->location = $place['city']
+                . (!empty($place['country_code']) ? ',' . $place['country_code'] : '');
+            $this->locationLabel = $place['city']
+                . (!empty($place['country']) ? ', ' . $place['country'] : '');
+            $this->autoDetected = true;
+        } elseif (!empty($place['country'])) {
+            $this->location = $place['country'];
+            $this->locationLabel = $place['country'];
+            $this->autoDetected = true;
+        }
     }
 
     #[On('weather-unit-changed')]

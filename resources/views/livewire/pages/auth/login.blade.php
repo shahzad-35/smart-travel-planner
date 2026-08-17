@@ -25,10 +25,15 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <div class="mb-8">
+        <h2 class="text-2xl font-extrabold text-foreground tracking-tight">Welcome back</h2>
+        <p class="mt-1.5 text-foreground-muted">Sign in to pick up your trip planning where you left off.</p>
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit="login">
+    <form wire:submit="login" class="space-y-5">
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />

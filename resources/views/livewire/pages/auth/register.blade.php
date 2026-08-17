@@ -35,6 +35,11 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
+    <div class="mb-8">
+        <h2 class="text-2xl font-extrabold text-foreground tracking-tight">Create your account</h2>
+        <p class="mt-1.5 text-foreground-muted">Free forever — start planning your first trip in minutes.</p>
+    </div>
+
     <form wire:submit="register">
         <!-- Name -->
         <div>

@@ -58,9 +58,20 @@ class ApiResponseHandler
                 }
 
                 if ($this->isErrorResponse($response)) {
+                    // Client errors (4xx, e.g. an unknown city name) are
+                    // deterministic: retrying cannot succeed and they say
+                    // nothing about the API's health, so hand the response
+                    // back for the caller's !successful() branch to handle
+                    // instead of retrying and tripping the circuit breaker.
+                    if ($this->isClientError($response)) {
+                        $this->logInfo("Client error for {$this->apiName}: " . $this->getErrorMessage($response));
+                        $this->logApiCall($requestData, $response);
+                        return $response;
+                    }
+
                     $this->incrementCircuitBreaker();
                     $this->logError("API error for {$this->apiName}: " . $this->getErrorMessage($response));
-                    throw new ApiException($this->getErrorMessage($response));
+                    throw new ApiException($this->getErrorMessage($response), $response->status());
                 }
 
                 $this->resetCircuitBreaker();
@@ -149,6 +160,22 @@ class ApiResponseHandler
     {
         if (method_exists($response, 'status') && $response->status() === 429) {
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if response is a client error (4xx). Rate limiting (429) is
+     * detected separately before this runs.
+     *
+     * @param mixed $response
+     * @return bool
+     */
+    private function isClientError($response): bool
+    {
+        if (method_exists($response, 'status')) {
+            $status = $response->status();
+            return $status >= 400 && $status < 500;
         }
         return false;
     }

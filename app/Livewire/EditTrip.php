@@ -40,7 +40,6 @@ class EditTrip extends Component
     public ?int $expandedStateIndex = null;
     public array $stateCities = [];
     public int $stateCityTotal = 0;
-    public bool $isSearching = false;
     public array $selectedCountry = [];
     public array $weatherPreview = [];
     public array $conflictingTrips = [];
@@ -277,16 +276,14 @@ class EditTrip extends Component
             return;
         }
 
-        $this->isSearching = true;
 
         try {
             $this->searchResults = $this->locationService->searchDestinations($query, $this->countryService);
         } catch (\Exception $e) {
             $this->searchResults = $this->emptySearchResults();
-            session()->flash('error', 'Failed to search destinations. Please try again.');
+            $this->dispatch('notify', type: 'error', message: 'Failed to search destinations. Please try again.');
         }
 
-        $this->isSearching = false;
     }
 
     /**
@@ -529,6 +526,7 @@ class EditTrip extends Component
         // Check for significant changes
         if ($this->hasSignificantChanges(['destination', 'countryCode', 'startDate', 'endDate'])) {
             $this->showConfirmation('You are making significant changes to your trip. This may affect related data like expenses and packing items. Continue?', 'update_trip');
+            $this->dispatch('trip-save-interrupted');
             return;
         }
 
@@ -574,6 +572,7 @@ class EditTrip extends Component
 
                 $this->addError('general', "You have conflicting trips: {$conflictList}. Please adjust your dates.");
                 $this->isUpdating = false;
+                $this->dispatch('trip-save-interrupted');
                 return;
             }
 
@@ -603,9 +602,14 @@ class EditTrip extends Component
             session()->flash('success', 'Trip updated successfully!');
             return $this->redirectRoute('trips.show', ['id' => $this->trip->id]);
 
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->isUpdating = false;
+            $this->dispatch('trip-save-interrupted');
+            throw $e;
         } catch (\Exception $e) {
             $this->addError('general', 'An error occurred while updating the trip. Please try again.');
             $this->isUpdating = false;
+            $this->dispatch('trip-save-interrupted');
         }
     }
 

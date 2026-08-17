@@ -92,7 +92,7 @@ class UserPreferences extends Component
             ]
         );
 
-        session()->flash('message', 'Preferences saved successfully.');
+        $this->dispatch('notify', type: 'success', message: 'Preferences saved successfully.');
     }
 
     public function render()

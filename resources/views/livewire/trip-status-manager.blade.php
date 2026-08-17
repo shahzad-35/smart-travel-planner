@@ -10,8 +10,8 @@
                     @foreach($availableTransitions as $status => $label)
                         <button
                             wire:click="confirmStatusChange('{{ $status }}')"
-                            class="inline-flex items-center px-4 py-2 bg-primary border border-transparent rounded-md font-semibold text-xs text-primary-foreground uppercase tracking-widest hover:bg-primary-dark focus:bg-primary-dark active:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer {{ $isUpdating ? 'opacity-50 cursor-not-allowed' : '' }}"
-                            {{ $isUpdating ? 'disabled' : '' }}
+                            class="inline-flex items-center px-4 py-2 bg-primary border border-transparent rounded-md font-semibold text-xs text-primary-foreground uppercase tracking-widest hover:bg-primary-dark focus:bg-primary-dark active:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition ease-in-out duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            wire:loading.attr="disabled" wire:target="executeStatusChange"
                         >
                             {{ $label }}
                         </button>
@@ -80,24 +80,18 @@
                         <button
                             wire:click="executeStatusChange"
                             type="button"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-primary-foreground hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:ml-3 sm:w-auto sm:text-sm cursor-pointer {{ $isUpdating ? 'opacity-50 cursor-not-allowed' : '' }}"
-                            {{ $isUpdating ? 'disabled' : '' }}
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-primary-foreground hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:ml-3 sm:w-auto sm:text-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            wire:loading.attr="disabled" wire:target="executeStatusChange"
                         >
-                            @if($isUpdating)
-                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary-foreground" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Updating...
-                            @else
-                                Confirm
-                            @endif
+                            <x-ui.spinner wire:loading wire:target="executeStatusChange" size="md" class="-ml-1 mr-3 text-primary-foreground" />
+                            <span wire:loading.remove wire:target="executeStatusChange">Confirm</span>
+                            <span wire:loading wire:target="executeStatusChange">Updating...</span>
                         </button>
                         <button
                             wire:click="cancelStatusChange"
                             type="button"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-border shadow-sm px-4 py-2 bg-surface-card text-base font-medium text-foreground hover:bg-surface-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer"
-                            {{ $isUpdating ? 'disabled' : '' }}
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-border shadow-sm px-4 py-2 bg-surface-card text-base font-medium text-foreground hover:bg-surface-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm cursor-pointer disabled:opacity-50"
+                            wire:loading.attr="disabled" wire:target="executeStatusChange"
                         >
                             Cancel
                         </button>

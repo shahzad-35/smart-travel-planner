@@ -38,7 +38,6 @@ class CreateTrip extends Component
     public ?int $expandedStateIndex = null;
     public array $stateCities = [];
     public int $stateCityTotal = 0;
-    public bool $isSearching = false;
     public array $selectedCountry = [];
     public array $weatherPreview = [];
     public array $conflictingTrips = [];
@@ -227,16 +226,14 @@ class CreateTrip extends Component
             return;
         }
 
-        $this->isSearching = true;
 
         try {
             $this->searchResults = $this->locationService->searchDestinations($query, $this->countryService);
         } catch (\Exception $e) {
             $this->searchResults = $this->emptySearchResults();
-            session()->flash('error', 'Failed to search destinations. Please try again.');
+            $this->dispatch('notify', type: 'error', message: 'Failed to search destinations. Please try again.');
         }
 
-        $this->isSearching = false;
     }
 
     /**
@@ -431,6 +428,8 @@ class CreateTrip extends Component
             foreach ($validator->errors()->all() as $error) {
                 $this->addError('general', $error);
             }
+            // Hide the client-side creation overlay — no redirect is coming.
+            $this->dispatch('trip-create-failed');
             return;
         }
 

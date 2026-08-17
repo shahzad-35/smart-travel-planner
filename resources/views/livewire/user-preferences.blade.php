@@ -1,21 +1,15 @@
 <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-foreground leading-tight">
+        <h2 class="section-title">
             {{ __('User Preferences') }}
         </h2>
     </x-slot>
 
     <div>
-        @if (session()->has('message'))
-            <div class="mb-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 px-4 py-3 rounded-lg relative" role="alert">
-                <span class="block sm:inline">{{ session('message') }}</span>
-            </div>
-        @endif
-
         <div class="md:grid md:grid-cols-3 md:gap-6">
             <div class="md:col-span-1">
                 <div class="px-4 sm:px-0">
-                    <h3 class="text-lg font-medium leading-6 text-foreground">General Settings</h3>
+                    <h3 class="section-title text-lg">General Settings</h3>
                     <p class="mt-1 text-sm text-foreground-muted mb-2">
                         Manage your general application settings.
                     </p>
@@ -30,7 +24,7 @@
                                 <label for="temperature_unit" class="block text-sm font-medium text-foreground">
                                     Temperature Unit
                                 </label>
-                                <select id="temperature_unit" wire:model="temperature_unit" class="mt-1 block w-full py-2 px-3 border border-border bg-surface-card text-foreground rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                <select id="temperature_unit" wire:model="temperature_unit" class="field mt-1 py-2.5 px-3 sm:text-sm">
                                     <option value="C">Celsius (°C)</option>
                                     <option value="F">Fahrenheit (°F)</option>
                                 </select>
@@ -44,7 +38,7 @@
                                 <label for="theme" class="block text-sm font-medium text-foreground">
                                     Theme
                                 </label>
-                                <select id="theme" wire:model="theme" class="mt-1 block w-full py-2 px-3 border border-border bg-surface-card text-foreground rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                <select id="theme" wire:model="theme" class="field mt-1 py-2.5 px-3 sm:text-sm">
                                     <option value="light">Light</option>
                                     <option value="dark">Dark</option>
                                     <option value="system">System</option>
@@ -59,7 +53,7 @@
                                 <label for="timezone" class="block text-sm font-medium text-foreground">
                                     Timezone
                                 </label>
-                                <select id="timezone" wire:model="timezone" class="mt-1 block w-full py-2 px-3 border border-border bg-surface-card text-foreground rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                <select id="timezone" wire:model="timezone" class="field mt-1 py-2.5 px-3 sm:text-sm">
                                     @foreach(timezone_identifiers_list() as $tz)
                                         <option value="{{ $tz }}">{{ $tz }}</option>
                                     @endforeach
@@ -92,7 +86,7 @@
                     <div class="px-4 py-5 space-y-6 sm:p-6">
                         <div class="flex gap-2">
                             <input type="text" wire:model="newItem" wire:keydown.enter="addPackingItem" placeholder="Add default item..." class="focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-border bg-surface-card text-foreground rounded-md">
-                            <button type="button" wire:click="addPackingItem" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-primary-foreground bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer">
+                            <button type="button" wire:click="addPackingItem" class="btn-primary px-4 py-2 text-sm">
                                 Add
                             </button>
                         </div>
@@ -167,7 +161,7 @@
                             <div class="mt-4 space-y-4">
                                 <div>
                                     <label for="profile_visibility" class="block text-sm font-medium text-foreground">Profile Visibility</label>
-                                    <select id="profile_visibility" wire:model="privacy_settings.profile_visibility" class="mt-1 block w-full py-2 px-3 border border-border bg-surface-card text-foreground rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                    <select id="profile_visibility" wire:model="privacy_settings.profile_visibility" class="field mt-1 py-2.5 px-3 sm:text-sm">
                                         <option value="public">Public</option>
                                         <option value="private">Private</option>
                                         <option value="friends">Friends Only</option>
@@ -175,7 +169,7 @@
                                 </div>
                                 <div>
                                     <label for="trip_sharing" class="block text-sm font-medium text-foreground">Default Trip Sharing</label>
-                                    <select id="trip_sharing" wire:model="privacy_settings.trip_sharing" class="mt-1 block w-full py-2 px-3 border border-border bg-surface-card text-foreground rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                    <select id="trip_sharing" wire:model="privacy_settings.trip_sharing" class="field mt-1 py-2.5 px-3 sm:text-sm">
                                         <option value="public">Public</option>
                                         <option value="private">Private</option>
                                         <option value="friends">Friends Only</option>
@@ -189,7 +183,8 @@
         </div>
 
         <div class="mt-8 flex justify-end">
-             <button type="button" wire:click="save" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer">
+             <button type="button" wire:click="save" wire:loading.attr="disabled" wire:target="save" class="btn-primary ml-3 px-5 py-2.5 text-sm disabled:opacity-60">
+                <x-ui.spinner wire:loading wire:target="save" size="xs" />
                 Save Preferences
             </button>
         </div>

@@ -14,7 +14,6 @@ class DestinationSearch extends Component
     public string $searchQuery = '';
     public array $searchResults = ['countries' => [], 'states' => [], 'cities' => []];
     public array $recentSearches = [];
-    public bool $isLoading = false;
     public bool $showRecentSearches = false;
     public string $selectedCountry = '';
     public ?int $expandedStateIndex = null;
@@ -109,7 +108,6 @@ class DestinationSearch extends Component
     {
         if (empty($this->searchQuery)) {
             $this->searchResults = $this->emptyResults();
-            $this->isLoading = false;
             $this->showRecentSearches = true;
             return;
         }
@@ -120,7 +118,6 @@ class DestinationSearch extends Component
         if (mb_strlen(trim($this->searchQuery)) > 3) {
             $this->performSearch(trim($this->searchQuery));
         } else {
-            $this->isLoading = false;
             $this->searchResults = $this->emptyResults();
         }
     }
@@ -132,18 +129,14 @@ class DestinationSearch extends Component
 
         if ($query == '') {
             $this->searchResults = $this->emptyResults();
-            $this->isLoading = false;
             return;
         }
 
         try {
-            $this->isLoading = true;
             $this->searchResults = $this->locationService->searchDestinations($query, $this->countryService);
-            $this->isLoading = false;
         } catch (\Exception $e) {
             $this->searchResults = $this->emptyResults();
-            $this->isLoading = false;
-            session()->flash('error', 'Failed to search destinations. Please try again.');
+            $this->dispatch('notify', type: 'error', message: 'Failed to search destinations. Please try again.');
         }
     }
 
@@ -155,7 +148,6 @@ class DestinationSearch extends Component
         }
 
         $this->showRecentSearches = false;
-        $this->isLoading = true;
         $this->performSearch($query);
     }
 
@@ -216,7 +208,6 @@ class DestinationSearch extends Component
     {
         $this->searchQuery = '';
         $this->searchResults = $this->emptyResults();
-        $this->isLoading = false;
         $this->showRecentSearches = true;
     }
 
@@ -229,7 +220,7 @@ class DestinationSearch extends Component
             } catch (\Throwable $e) {
             }
             $this->recentSearches = [];
-            session()->flash('success', 'Search history cleared successfully.');
+            $this->dispatch('notify', type: 'success', message: 'Search history cleared.');
         }
     }
 

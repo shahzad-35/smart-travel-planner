@@ -1,19 +1,12 @@
 <div class="w-full">
-    <!-- Page Header -->
-    <div class="mb-8">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-bold text-foreground mb-2">My Trips</h1>
-                <p class="text-foreground-muted">Manage and organize your travel adventures</p>
-            </div>
-            <a href="{{ route('trips.create') }}" class="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-dark font-medium transition-colors">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
-                Create Trip
-            </a>
-        </div>
-    </div>
+    <x-ui.page-header title="My Trips" subtitle="Manage and organize your travel adventures">
+        <a href="{{ route('trips.create') }}" wire:navigate class="btn-primary">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Create Trip
+        </a>
+    </x-ui.page-header>
 
     <!-- Filters and Search -->
     <div class="card p-6 mb-6">
@@ -23,7 +16,7 @@
                 <input
                     type="text"
                     wire:model.live.debounce.300ms="search"
-                    class="block w-full rounded-lg p-3 pl-10 border border-border bg-surface-card text-foreground focus:ring-2 focus:ring-primary focus:border-primary"
+                    class="field p-3 pl-10"
                     placeholder="Search trips by destination, type, or notes..."
                 >
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
@@ -39,7 +32,7 @@
             <!-- Status Filter -->
             <div>
                 <label class="block text-sm font-medium text-foreground mb-1">Status</label>
-                <select wire:model.live="statusFilter" class="block w-full rounded-lg p-2 border border-border bg-surface-card text-foreground focus:ring-2 focus:ring-primary focus:border-primary">
+                <select wire:model.live="statusFilter" class="field p-2.5">
                     @foreach($statusOptions as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
                     @endforeach
@@ -49,7 +42,7 @@
             <!-- Type Filter -->
             <div>
                 <label class="block text-sm font-medium text-foreground mb-1">Type</label>
-                <select wire:model.live="typeFilter" class="block w-full rounded-lg p-2 border border-border bg-surface-card text-foreground focus:ring-2 focus:ring-primary focus:border-primary">
+                <select wire:model.live="typeFilter" class="field p-2.5">
                     @foreach($typeOptions as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
                     @endforeach
@@ -62,7 +55,7 @@
                 <input
                     type="text"
                     wire:model.live.debounce.300ms="destinationFilter"
-                    class="block w-full rounded-lg p-2 border border-border bg-surface-card text-foreground focus:ring-2 focus:ring-primary focus:border-primary"
+                    class="field p-2.5"
                     placeholder="Filter by destination"
                 >
             </div>
@@ -73,7 +66,7 @@
                 <input
                     type="date"
                     wire:model.live="dateFrom"
-                    class="block w-full rounded-lg p-2 border border-border bg-surface-card text-foreground focus:ring-2 focus:ring-primary focus:border-primary"
+                    class="field p-2.5"
                 >
             </div>
 
@@ -83,7 +76,7 @@
                 <input
                     type="date"
                     wire:model.live="dateTo"
-                    class="block w-full rounded-lg p-2 border border-border bg-surface-card text-foreground focus:ring-2 focus:ring-primary focus:border-primary"
+                    class="field p-2.5"
                 >
             </div>
         </div>
@@ -92,7 +85,7 @@
         <div class="flex items-center justify-between">
             <button
                 wire:click="clearFilters"
-                class="inline-flex items-center px-3 py-2 text-sm text-foreground-muted hover:text-foreground border border-border rounded-lg hover:bg-surface-muted cursor-pointer"
+                class="btn-ghost px-3 py-2 text-sm text-foreground-muted"
             >
                 Clear Filters
             </button>
@@ -104,7 +97,7 @@
                     <button
                         wire:click="toggleViewMode"
                         class="p-2 rounded cursor-pointer {{ $viewMode === 'card' ? 'bg-surface-card shadow-sm text-foreground' : 'text-foreground-muted hover:text-foreground' }}"
-                        title="Card View"
+                        title="Card View" aria-label="Card view"
                     >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
@@ -113,7 +106,7 @@
                     <button
                         wire:click="toggleViewMode"
                         class="p-2 rounded cursor-pointer {{ $viewMode === 'list' ? 'bg-surface-card shadow-sm text-foreground' : 'text-foreground-muted hover:text-foreground' }}"
-                        title="List View"
+                        title="List View" aria-label="List view"
                     >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
@@ -128,14 +121,14 @@
     <div class="mb-4">
         <div class="flex items-center space-x-4">
             <span class="text-sm text-foreground-muted">Sort by:</span>
-            <select wire:model.live="sortBy" class="rounded-lg p-2 border border-border bg-surface-card text-foreground focus:ring-2 focus:ring-primary focus:border-primary">
+            <select wire:model.live="sortBy" class="field w-auto p-2.5">
                 @foreach($sortOptions as $value => $label)
                     <option value="{{ $value }}">{{ $label }}</option>
                 @endforeach
             </select>
             <button
                 wire:click="$set('sortDirection', '{{ $sortDirection === 'asc' ? 'desc' : 'asc' }}')"
-                class="p-2 text-foreground-muted hover:text-foreground border border-border rounded-lg hover:bg-surface-muted cursor-pointer"
+                class="btn-ghost p-2.5" aria-label="Toggle sort direction"
             >
                 @if($sortDirection === 'asc')
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,22 +143,48 @@
         </div>
     </div>
 
+    <!-- Results refresh indicator (filters, sort, pagination all re-query) -->
+    <div wire:loading.delay.flex class="mb-4 flex items-center gap-2 text-sm text-foreground-muted">
+        <x-ui.spinner size="xs" class="text-primary" />
+        Updating results…
+    </div>
+
     <!-- Trips Display -->
+    <div wire:loading.delay.class="opacity-40 pointer-events-none" class="transition-opacity duration-200">
     @if($trips->count() > 0)
         @if($viewMode === 'card')
             <!-- Card View -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 stagger-grid">
                 @foreach($trips as $trip)
-                    <div wire:key="card-{{ $trip->id }}" class="card card-hover p-6">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="flex-1">
-                                <h3 class="text-lg font-semibold text-foreground mb-1">{{ $trip->destination }}</h3>
-                                <p class="text-sm text-foreground-muted">{{ $trip->country_code }}</p>
+                    <a href="{{ route('trips.show', $trip->id) }}" wire:navigate wire:key="card-{{ $trip->id }}"
+                        class="card card-hover block group overflow-hidden hover:border-primary/40 transition-[border-color,box-shadow] duration-200">
+                        <!-- Destination cover: the country's flag as a cinematic backdrop -->
+                        <div class="relative h-28 overflow-hidden">
+                            @if($trip->country_code)
+                                <img src="https://flagcdn.com/w320/{{ strtolower($trip->country_code) }}.png" alt=""
+                                    aria-hidden="true"
+                                    class="absolute inset-0 w-full h-full object-cover scale-105 brightness-[0.75] saturate-[1.1] group-hover:scale-110 transition-transform duration-500"
+                                    loading="lazy">
+                            @else
+                                <div class="absolute inset-0 bg-gradient-to-br from-primary to-primary-dark"></div>
+                            @endif
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" aria-hidden="true"></div>
+                            <div class="absolute top-3 right-3 inline-flex rounded-full bg-white/90 dark:bg-black/60 backdrop-blur-sm shadow-sm">
+                                <x-status-badge :status="$trip->status" />
                             </div>
-                            <x-status-badge :status="$trip->status" />
+                            <div class="absolute bottom-3 left-4 right-4 flex items-center gap-3">
+                                @if($trip->country_code)
+                                    <img src="https://flagcdn.com/{{ strtolower($trip->country_code) }}.svg" alt="{{ $trip->country_code }} flag"
+                                        class="w-10 h-7 object-cover rounded-md shadow-lg ring-1 ring-white/30 shrink-0" loading="lazy">
+                                @endif
+                                <div class="min-w-0">
+                                    <h3 class="text-lg font-extrabold text-white drop-shadow-sm truncate leading-tight">{{ $trip->destination }}</h3>
+                                    <p class="text-xs font-semibold text-white/70 tracking-wider">{{ $trip->country_code }}</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="space-y-2 mb-4">
+                        <div class="space-y-2 p-5 pb-0 mb-4">
                             <div class="flex items-center text-sm text-foreground-muted">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -177,7 +196,7 @@
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                                 </svg>
-                                {{ ucfirst($trip->type) }}
+                                <span class="chip bg-secondary/10 text-secondary capitalize">{{ $trip->type }}</span>
                             </div>
 
                             @if($trip->budget)
@@ -185,25 +204,22 @@
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                                     </svg>
-                                    PKR {{ number_format($trip->budget, 0) }}
+                                    <span class="tabular-nums">PKR {{ number_format($trip->budget, 0) }}</span>
                                 </div>
                             @endif
                         </div>
 
                         @if($trip->notes)
-                            <p class="text-sm text-foreground-muted line-clamp-2">{{ Str::limit($trip->notes, 100) }}</p>
+                            <p class="text-sm text-foreground-muted line-clamp-2 px-5">{{ Str::limit($trip->notes, 100) }}</p>
                         @endif
 
-                        <div class="flex justify-end mt-4">
-                            <a href="{{ route('trips.show', $trip->id) }}" class="inline-flex items-center px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-dark text-sm font-medium transition-colors">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                </svg>
-                                View Details
-                            </a>
+                        <div class="flex items-center justify-end gap-1 mt-4 px-5 py-4 border-t border-border text-sm font-semibold text-primary">
+                            View details
+                            <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         @else
@@ -270,11 +286,13 @@
         </div>
     @else
         <!-- Empty State -->
-        <div class="card p-12 text-center">
-            <svg class="mx-auto h-12 w-12 text-foreground-subtle mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-            </svg>
-            <h3 class="text-lg font-medium text-foreground mb-2">No trips found</h3>
+        <div class="card aurora-bg p-12 text-center">
+            <div class="w-16 h-16 mx-auto mb-5 bg-primary/10 rounded-2xl flex items-center justify-center">
+                <svg class="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-foreground mb-2">No trips found</h3>
             <p class="text-foreground-muted mb-6">
                 @if($search || $statusFilter || $typeFilter || $destinationFilter || $dateFrom || $dateTo)
                     Try adjusting your filters or search terms.
@@ -282,12 +300,13 @@
                     Get started by creating your first trip.
                 @endif
             </p>
-            <a href="{{ route('trips.create') }}" class="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-dark font-medium transition-colors">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('trips.create') }}" wire:navigate class="btn-primary">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
                 Create Your First Trip
             </a>
         </div>
     @endif
+    </div>
 </div>

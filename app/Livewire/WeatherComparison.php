@@ -13,7 +13,6 @@ class WeatherComparison extends Component
     public array $locations = [];
     public string $units = 'metric';
     public string $newLocation = '';
-    public bool $isLoading = false;
     /** @var array<string, string> */
     public array $errorsByLocation = [];
     /** @var array<string, array<string, mixed>|null> */
@@ -83,7 +82,6 @@ class WeatherComparison extends Component
 
     public function loadCurrent(): void
     {
-        $this->isLoading = true;
         $this->currentByLocation = [];
         $this->errorsByLocation = [];
         foreach ($this->locations as $loc) {
@@ -95,7 +93,6 @@ class WeatherComparison extends Component
                 $this->errorsByLocation[$loc] = 'Failed to load weather.';
             }
         }
-        $this->isLoading = false;
     }
 
     public function updateUnits(string $unit): void

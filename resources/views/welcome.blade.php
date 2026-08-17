@@ -17,11 +17,104 @@
         </script>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            /* ===== Morph hero (ported from 21st.dev "Scroll Morph Hero") ===== */
+            #mhCards { perspective: 1000px; }
+            .mh-card {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 64px;
+                height: 90px;
+                margin-left: -32px;
+                margin-top: -45px;
+                will-change: transform, opacity;
+                cursor: pointer;
+            }
+            .mh-flip {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transform-style: preserve-3d;
+                transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+            }
+            .mh-card:hover .mh-flip { transform: rotateY(180deg); }
+            .mh-face {
+                position: absolute;
+                inset: 0;
+                border-radius: 0.75rem;
+                overflow: hidden;
+                backface-visibility: hidden;
+                box-shadow: 0 8px 20px -6px rgba(0,0,0,0.35);
+            }
+            .mh-face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+            .mh-face--front::after {
+                content: '';
+                position: absolute; inset: 0;
+                background: rgba(0,0,0,0.12);
+                transition: background 0.3s;
+            }
+            .mh-card:hover .mh-face--front::after { background: transparent; }
+            .mh-face--back {
+                transform: rotateY(180deg);
+                background: var(--color-card);
+                border: 1px solid var(--color-border-strong);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 6px;
+            }
+            .mh-back-label { font-size: 10px; font-weight: 700; color: var(--color-primary); line-height: 1.25; }
+
+            #mhIntro, #mhArcContent { transition: none; will-change: opacity, transform; }
+            .mh-noevents { pointer-events: none !important; }
+
+            /* Reduced motion / no-JS fallback: simple static strip */
+            .mh-static #mhCards { display: none; }
+            .mh-static #mhIntro { opacity: 1 !important; transform: none !important; }
+
+            /* Mobile: text sits above a self-rotating bottom arc */
+            @media (max-width: 767px) {
+                #mhIntro { justify-content: flex-start; padding-top: 2.5rem; }
+                #mhHint { display: none; }
+            }
+
+            /* ===== Destination marquee ===== */
+            .marquee {
+                overflow: hidden;
+                -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+                mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+            }
+            .marquee-track {
+                display: flex;
+                gap: 1rem;
+                width: max-content;
+                animation: marquee-scroll 45s linear infinite;
+            }
+            .marquee:hover .marquee-track { animation-play-state: paused; }
+            @keyframes marquee-scroll {
+                from { transform: translateX(0); }
+                to   { transform: translateX(-50%); }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .marquee-track { animation: none; }
+                .marquee { -webkit-mask-image: none; mask-image: none; overflow-x: auto; }
+            }
+
+            /* ===== Scroll reveal ===== */
+            .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+            .reveal.revealed { opacity: 1; transform: none; }
+            @media (prefers-reduced-motion: reduce) {
+                .reveal { opacity: 1; transform: none; transition: none; }
+            }
+        </style>
     </head>
     <body class="antialiased font-sans bg-surface text-foreground theme-transition">
         <div class="min-h-screen flex flex-col">
             <!-- Navigation -->
-            <nav class="relative z-10 px-6 py-4">
+            <nav class="relative z-20 px-6 py-4 bg-surface/80 backdrop-blur-md">
                 <div class="max-w-7xl mx-auto flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <x-application-logo class="h-10 w-10 text-primary" />
@@ -46,52 +139,104 @@
                 </div>
             </nav>
 
-            <!-- Hero Section -->
-            <section class="relative flex-1 flex items-center overflow-hidden">
-                <!-- Background Gradient -->
-                <div class="absolute inset-0 bg-gradient-to-br from-teal-600 via-teal-500 to-emerald-400 dark:from-teal-950 dark:via-teal-900 dark:to-emerald-950"></div>
+            @php
+                $heroCards = [
+                    ['img' => 'h1.jpg',  'name' => 'Paris'],
+                    ['img' => 'h2.jpg',  'name' => 'Yosemite'],
+                    ['img' => 'h3.jpg',  'name' => 'Highlands'],
+                    ['img' => 'h4.jpg',  'name' => 'Black Forest'],
+                    ['img' => 'h5.jpg',  'name' => 'Ireland'],
+                    ['img' => 'h6.jpg',  'name' => 'Amalfi Coast'],
+                    ['img' => 'h7.jpg',  'name' => 'Stonehenge'],
+                    ['img' => 'h8.jpg',  'name' => 'Dubai'],
+                    ['img' => 'h9.jpg',  'name' => 'Tuscany'],
+                    ['img' => 'h10.jpg', 'name' => 'Serengeti'],
+                    ['img' => 'h11.jpg', 'name' => 'Banff'],
+                    ['img' => 'h12.jpg', 'name' => 'Bavaria'],
+                    ['img' => 'h13.jpg', 'name' => 'Rio de Janeiro'],
+                    ['img' => 'h14.jpg', 'name' => 'Borneo'],
+                    ['img' => 'h15.jpg', 'name' => 'Kyoto'],
+                    ['img' => 'h16.jpg', 'name' => 'Shanghai'],
+                ];
+            @endphp
 
-                <!-- Decorative Elements -->
-                <div class="absolute inset-0 overflow-hidden">
-                    <svg class="absolute -top-10 -right-10 w-96 h-96 text-white/10" viewBox="0 0 200 200" fill="currentColor">
-                        <circle cx="100" cy="100" r="80"/>
-                    </svg>
-                    <svg class="absolute bottom-0 left-0 w-64 h-64 text-white/5" viewBox="0 0 200 200" fill="currentColor">
-                        <polygon points="100,10 40,198 190,78 10,78 160,198"/>
-                    </svg>
-                    <svg class="absolute top-1/3 left-1/4 w-48 h-48 text-white/5" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="50" cy="50" r="45"/>
-                        <line x1="50" y1="5" x2="50" y2="95"/>
-                        <line x1="5" y1="50" x2="95" y2="50"/>
-                        <ellipse cx="50" cy="50" rx="20" ry="45"/>
-                    </svg>
+            <!-- ===== Morph Hero ===== -->
+            <section id="morphHero" class="relative bg-surface overflow-hidden select-none"
+                style="height: calc(100vh - 4.5rem); min-height: 640px;">
+
+                <!-- Cards -->
+                <div id="mhCards" class="absolute inset-0 z-0">
+                    @foreach($heroCards as $i => $card)
+                        <div class="mh-card" data-i="{{ $i }}" style="opacity: 0">
+                            <div class="mh-flip">
+                                <div class="mh-face mh-face--front">
+                                    <img src="{{ asset('images/hero/' . $card['img']) }}" alt="{{ $card['name'] }}" loading="eager" draggable="false">
+                                </div>
+                                <div class="mh-face mh-face--back">
+                                    <span class="mh-back-label">{{ $card['name'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
 
-                <div class="relative max-w-7xl mx-auto px-6 py-24 sm:py-32 lg:py-40 w-full">
-                    <div class="max-w-2xl">
-                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                            Plan Your
-                            <span class="text-amber-300">Perfect Journey</span>
-                        </h1>
-                        <p class="mt-6 text-lg sm:text-xl text-teal-50/90 leading-relaxed">
-                            Organize trips, track weather forecasts, discover destinations, and pack smart — all in one place.
-                        </p>
-                        <div class="mt-10 flex flex-col sm:flex-row gap-4">
-                            @auth
-                                <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-teal-700 rounded-xl font-semibold text-lg hover:bg-teal-50 transition-colors shadow-lg cursor-pointer">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                                    Go to Dashboard
-                                </a>
-                            @else
-                                <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white text-teal-700 rounded-xl font-semibold text-lg hover:bg-teal-50 transition-colors shadow-lg cursor-pointer">
-                                    Get Started Free
-                                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                                </a>
-                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-white/10 text-white border border-white/30 rounded-xl font-semibold text-lg hover:bg-white/20 transition-colors backdrop-blur-sm cursor-pointer">
-                                    Sign In
-                                </a>
-                            @endauth
-                        </div>
+                <!-- Center intro content (circle phase) -->
+                <div id="mhIntro" class="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
+                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Weather-aware trip planning
+                    </span>
+                    <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.08] tracking-tight max-w-2xl" style="text-wrap: balance">
+                        Plan your
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-light to-accent">perfect journey</span>
+                    </h1>
+                    <p class="mt-5 text-lg sm:text-xl text-foreground-muted leading-relaxed max-w-xl">
+                        Organize trips, track forecasts, discover destinations, and pack smart — all in one place.
+                    </p>
+                    <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                        @auth
+                            <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold text-lg hover:bg-primary-dark transition-colors shadow-lg shadow-primary/25 cursor-pointer focus-ring">
+                                Go to Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold text-lg hover:bg-primary-dark transition-colors shadow-lg shadow-primary/25 cursor-pointer focus-ring">
+                                Get Started Free
+                            </a>
+                            <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-surface-card/70 text-foreground border border-border-strong rounded-xl font-semibold text-lg hover:bg-surface-card transition-colors backdrop-blur-sm cursor-pointer focus-ring">
+                                Sign In
+                            </a>
+                        @endauth
+                    </div>
+                    <p id="mhHint" class="mt-10 text-[11px] font-bold tracking-[0.25em] text-foreground-subtle uppercase">Scroll to explore</p>
+                </div>
+
+                <!-- Arc-phase content (fades in after morph) -->
+                <div id="mhArcContent" class="mh-noevents absolute top-[8%] inset-x-0 z-10 flex flex-col items-center text-center px-6" style="opacity: 0">
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight mb-4" style="text-wrap: balance">
+                        The world, <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">organized</span>
+                    </h2>
+                    <p class="text-sm md:text-base text-foreground-muted max-w-lg leading-relaxed mb-6">
+                        250 countries · 153,000 cities · live forecasts and holidays for every trip window — with a packing list that writes itself.
+                    </p>
+                    <a href="{{ Route::has('register') && !auth()->check() ? route('register') : route('dashboard') }}"
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary-dark transition-colors shadow-lg shadow-primary/25 cursor-pointer">
+                        Start planning
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ===== Destination marquee ===== -->
+            <section class="py-10 bg-surface-card dark:bg-surface border-y border-border overflow-hidden">
+                <div class="marquee" aria-label="Popular destinations">
+                    <div class="marquee-track">
+                        @foreach(array_merge($heroCards, $heroCards) as $card)
+                            <div class="flex items-center gap-3 shrink-0 pl-2 pr-5 py-2 rounded-full bg-surface dark:bg-surface-muted border border-border">
+                                <img src="{{ asset('images/hero/' . $card['img']) }}" alt="" aria-hidden="true"
+                                    class="w-9 h-9 rounded-full object-cover" loading="lazy" draggable="false">
+                                <span class="text-sm font-semibold text-foreground whitespace-nowrap">{{ $card['name'] }}</span>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </section>
@@ -99,43 +244,59 @@
             <!-- Features Section -->
             <section class="py-20 px-6 bg-surface-card dark:bg-surface">
                 <div class="max-w-7xl mx-auto">
-                    <div class="text-center mb-16">
-                        <h2 class="text-3xl sm:text-4xl font-bold text-foreground">Everything You Need to Travel Smart</h2>
+                    <div class="text-center mb-14 reveal">
+                        <h2 class="text-3xl sm:text-4xl font-bold text-foreground tracking-tight">Everything you need to travel smart</h2>
                         <p class="mt-4 text-lg text-foreground-muted max-w-2xl mx-auto">Plan, organize, and enjoy your trips with powerful tools designed for modern travelers.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Weather Forecasts -->
-                        <div class="card card-hover p-8 text-center">
-                            <div class="w-16 h-16 mx-auto mb-6 bg-primary/10 rounded-2xl flex items-center justify-center">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        <div class="card card-hover p-8 group reveal">
+                            <div class="w-12 h-12 mb-5 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform duration-200">
+                                <svg class="w-6 h-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-foreground mb-3">Weather Forecasts</h3>
-                            <p class="text-foreground-muted">Check real-time weather and 7-day forecasts for any destination before you travel.</p>
+                            <h3 class="text-lg font-bold text-foreground mb-2">Weather Forecasts</h3>
+                            <p class="text-foreground-muted leading-relaxed">Real-time conditions and multi-day forecasts for any destination — compared side by side, in your preferred unit.</p>
                         </div>
 
                         <!-- Smart Packing -->
-                        <div class="card card-hover p-8 text-center">
-                            <div class="w-16 h-16 mx-auto mb-6 bg-accent/10 rounded-2xl flex items-center justify-center">
-                                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="card card-hover p-8 group reveal" style="transition-delay: 90ms">
+                            <div class="w-12 h-12 mb-5 bg-gradient-to-br from-accent to-accent-light rounded-xl flex items-center justify-center shadow-lg shadow-accent/20 group-hover:scale-105 transition-transform duration-200">
+                                <svg class="w-6 h-6 text-accent-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-foreground mb-3">Smart Packing Lists</h3>
-                            <p class="text-foreground-muted">Auto-generated packing checklists based on your destination, weather, and trip type.</p>
+                            <h3 class="text-lg font-bold text-foreground mb-2">Smart Packing Lists</h3>
+                            <p class="text-foreground-muted leading-relaxed">Checklists generated automatically from your destination's forecast — shareable with anyone, no account needed.</p>
                         </div>
 
                         <!-- Destination Discovery -->
-                        <div class="card card-hover p-8 text-center">
-                            <div class="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
-                                <svg class="w-8 h-8 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="card card-hover p-8 group reveal" style="transition-delay: 180ms">
+                            <div class="w-12 h-12 mb-5 bg-gradient-to-br from-secondary to-primary rounded-xl flex items-center justify-center shadow-lg shadow-secondary/20 group-hover:scale-105 transition-transform duration-200">
+                                <svg class="w-6 h-6 text-secondary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-foreground mb-3">Discover Destinations</h3>
-                            <p class="text-foreground-muted">Explore countries, learn about cultures, holidays, and find your next adventure.</p>
+                            <h3 class="text-lg font-bold text-foreground mb-2">Discover Destinations</h3>
+                            <p class="text-foreground-muted leading-relaxed">Search countries, provinces, and 153,000 cities. Explore cultures, currencies, and public holidays.</p>
+                        </div>
+                    </div>
+
+                    <!-- Screenshot showcase -->
+                    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="rounded-2xl border border-border shadow-card overflow-hidden bg-surface-card reveal">
+                            <img src="{{ asset('images/showcase/screenshot-destination-search.png') }}"
+                                alt="Destination search with a province expanded into its major cities"
+                                class="w-full" loading="lazy">
+                            <p class="px-5 py-3 text-sm text-foreground-muted border-t border-border">Search any level — provinces expand into their major cities.</p>
+                        </div>
+                        <div class="rounded-2xl border border-border shadow-card overflow-hidden bg-surface-card reveal" style="transition-delay: 120ms">
+                            <img src="{{ asset('images/showcase/screenshot-trip-wizard-search.png') }}"
+                                alt="Trip creation wizard with destination search"
+                                class="w-full" loading="lazy">
+                            <p class="px-5 py-3 text-sm text-foreground-muted border-t border-border">A four-step wizard with live weather previews for your destination.</p>
                         </div>
                     </div>
                 </div>
@@ -150,5 +311,213 @@
                 </div>
             </footer>
         </div>
+
+        <script>
+        (() => {
+            'use strict';
+            const hero = document.getElementById('morphHero');
+            if (!hero) return;
+
+            const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const cards = [...hero.querySelectorAll('.mh-card')];
+            const intro = document.getElementById('mhIntro');
+            const arcContent = document.getElementById('mhArcContent');
+            const TOTAL = cards.length;
+            const MAX_SCROLL = 2200;
+            const MORPH_END = 600;
+
+            if (reduced || TOTAL === 0) {
+                hero.classList.add('mh-static');
+                hero.style.height = 'auto';
+                hero.style.minHeight = '0';
+                intro.style.position = 'relative';
+                intro.style.padding = '5rem 1.5rem';
+                return;
+            }
+
+            // --- state ---
+            const mobileMode = window.matchMedia('(max-width: 767px)').matches;
+            let phase = 'scatter';            // scatter -> line -> circle
+            let virtual = 0;                  // virtual scroll 0..MAX_SCROLL
+            let morphS = 0, rotateS = 0, parallaxS = 0; // smoothed values
+            let W = hero.offsetWidth, H = hero.offsetHeight;
+            let parallaxTarget = 0;
+
+            // per-card eased state
+            const st = cards.map(() => ({
+                x: (Math.random() - 0.5) * 1500,
+                y: (Math.random() - 0.5) * 1000,
+                r: (Math.random() - 0.5) * 180,
+                s: 0.6,
+                o: 0,
+            }));
+
+            new ResizeObserver((entries) => {
+                for (const e of entries) { W = e.contentRect.width; H = e.contentRect.height; }
+            }).observe(hero);
+
+            // --- intro sequence (scatter -> line -> circle) ---
+            setTimeout(() => { phase = 'line'; }, 500);
+            setTimeout(() => { phase = 'circle'; }, 2300);
+
+            // --- virtual scroll: hijack only while the hero dominates the viewport
+            //     (its top may sit below the fixed nav), release at both ends so
+            //     the page keeps scrolling naturally ---
+            const heroInView = () => {
+                const r = hero.getBoundingClientRect();
+                return r.top > -64 && r.top < 160;
+            };
+
+            hero.addEventListener('wheel', (e) => {
+                if (mobileMode || phase !== 'circle' || !heroInView()) return;
+                const dy = e.deltaY;
+                if ((virtual >= MAX_SCROLL && dy > 0) || (virtual <= 0 && dy < 0)) return; // release
+                e.preventDefault();
+                virtual = Math.min(Math.max(virtual + dy, 0), MAX_SCROLL);
+            }, { passive: false });
+
+            let touchY = 0;
+            hero.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+            hero.addEventListener('touchmove', (e) => {
+                if (mobileMode || phase !== 'circle' || !heroInView()) return;
+                const y = e.touches[0].clientY;
+                const dy = touchY - y;
+                touchY = y;
+                if ((virtual >= MAX_SCROLL && dy > 0) || (virtual <= 0 && dy < 0)) return;
+                e.preventDefault();
+                virtual = Math.min(Math.max(virtual + dy * 2, 0), MAX_SCROLL);
+            }, { passive: false });
+
+            hero.addEventListener('mousemove', (e) => {
+                const rect = hero.getBoundingClientRect();
+                const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                parallaxTarget = nx * 100;
+            });
+
+            // Returning to the very top of the page (scrollbar, keyboard,
+            // momentum — paths the hero's own wheel handler never sees)
+            // unwinds the morph so the cards settle back into the original
+            // circle. During the wheel-hijack the page is pinned at 0 and no
+            // scroll events fire, so this cannot fight the forward animation.
+            let lastY = window.scrollY;
+            window.addEventListener('scroll', () => {
+                const y = window.scrollY;
+                if (y <= 2 && lastY > 2 && !mobileMode && phase === 'circle') {
+                    virtual = 0; // smoothing lerps the cards home
+                }
+                lastY = y;
+            }, { passive: true });
+
+            const lerp = (a, b, t) => a * (1 - t) + b * t;
+
+            // --- render loop ---
+            const tick = () => {
+                // Mobile: no scroll hijack — cards settle into the bottom arc and
+                // drift back and forth on their own; the intro text stays put.
+                const morphTarget = mobileMode
+                    ? (phase === 'circle' ? 1 : 0)
+                    : Math.min(Math.max(virtual / MORPH_END, 0), 1);
+                const scrollProgress = mobileMode
+                    ? 0.5 + Math.sin(performance.now() / 5000) * 0.4
+                    : Math.min(Math.max((virtual - MORPH_END) / (MAX_SCROLL - MORPH_END), 0), 1);
+                morphS += (morphTarget - morphS) * 0.07;
+                rotateS += (scrollProgress - rotateS) * 0.07;
+                parallaxS += (parallaxTarget - parallaxS) * 0.06;
+
+                const isMobile = W < 768;
+                const minDim = Math.min(W, H);
+                const circleRadius = Math.min(minDim * 0.36, 350);
+                const baseRadius = Math.min(W, H * 1.5);
+                const arcRadius = baseRadius * (isMobile ? 1.4 : 1.1);
+                const arcApexY = H * (isMobile ? 0.72 : 0.25) - H / 2; // relative to center
+                const arcCenterY = arcApexY + arcRadius;
+                const spread = isMobile ? 100 : 130;
+                const startAngle = -90 - spread / 2;
+                const step = spread / (TOTAL - 1);
+                // Desktop sweeps one way with scroll; mobile oscillates around center
+                const boundedRotation = isMobile
+                    ? (rotateS - 0.5) * spread * 0.5
+                    : -rotateS * spread * 0.8;
+
+                for (let i = 0; i < TOTAL; i++) {
+                    const s = st[i];
+                    let tx, ty, tr, tsc, top;
+
+                    if (phase === 'scatter') {
+                        tx = s.x; ty = s.y; tr = s.r; tsc = 0.6; top = 0;
+                        // keep scatter targets as-is (cards stay hidden/scattered)
+                    } else if (phase === 'line') {
+                        const spacing = Math.min(74, (W - 80) / TOTAL);
+                        tx = i * spacing - (TOTAL * spacing) / 2;
+                        ty = 0; tr = 0; tsc = 1; top = 1;
+                    } else {
+                        // circle position
+                        const cAng = (i / TOTAL) * 360;
+                        const cRad = (cAng * Math.PI) / 180;
+                        const cx = Math.cos(cRad) * circleRadius;
+                        const cy = Math.sin(cRad) * circleRadius;
+                        const crot = cAng + 90;
+                        // arc position
+                        const aAng = startAngle + i * step + boundedRotation;
+                        const aRad = (aAng * Math.PI) / 180;
+                        const ax = Math.cos(aRad) * arcRadius + parallaxS;
+                        const ay = Math.sin(aRad) * arcRadius + arcCenterY;
+                        const arot = aAng + 90;
+                        const asc = isMobile ? 1.4 : 1.8;
+
+                        tx = lerp(cx, ax, morphS);
+                        ty = lerp(cy, ay, morphS);
+                        tr = lerp(crot, arot, morphS);
+                        tsc = lerp(1, asc, morphS);
+                        top = 1;
+                    }
+
+                    // ease toward target (spring-ish)
+                    s.x += (tx - s.x) * 0.085;
+                    s.y += (ty - s.y) * 0.085;
+                    s.r += (tr - s.r) * 0.085;
+                    s.s += (tsc - s.s) * 0.085;
+                    s.o += (top - s.o) * 0.085;
+
+                    cards[i].style.transform = `translate(${s.x}px, ${s.y}px) rotate(${s.r}deg) scale(${s.s})`;
+                    cards[i].style.opacity = s.o.toFixed(3);
+                }
+
+                // content cross-fade (desktop only — mobile keeps the intro text)
+                if (!mobileMode) {
+                    const introOp = Math.max(0, 1 - morphS * 2);
+                    intro.style.opacity = introOp.toFixed(3);
+                    intro.style.transform = `translateY(${-morphS * 30}px)`;
+                    intro.classList.toggle('mh-noevents', introOp < 0.35);
+
+                    const arcOp = Math.min(Math.max((morphS - 0.8) / 0.2, 0), 1);
+                    arcContent.style.opacity = arcOp.toFixed(3);
+                    arcContent.style.transform = `translateY(${(1 - arcOp) * 20}px)`;
+                    arcContent.classList.toggle('mh-noevents', arcOp < 0.5);
+                }
+
+                requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        })();
+
+        // Scroll-triggered reveals
+        (() => {
+            const els = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                els.forEach((el) => el.classList.add('revealed'));
+                return;
+            }
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            els.forEach((el) => io.observe(el));
+        })();
+        </script>
     </body>
 </html>

@@ -24,9 +24,14 @@ class TravelStats extends Component
         $userId = Auth::id();
         $cacheKey = "user_{$userId}_travel_stats";
 
-        $this->stats = Cache::remember($cacheKey, 3600, function () use ($userId) {
-            return $this->calculateStats($userId);
-        });
+        try {
+            $this->stats = Cache::remember($cacheKey, 3600, function () use ($userId) {
+                return $this->calculateStats($userId);
+            });
+        } catch (\Throwable $e) {
+            // Cache store unreachable (e.g. Redis container down) — compute directly
+            $this->stats = $this->calculateStats($userId);
+        }
     }
 
     private function calculateStats($userId)
@@ -120,6 +125,11 @@ class TravelStats extends Component
         Cache::forget("user_" . Auth::id() . "_travel_stats");
         $this->loadStats();
         $this->dispatch('stats-refreshed', stats: $this->stats);
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.stats');
     }
 
     public function render()

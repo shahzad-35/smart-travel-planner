@@ -32,6 +32,31 @@ class TripDashboard extends Component
     }
 
     /**
+     * Packing readiness for the next upcoming trip (fast, DB-only)
+     */
+    public function getNextTripReadinessProperty(): ?array
+    {
+        $next = $this->upcomingTrips->first();
+        if (!$next) {
+            return null;
+        }
+
+        $counts = \App\Models\PackingItem::where('trip_id', $next->id)
+            ->selectRaw('COUNT(*) as total, SUM(is_packed) as packed')
+            ->first();
+
+        $total = (int) ($counts->total ?? 0);
+        $packed = (int) ($counts->packed ?? 0);
+
+        return [
+            'trip' => $next,
+            'total' => $total,
+            'packed' => $packed,
+            'percent' => $total > 0 ? (int) round($packed / $total * 100) : 0,
+        ];
+    }
+
+    /**
      * Quick action: Create new trip
      */
     public function createTrip()

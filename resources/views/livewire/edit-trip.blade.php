@@ -1,7 +1,10 @@
-<div class="w-full max-w-4xl mx-auto">
+<div class="w-full max-w-4xl mx-auto"
+     x-data="{ saving: false }"
+     x-on:trip-save-interrupted.window="saving = false"
+     x-on:livewire-request-failed.window="saving = false">
     <!-- Page Header -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-foreground mb-2">Edit Trip</h1>
+        <h1 class="page-title mb-1.5">Edit Trip</h1>
         <p class="text-foreground-muted">Update your trip details and preferences</p>
     </div>
 
@@ -11,7 +14,7 @@
             <!-- Step 1: Destination -->
             <div class="flex items-center flex-1">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 1 ? 'bg-primary text-primary-foreground' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
+                    class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 {{ $currentStep >= 1 ? 'bg-primary text-primary-foreground shadow-lg ring-4 ring-primary/15' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
                     @if($currentStep > 1)
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -25,12 +28,12 @@
                         Destination</p>
                 </div>
             </div>
-            <div class="flex-1 h-1 mx-2 {{ $currentStep > 1 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
+            <div class="flex-1 h-0.5 rounded-full mx-2 transition-colors duration-300 {{ $currentStep > 1 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
 
             <!-- Step 2: Dates -->
             <div class="flex items-center flex-1">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 2 ? 'bg-primary text-primary-foreground' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
+                    class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 {{ $currentStep >= 2 ? 'bg-primary text-primary-foreground shadow-lg ring-4 ring-primary/15' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
                     @if($currentStep > 2)
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -44,12 +47,12 @@
                     </p>
                 </div>
             </div>
-            <div class="flex-1 h-1 mx-2 {{ $currentStep > 2 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
+            <div class="flex-1 h-0.5 rounded-full mx-2 transition-colors duration-300 {{ $currentStep > 2 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
 
             <!-- Step 3: Details -->
             <div class="flex items-center flex-1">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 3 ? 'bg-primary text-primary-foreground' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
+                    class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 {{ $currentStep >= 3 ? 'bg-primary text-primary-foreground shadow-lg ring-4 ring-primary/15' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
                     @if($currentStep > 3)
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -63,12 +66,12 @@
                     </p>
                 </div>
             </div>
-            <div class="flex-1 h-1 mx-2 {{ $currentStep > 3 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
+            <div class="flex-1 h-0.5 rounded-full mx-2 transition-colors duration-300 {{ $currentStep > 3 ? 'bg-primary' : 'bg-surface-muted dark:bg-surface' }}"></div>
 
             <!-- Step 4: Confirm -->
             <div class="flex items-center flex-1">
                 <div
-                    class="flex items-center justify-center w-10 h-10 rounded-full {{ $currentStep >= 4 ? 'bg-primary text-primary-foreground' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
+                    class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 {{ $currentStep >= 4 ? 'bg-primary text-primary-foreground shadow-lg ring-4 ring-primary/15' : 'bg-surface-muted dark:bg-surface text-foreground-muted' }} font-semibold">
                     4
                 </div>
                 <div class="ml-3 hidden sm:block">
@@ -80,54 +83,32 @@
     </div>
 
     <!-- Flash Messages -->
-    @if (session()->has('success'))
-    <div class="mb-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 px-4 py-3 rounded-lg">
-        {{ session('success') }}
-    </div>
-    @endif
-
-    @if (session()->has('error'))
-    <div class="mb-6 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300">
-        {{ session('error') }}
-    </div>
-    @endif
-
     @if ($errors->any())
-    <div class="mb-6 px-4 py-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300">
-        <ul class="list-disc list-inside">
+    <x-ui.alert variant="error" class="mb-6">
+        <ul class="list-disc list-inside space-y-0.5">
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
             @endforeach
         </ul>
-    </div>
+    </x-ui.alert>
     @endif
 
     <!-- Confirmation Modal -->
-    @if($showConfirmationModal)
-    <div class="fixed inset-0 bg-black/50 dark:bg-black/70 overflow-y-auto h-full w-full z-50" id="confirmation-modal">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-surface-card">
-            <div class="mt-3 text-center">
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 dark:bg-amber-900/30">
-                    <svg class="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-lg leading-6 font-medium text-foreground mt-4">Confirm Changes</h3>
-                <div class="mt-2 px-7 py-3">
-                    <p class="text-sm text-foreground-subtle">{{ $confirmationMessage }}</p>
-                </div>
-                <div class="flex items-center px-4 py-3 space-x-4">
-                    <button wire:click="cancelAction" class="flex-1 bg-surface-muted hover:bg-border text-foreground font-bold py-2 px-4 rounded cursor-pointer">
-                        Cancel
-                    </button>
-                    <button wire:click="confirmAction" class="flex-1 bg-primary hover:bg-primary-dark text-primary-foreground font-bold py-2 px-4 rounded cursor-pointer">
-                        Confirm
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
+    <x-ui.modal :show="$showConfirmationModal" title="Confirm Changes" max-width="sm">
+        <x-slot name="icon">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+        </x-slot>
+        <p class="text-sm text-foreground-muted text-center">{{ $confirmationMessage }}</p>
+        <x-slot name="footer">
+            <button wire:click="cancelAction" class="btn-ghost flex-1 text-sm" wire:loading.attr="disabled" wire:target="confirmAction">Cancel</button>
+            <button wire:click="confirmAction" @if($pendingAction === 'update_trip') x-on:click="saving = true" @endif class="btn-primary flex-1 text-sm inline-flex items-center justify-center gap-2" wire:loading.attr="disabled" wire:target="confirmAction">
+                <x-ui.spinner wire:loading wire:target="confirmAction" size="xs" />
+                Confirm
+            </button>
+        </x-slot>
+    </x-ui.modal>
 
     <!-- Form Card -->
     <div class="bg-surface-card rounded-2xl shadow-card border border-border p-6 md:p-8">
@@ -135,7 +116,7 @@
         @if($currentStep === 1)
         <div wire:key="edit-step-1" class="space-y-6">
             <div>
-                <h2 class="text-2xl font-bold text-foreground mb-2">Where are you going?</h2>
+                <h2 class="text-2xl font-extrabold tracking-tight text-foreground mb-2">Where are you going?</h2>
                 <p class="text-foreground-muted">Search for your destination</p>
             </div>
 
@@ -145,20 +126,24 @@
                     class="block w-full rounded-xl p-4 border border-border focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="Search for countries or cities..." autocomplete="off">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                    @if($isSearching)
-                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-                    @else
-                    <svg class="h-5 w-5 text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <x-ui.spinner wire:loading.delay wire:target="destination, searchDestinations" size="md" class="text-primary" />
+                    <svg wire:loading.remove.delay wire:target="destination, searchDestinations" class="h-5 w-5 text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
-                    @endif
                 </div>
             </div>
 
+            <!-- Search skeleton while results load -->
+            <div wire:loading.delay.grid wire:target="destination, searchDestinations" class="grid grid-cols-1 md:grid-cols-2 gap-4" aria-hidden="true">
+                <x-ui.skeleton variant="row" :count="4" />
+            </div>
+
+            <div wire:loading.remove.delay wire:target="destination, searchDestinations">
             <!-- Search Results -->
             @if($this->searchResultCount > 0)
-            <div class="space-y-4 max-h-96 overflow-y-auto">
+            <div class="space-y-4 max-h-96 overflow-y-auto"
+                 wire:loading.delay.class="opacity-40 pointer-events-none" wire:target="selectDestination, selectStateCity">
                 @if(count($searchResults['countries']) > 0)
                 <div>
                     <h5 class="text-xs font-semibold text-foreground-subtle uppercase tracking-wide mb-2">Countries</h5>
@@ -203,7 +188,8 @@
                                         <span class="capitalize">{{ $place['type'] }}</span> · {{ $place['country_name'] ?? $place['country_code'] }}
                                     </p>
                                 </div>
-                                <svg class="w-4 h-4 text-foreground-subtle transition-transform {{ $expandedStateIndex === $index ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <x-ui.spinner wire:loading.delay wire:target="toggleStateCities({{ $index }})" size="xs" class="text-primary shrink-0" />
+                                <svg wire:loading.remove.delay wire:target="toggleStateCities({{ $index }})" class="w-4 h-4 text-foreground-subtle transition-transform {{ $expandedStateIndex === $index ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </div>
@@ -269,6 +255,25 @@
                 @endif
             </div>
             @endif
+            </div>
+
+            <!-- Selected-destination skeleton: country info + weather preview load after picking -->
+            <div wire:loading.delay.block wire:target="selectDestination, selectStateCity" class="bg-primary/5 border border-primary/20 rounded-lg p-4 animate-pulse" aria-hidden="true">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-8 rounded-sm bg-surface-muted dark:bg-surface"></div>
+                    <div class="space-y-2">
+                        <div class="h-4 w-40 rounded bg-surface-muted dark:bg-surface"></div>
+                        <div class="h-3 w-24 rounded bg-surface-muted dark:bg-surface"></div>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-primary/20 flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-surface-muted dark:bg-surface"></div>
+                    <div class="space-y-2">
+                        <div class="h-6 w-16 rounded bg-surface-muted dark:bg-surface"></div>
+                        <div class="h-3 w-28 rounded bg-surface-muted dark:bg-surface"></div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Selected Destination -->
             @if($countryCode && $this->searchResultCount === 0)
@@ -320,7 +325,7 @@
         @if($currentStep === 2)
         <div wire:key="edit-step-2" class="space-y-6">
             <div>
-                <h2 class="text-2xl font-bold text-foreground mb-2">When are you traveling?</h2>
+                <h2 class="text-2xl font-extrabold tracking-tight text-foreground mb-2">When are you traveling?</h2>
                 <p class="text-foreground-muted">Select your trip dates</p>
             </div>
 
@@ -344,6 +349,11 @@
                 </div>
             </div>
 
+            <div wire:loading.delay.flex wire:target="startDate, endDate, checkConflicts" class="flex items-center gap-2 text-sm text-foreground-muted">
+                <x-ui.spinner size="xs" class="text-primary" />
+                Checking for date conflicts…
+            </div>
+
             <!-- Trip Duration -->
             @if($startDate && $endDate)
             @php
@@ -361,18 +371,18 @@
 
             <!-- Conflicting Trips Warning -->
             @if(count($conflictingTrips) > 0)
-            <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+            <div class="bg-accent/10 border border-accent/25 rounded-lg p-4">
                 <div class="flex items-start">
-                    <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 mr-2" fill="none" stroke="currentColor"
+                    <svg class="w-5 h-5 text-accent mt-0.5 mr-2" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
                         </path>
                     </svg>
                     <div>
-                        <h4 class="font-semibold text-amber-800 dark:text-amber-300 mb-1">Conflicting Trips Detected</h4>
-                        <p class="text-sm text-amber-700 dark:text-amber-400 mb-2">You have the following trips during these dates:</p>
-                        <ul class="list-disc list-inside text-sm text-amber-700 dark:text-amber-400">
+                        <h4 class="font-semibold text-accent mb-1">Conflicting Trips Detected</h4>
+                        <p class="text-sm text-foreground-muted mb-2">You have the following trips during these dates:</p>
+                        <ul class="list-disc list-inside text-sm text-foreground-muted">
                             @foreach($conflictingTrips as $conflictTrip)
                             <li wire:key="conflict-{{ $conflictTrip['id'] }}">{{ $conflictTrip['destination'] }} ({{ date('M j', strtotime($conflictTrip['start_date'])) }} - {{
                                 date('M j, Y', strtotime($conflictTrip['end_date'])) }})</li>
@@ -389,7 +399,7 @@
         @if($currentStep === 3)
         <div wire:key="edit-step-3" class="space-y-6">
             <div>
-                <h2 class="text-2xl font-bold text-foreground mb-2">Trip Details</h2>
+                <h2 class="text-2xl font-extrabold tracking-tight text-foreground mb-2">Trip Details</h2>
                 <p class="text-foreground-muted">Tell us more about your trip</p>
             </div>
 
@@ -479,7 +489,7 @@
         @if($currentStep === 4)
         <div wire:key="edit-step-4" class="space-y-6">
             <div>
-                <h2 class="text-2xl font-bold text-foreground mb-2">Review Your Trip</h2>
+                <h2 class="text-2xl font-extrabold tracking-tight text-foreground mb-2">Review Your Trip</h2>
                 <p class="text-foreground-muted">Please review your trip details before updating</p>
             </div>
 
@@ -559,7 +569,7 @@
             <div>
                 @if($currentStep > 1)
                 <button wire:click="previousStep" wire:key="prev-btn-{{ $currentStep }}"
-                    class="inline-flex items-center px-6 py-3 border border-border rounded-lg text-foreground bg-surface-card hover:bg-surface-muted font-medium transition-colors cursor-pointer">
+                    class="btn-ghost px-6 py-3">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
                         </path>
@@ -568,7 +578,7 @@
                 </button>
                 @else
                 <a href="{{ route('trips.show', $trip->id) }}"
-                    class="inline-flex items-center px-6 py-3 border border-border rounded-lg text-foreground bg-surface-card hover:bg-surface-muted font-medium transition-colors cursor-pointer">
+                    class="btn-ghost px-6 py-3">
                     Cancel
                 </a>
                 @endif
@@ -576,24 +586,22 @@
 
             <div class="flex items-center space-x-3">
                 @if($currentStep < 4) <button wire:click="nextStep" wire:key="next-btn-{{ $currentStep }}"
-                    class="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary-dark font-medium transition-colors cursor-pointer">
+                    class="btn-primary px-6 py-3">
                     Next
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                     </button>
                     @else
-                    <button wire:click="updateTrip" wire:loading.attr="disabled" wire:key="update-btn"
-                        class="inline-flex items-center px-8 py-3 bg-accent text-white rounded-lg hover:bg-accent-light disabled:bg-accent/50 disabled:cursor-not-allowed font-medium transition-colors cursor-pointer">
-                        <svg wire:loading class="w-5 h-5 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        <svg wire:loading.remove class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button wire:click="updateTrip" x-on:click="saving = true" wire:loading.attr="disabled" wire:target="updateTrip" wire:key="update-btn"
+                        class="inline-flex items-center gap-2 px-8 py-3 bg-accent text-accent-foreground rounded-xl font-semibold hover:bg-accent-light active:scale-[0.98] transition-[background-color,transform] duration-150 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus-ring">
+                        <x-ui.spinner wire:loading wire:target="updateTrip" size="md" class="mr-2" />
+                        <svg wire:loading.remove wire:target="updateTrip" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
                             </path>
                         </svg>
-                        <span wire:loading.remove>Update Trip</span>
-                        <span wire:loading>Updating...</span>
+                        <span wire:loading.remove wire:target="updateTrip">Update Trip</span>
+                        <span wire:loading wire:target="updateTrip">Updating...</span>
                     </button>
                     @endif
             </div>
@@ -605,5 +613,18 @@
         <p class="text-sm text-foreground-subtle">
             Your progress is automatically saved. You can safely navigate away and return later.
         </p>
+    </div>
+
+    <!-- Full-screen overlay while the trip is being saved. Alpine-driven so it
+         stays up through the redirect; hidden when the server interrupts the
+         save (validation error, conflict, confirmation prompt). -->
+    <div x-show="saving" style="display: none"
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+         role="status" aria-live="polite">
+        <div class="bg-surface-card rounded-2xl shadow-xl border border-border p-8 text-center max-w-sm mx-4">
+            <x-ui.spinner size="lg" class="mx-auto text-primary" />
+            <h3 class="mt-4 text-lg font-bold text-foreground">Saving your changes…</h3>
+            <p class="mt-1 text-sm text-foreground-muted">Updating your trip details.</p>
+        </div>
     </div>
 </div>

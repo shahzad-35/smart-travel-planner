@@ -2,10 +2,10 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
         <div class="flex items-center space-x-4">
-            <h2 class="text-2xl font-semibold text-foreground">Packing Checklist</h2>
+            <h2 class="section-title text-2xl">Packing Checklist</h2>
             @if(!$isSharedView)
             <span
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300">
+                class="chip bg-primary/10 text-primary tabular-nums">
                 {{ $packingProgress }}% Complete
             </span>
             @endif
@@ -13,31 +13,35 @@
 
         @if(!$isSharedView)
         <div class="flex items-center space-x-2">
-            <button wire:click="resetChecklist"
-                class="cursor-pointer inline-flex items-center px-3 py-2 border border-border rounded-lg text-sm font-medium text-foreground bg-surface-card hover:bg-surface-muted">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button wire:click="resetChecklist" wire:loading.attr="disabled" wire:target="resetChecklist"
+                class="btn-ghost px-3.5 py-2 text-sm disabled:opacity-60">
+                <x-ui.spinner wire:loading wire:target="resetChecklist" class="mr-2" />
+                <svg wire:loading.remove wire:target="resetChecklist" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
                 Reset
             </button>
 
-            <button wire:click="generateShareToken"
-                class="cursor-pointer inline-flex items-center px-3 py-2 border border-border rounded-lg text-sm font-medium text-foreground bg-surface-card hover:bg-surface-muted">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button wire:click="generateShareToken" wire:loading.attr="disabled" wire:target="generateShareToken"
+                class="btn-ghost px-3.5 py-2 text-sm disabled:opacity-60">
+                <x-ui.spinner wire:loading wire:target="generateShareToken" class="mr-2" />
+                <svg wire:loading.remove wire:target="generateShareToken" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                 </svg>
                 Share
             </button>
 
-            <button wire:click="exportPdf"
-                class="cursor-pointer inline-flex items-center px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-dark text-sm font-medium">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button wire:click="exportPdf" wire:loading.attr="disabled" wire:target="exportPdf"
+                class="btn-primary px-3.5 py-2 text-sm disabled:opacity-60">
+                <x-ui.spinner wire:loading wire:target="exportPdf" class="mr-2" />
+                <svg wire:loading.remove wire:target="exportPdf" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                Export PDF
+                <span wire:loading.remove wire:target="exportPdf">Export PDF</span>
+                <span wire:loading wire:target="exportPdf">Preparing…</span>
             </button>
         </div>
         @endif
@@ -46,7 +50,7 @@
     <!-- Progress Bar -->
     @if(!$isSharedView)
     <div class="w-full bg-surface-muted dark:bg-surface rounded-full h-3 mb-6">
-        <div class="bg-primary h-3 rounded-full transition-all duration-300 ease-in-out"
+        <div class="h-3 rounded-full bg-gradient-to-r from-primary to-primary-light transition-[width] duration-500 ease-out"
             style="width: {{ $packingProgress }}%"></div>
     </div>
     @endif
@@ -54,11 +58,11 @@
     <!-- Share Token Display -->
     @if($shareToken && $showShareLink)
     <div class="mb-4">
-        <div class="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4">
-            <h3 class="text-sm font-medium text-emerald-800 dark:text-emerald-300 mb-2">Shareable Link Generated</h3>
+        <div class="bg-primary/10 border border-primary/20 rounded-xl p-4">
+            <h3 class="text-sm font-semibold text-primary mb-2">Shareable Link Generated</h3>
             <div class="flex items-center gap-2">
                 <input type="text" readonly value="{{ route('packing-checklist.share', $shareToken) }}"
-                    class="flex-1 px-3 py-2 border border-border rounded-md bg-surface-card text-sm"
+                    class="field flex-1 px-3 py-2 text-sm"
                     id="shareLink-{{ $shareToken }}">
                 <button onclick="
                     const linkInput = document.getElementById('shareLink-{{ $shareToken }}');
@@ -69,7 +73,7 @@
                         Livewire.find('{{ $this->getId() }}').call('hideShareLink');
                     }, 1000);
                 "
-                    class="cursor-pointer px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors text-sm font-medium whitespace-nowrap">
+                    class="btn-primary px-4 py-2 text-sm whitespace-nowrap">
                     Copy Link
                 </button>
             </div>
@@ -93,7 +97,7 @@
     @if(count($packingItems) > 0)
     <div class="space-y-4" id="packing-list">
         @foreach($packingItems as $category => $items)
-        <div wire:key="category-{{ $category }}" class="border border-border rounded-lg overflow-hidden">
+        <div wire:key="category-{{ $category }}" class="border border-border rounded-xl overflow-hidden">
             <!-- Category Header -->
             <div class="bg-surface-muted dark:bg-surface px-4 py-3 border-b border-border">
                 <div class="flex items-center justify-between">
@@ -106,7 +110,7 @@
                                     d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
-                        <h3 class="text-lg font-medium text-foreground capitalize">
+                        <h3 class="text-base font-bold text-foreground capitalize">
                             {{ $category == 'trip_type' ? $trip->type : $category }}
                         </h3>
                         <span
@@ -124,13 +128,17 @@
                         @if($allPacked)
                             <button wire:click="unpackAllCategory('{{ $category }}')"
                                 wire:key="unpack-{{ $category }}"
-                                class="cursor-pointer inline-flex items-center px-3 py-1 bg-surface-card border border-border text-foreground rounded-lg hover:bg-surface-muted text-sm font-medium">
+                                wire:loading.attr="disabled" wire:target="unpackAllCategory, packAllCategory"
+                                class="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1 bg-surface-card border border-border text-foreground rounded-lg hover:bg-surface-muted text-sm font-medium disabled:opacity-60">
+                                <x-ui.spinner wire:loading wire:target="unpackAllCategory('{{ $category }}')" size="xs" />
                                 Unpack All
                             </button>
                         @else
                             <button wire:click="packAllCategory('{{ $category }}')"
                                 wire:key="pack-{{ $category }}"
-                                class="cursor-pointer inline-flex items-center px-3 py-1 bg-primary text-white rounded-lg hover:bg-primary-dark text-sm font-medium">
+                                wire:loading.attr="disabled" wire:target="unpackAllCategory, packAllCategory"
+                                class="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1 bg-primary text-white rounded-lg hover:bg-primary-dark text-sm font-medium disabled:opacity-60">
+                                <x-ui.spinner wire:loading wire:target="packAllCategory('{{ $category }}')" size="xs" />
                                 Pack All
                             </button>
                         @endif
@@ -145,6 +153,7 @@
                 @foreach($items as $item)
                 <div wire:key="item-{{ $item['id'] }}-{{ $item['is_packed'] ? '1' : '0' }}"
                     class="flex items-center justify-between p-4 border-b border-border/50 last:border-b-0 hover:bg-surface-muted transition-colors"
+                    wire:loading.delay.class="opacity-50" wire:target="toggleItem({{ $item['id'] }})"
                     data-id="{{ $item['id'] }}">
                     <!-- Drag Handle -->
                     @if(!$isSharedView)
@@ -269,11 +278,12 @@
             </div>
             <div class="flex justify-end space-x-2 mt-4">
                 <button wire:click="$set('showAddForm', false)"
-                    class="cursor-pointer inline-flex items-center px-3 py-2 border border-border rounded-lg text-sm font-medium text-foreground bg-surface-card hover:bg-surface-muted">
+                    class="btn-ghost px-3.5 py-2 text-sm">
                     Cancel
                 </button>
-                <button wire:click="addCustomItem"
-                    class="cursor-pointer inline-flex items-center px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-dark text-sm font-medium">
+                <button wire:click="addCustomItem" wire:loading.attr="disabled" wire:target="addCustomItem"
+                    class="btn-primary px-3.5 py-2 text-sm disabled:opacity-60 inline-flex items-center gap-2">
+                    <x-ui.spinner wire:loading wire:target="addCustomItem" size="xs" />
                     Add Item
                 </button>
             </div>

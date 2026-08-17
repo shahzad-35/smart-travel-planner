@@ -37,11 +37,26 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Trip Header -->
-        <div class="card p-6 mb-8">
+        <div class="card mb-8 overflow-hidden">
+            <!-- Cover strip -->
+            <div class="relative h-24 overflow-hidden">
+                @if($trip->country_code)
+                    <img src="https://flagcdn.com/w1280/{{ strtolower($trip->country_code) }}.png" alt="" aria-hidden="true"
+                        class="absolute inset-0 w-full h-full object-cover scale-105 brightness-[0.75] saturate-[1.1]">
+                @else
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary to-primary-dark"></div>
+                @endif
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" aria-hidden="true"></div>
+            </div>
+            <div class="p-6 relative">
             <div class="flex items-start justify-between">
                 <div class="flex-1">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <h1 class="text-3xl font-bold text-foreground">{{ $trip->destination }}</h1>
+                    <div class="flex items-center gap-4 mb-4">
+                        @if($trip->country_code)
+                            <img src="https://flagcdn.com/{{ strtolower($trip->country_code) }}.svg" alt="{{ $trip->country_code }} flag"
+                                class="w-16 h-12 object-cover rounded-xl shadow-lg ring-4 ring-surface-card -mt-14 relative z-10">
+                        @endif
+                        <h1 class="page-title">{{ $trip->destination }}</h1>
                         <x-status-badge :status="$trip->status" />
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -56,7 +71,7 @@
                             <svg class="w-5 h-5 mr-3 text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
-                            <span>{{ $trip->start_date->format('M j') }} - {{ $trip->end_date->format('M j, Y') }}</span>
+                            <span class="whitespace-nowrap">{{ $trip->start_date->format('M j') }} – {{ $trip->end_date->format('M j, Y') }}</span>
                         </div>
                         <div class="flex items-center text-foreground-muted">
                             <svg class="w-5 h-5 mr-3 text-foreground-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,38 +84,41 @@
                         <div class="mt-4">
                             <div class="flex items-center justify-between text-sm text-foreground-muted mb-2">
                                 <span>Budget</span>
-                                <span>PKR {{ number_format($trip->budget) }}</span>
+                                <span class="tabular-nums font-semibold text-foreground">PKR {{ number_format($trip->budget) }}</span>
                             </div>
                             <div class="w-full bg-surface-muted dark:bg-surface rounded-full h-2">
-                                <div class="bg-primary h-2 rounded-full" style="width: {{ min($budgetUsed, 100) }}%"></div>
+                                <div class="h-2 rounded-full bg-gradient-to-r from-primary to-primary-light transition-[width] duration-500" style="width: {{ min($budgetUsed, 100) }}%"></div>
                             </div>
                             <div class="flex justify-between text-xs text-foreground-subtle mt-1">
-                                <span>PKR {{ number_format($totalExpenses) }} spent</span>
+                                <span class="tabular-nums">PKR {{ number_format($totalExpenses) }} spent</span>
                                 <span>{{ $budgetUsed }}% used</span>
                             </div>
                         </div>
                     @endif
                 </div>
                 <div class="flex space-x-2 ml-6">
-                    <a href="{{ route('trips.edit', $trip->id) }}" class="inline-flex items-center px-3 py-2 border border-border rounded-lg text-sm font-medium text-foreground bg-surface-card hover:bg-surface-muted cursor-pointer">
+                    <a href="{{ route('trips.edit', $trip->id) }}" class="btn-ghost px-3.5 py-2 text-sm">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
                         Edit Trip
                     </a>
-                    <button wire:click="shareTrip" class="inline-flex items-center px-3 py-2 border border-border rounded-lg text-sm font-medium text-foreground bg-surface-card hover:bg-surface-muted cursor-pointer">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button wire:click="shareTrip" wire:loading.attr="disabled" wire:target="shareTrip" class="btn-ghost px-3.5 py-2 text-sm disabled:opacity-60">
+                        <x-ui.spinner wire:loading wire:target="shareTrip" class="mr-2" />
+                        <svg wire:loading.remove wire:target="shareTrip" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
                         </svg>
                         Share
                     </button>
-                    <button wire:click="exportTrip" class="inline-flex items-center px-3 py-2 border border-border rounded-lg text-sm font-medium text-foreground bg-surface-card hover:bg-surface-muted cursor-pointer">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button wire:click="exportTrip" wire:loading.attr="disabled" wire:target="exportTrip" class="btn-ghost px-3.5 py-2 text-sm disabled:opacity-60">
+                        <x-ui.spinner wire:loading wire:target="exportTrip" class="mr-2" />
+                        <svg wire:loading.remove wire:target="exportTrip" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        Export
+                        <span wire:loading.remove wire:target="exportTrip">Export</span>
+                        <span wire:loading wire:target="exportTrip">Preparing…</span>
                     </button>
-                    <button wire:click="deleteTrip" class="inline-flex items-center px-3 py-2 border border-destructive/30 rounded-lg text-sm font-medium text-destructive bg-surface-card hover:bg-destructive/5 cursor-pointer">
+                    <button wire:click="deleteTrip" wire:loading.attr="disabled" wire:target="deleteTrip" class="btn-danger px-3.5 py-2 text-sm disabled:opacity-60">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                         </svg>
@@ -111,24 +129,25 @@
 
             <!-- Share Link -->
             @if($shareUrl)
-                <div class="mt-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4">
-                    <h3 class="text-sm font-medium text-emerald-800 dark:text-emerald-300 mb-2">Shareable Link Generated (valid for 7 days)</h3>
+                <div class="mt-4 bg-primary/10 border border-primary/20 rounded-xl p-4">
+                    <h3 class="text-sm font-semibold text-primary mb-2">Shareable Link Generated (valid for 7 days)</h3>
                     <div class="flex items-center gap-2">
                         <input type="text" readonly value="{{ $shareUrl }}"
-                            class="flex-1 text-sm rounded-md border-emerald-300 dark:border-emerald-700 bg-white dark:bg-surface text-foreground"
+                            class="field flex-1 text-sm"
                             onclick="this.select()">
                         <button type="button"
                             onclick="navigator.clipboard.writeText(this.previousElementSibling.value).then(() => { this.textContent = 'Copied!'; setTimeout(() => this.textContent = 'Copy', 1500); })"
-                            class="px-3 py-2 text-sm font-medium rounded-md bg-emerald-600 text-white hover:bg-emerald-700 cursor-pointer">
+                            class="btn-primary px-3.5 py-2 text-sm">
                             Copy
                         </button>
                         <button type="button" wire:click="hideShareUrl"
-                            class="px-2 py-2 text-sm text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 cursor-pointer" aria-label="Dismiss">
+                            class="px-2 py-2 text-sm text-foreground-muted hover:text-foreground cursor-pointer" aria-label="Dismiss">
                             ✕
                         </button>
                     </div>
                 </div>
             @endif
+            </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -136,7 +155,7 @@
             <div class="lg:col-span-2 space-y-8">
                 <!-- Weather Forecast -->
                 <div class="card p-6">
-                    <h2 class="text-xl font-semibold text-foreground mb-4">Weather Forecast</h2>
+                    <h2 class="section-title mb-4">Weather Forecast</h2>
                     @if($weatherForecast)
                         <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
                             @foreach($weatherForecast as $index => $weather)
@@ -292,7 +311,7 @@
                     <h2 class="text-xl font-semibold text-foreground mb-4">Trip Timeline</h2>
                     <div class="space-y-4">
                         <div class="flex items-start space-x-3">
-                            <div class="flex-shrink-0 w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full mt-2"></div>
+                            <div class="flex-shrink-0 w-2 h-2 bg-primary rounded-full mt-2"></div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-medium text-foreground">Trip Created</p>
                                 <p class="text-xs text-foreground-muted">{{ $trip->created_at->format('M j, Y \a\t g:i A') }}</p>

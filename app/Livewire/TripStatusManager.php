@@ -12,7 +12,6 @@ class TripStatusManager extends Component
     public bool $showConfirmModal = false;
     public string $pendingStatus = '';
     public string $confirmMessage = '';
-    public bool $isUpdating = false;
 
     // Status transition definitions
     public array $statusTransitions = [
@@ -37,7 +36,7 @@ class TripStatusManager extends Component
     public function confirmStatusChange(string $newStatus)
     {
         if (!$this->trip->canTransitionTo($newStatus)) {
-            session()->flash('error', 'Invalid status transition.');
+            $this->dispatch('notify', type: 'error', message: 'Invalid status transition.');
             return;
         }
 
@@ -48,26 +47,20 @@ class TripStatusManager extends Component
 
     public function executeStatusChange()
     {
-        if ($this->isUpdating) {
-            return;
-        }
-
-        $this->isUpdating = true;
 
         try {
             $reason = $this->getStatusChangeReason($this->pendingStatus);
 
             if ($this->trip->updateStatus($this->pendingStatus, $reason)) {
-                session()->flash('success', 'Trip status updated successfully.');
+                $this->dispatch('notify', type: 'success', message: 'Trip status updated.');
                 $this->trip->refresh(); // Refresh to get updated data
             } else {
-                session()->flash('error', 'Failed to update trip status.');
+                $this->dispatch('notify', type: 'error', message: 'Failed to update trip status.');
             }
         } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while updating the trip status.');
+            $this->dispatch('notify', type: 'error', message: 'An error occurred while updating the trip status.');
         }
 
-        $this->isUpdating = false;
         $this->showConfirmModal = false;
         $this->pendingStatus = '';
         $this->confirmMessage = '';
