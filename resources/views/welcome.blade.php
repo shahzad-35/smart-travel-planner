@@ -190,10 +190,12 @@
                         Plan your
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-light to-accent">perfect journey</span>
                     </h1>
-                    <p class="mt-5 text-lg sm:text-xl text-foreground-muted leading-relaxed max-w-xl">
+                    <p id="mhSubtitle" class="mt-5 text-lg sm:text-xl text-foreground-muted leading-relaxed max-w-lg">
                         Organize trips, track forecasts, discover destinations, and pack smart — all in one place.
                     </p>
-                    <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                    {{-- md:mt-36 opens a band between the copy and the CTAs where
+                         the intro filmstrip parades through (desktop only). --}}
+                    <div id="mhCtas" class="mt-8 md:mt-32 flex flex-col sm:flex-row gap-4">
                         @auth
                             <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold text-lg hover:bg-primary-dark transition-colors shadow-lg shadow-primary/25 cursor-pointer focus-ring">
                                 Go to Dashboard
@@ -322,6 +324,9 @@
             const cards = [...hero.querySelectorAll('.mh-card')];
             const intro = document.getElementById('mhIntro');
             const arcContent = document.getElementById('mhArcContent');
+            const headlineEl = intro?.querySelector('h1');
+            const subtitleEl = document.getElementById('mhSubtitle');
+            const ctasEl = document.getElementById('mhCtas');
             const TOTAL = cards.length;
             const MAX_SCROLL = 2200;
             const MORPH_END = 600;
@@ -352,13 +357,85 @@
                 o: 0,
             }));
 
-            new ResizeObserver((entries) => {
-                for (const e of entries) { W = e.contentRect.width; H = e.contentRect.height; }
-            }).observe(hero);
+            // --- intro geometry, measured from the real layout ---
+            // bandY: the gap between the subtitle and the CTAs, where the intro
+            // filmstrip parades. ringRX/ringRY: a TRUE circle big enough to clear
+            // the copy; it only stretches into an ellipse when the hero is too
+            // short for a circle that both clears the text and stays in frame.
+            let bandY = 0, ringRX = 320, ringRY = 320, safeBoxes = [];
+
+            // Per-LINE boxes of an element (a centred headline is much
+            // narrower on its short lines than its block width suggests).
+            const lineRects = (el) => {
+                if (!el) return [];
+                try {
+                    const range = document.createRange();
+                    range.selectNodeContents(el);
+                    const rects = [...range.getClientRects()].filter((r) => r.width > 1 && r.height > 1);
+                    if (rects.length) return rects;
+                } catch (e) { /* fall through */ }
+                return [el.getBoundingClientRect()];
+            };
+
+            // Ring cards are rotated, so clearance uses their circumradius
+            // (half-diagonal), not half width/height.
+            const CIRCLE_SCALE = 0.8;
+            const CARD_R = Math.hypot(32 * CIRCLE_SCALE, 45 * CIRCLE_SCALE) + 8;
+
+            const measureIntro = () => {
+                const hr = hero.getBoundingClientRect();
+                const cy = hr.top + hr.height / 2;
+
+                const sub = lineRects(subtitleEl);
+                const cta = ctasEl ? [ctasEl.getBoundingClientRect()] : [];
+                const subLast = sub[sub.length - 1];
+                bandY = (subLast && cta[0]) ? ((subLast.bottom + cta[0].top) / 2) - cy : hr.height / 2 - 70;
+
+                // Smallest circle whose cards clear every line of copy: for each
+                // line box, the card must sit outside its inflated corner.
+                let need = 0;
+                [...lineRects(headlineEl), ...sub, ...cta].forEach((r) => {
+                    const a = r.width / 2 + CARD_R;
+                    const y = Math.max(Math.abs(r.top - cy), Math.abs(r.bottom - cy)) + CARD_R;
+                    need = Math.max(need, Math.hypot(a, y));
+                });
+
+                // A TRUE circle (rx === ry), capped to stay inside the hero.
+                const cap = Math.min(hr.width / 2 - 40, hr.height / 2 - 10);
+                ringRX = ringRY = Math.min(Math.max(need, 240), cap);
+                // Keep-out boxes (one per line of copy, inflated by the card's
+                // circumradius) used as a hard render-time guarantee below.
+                safeBoxes = [...lineRects(headlineEl), ...sub, ...cta].map((r) => ({
+                    halfW: r.width / 2,
+                    y1: r.top - cy,
+                    y2: r.bottom - cy,
+                }));
+                hero.dataset.band = Math.round(bandY);
+                hero.dataset.ring = Math.round(ringRX);
+            };
+
+            const heroRO = new ResizeObserver((entries) => {
+                for (const e of entries) {
+                    if (e.target === hero) { W = e.contentRect.width; H = e.contentRect.height; }
+                }
+                measureIntro();
+            });
+            heroRO.observe(hero);
+            // Also track the copy itself: fonts, wrapping and CSS arriving late
+            // all move these lines, and the keep-out boxes must follow them.
+            [headlineEl, subtitleEl, ctasEl].forEach((el) => el && heroRO.observe(el));
+            measureIntro();
+            window.addEventListener('load', measureIntro);
+            if (document.fonts?.ready) document.fonts.ready.then(measureIntro);
+            // Late layout shifts (web-font swap, images) move the copy after the
+            // observers have already fired once — re-measure briefly to be sure.
+            const settleTimer = setInterval(measureIntro, 200);
+            setTimeout(() => clearInterval(settleTimer), 5000);
 
             // --- intro sequence (scatter -> line -> circle) ---
-            setTimeout(() => { phase = 'line'; }, 500);
-            setTimeout(() => { phase = 'circle'; }, 2300);
+            let phaseSince = 0;
+            setTimeout(() => { phase = 'line'; phaseSince = performance.now(); }, 500);
+            setTimeout(() => { phase = 'circle'; phaseSince = performance.now(); }, 3000);
 
             // --- virtual scroll: hijack only while the hero dominates the viewport
             //     (its top may sit below the fixed nav), release at both ends so
@@ -425,11 +502,16 @@
                 parallaxS += (parallaxTarget - parallaxS) * 0.06;
 
                 const isMobile = W < 768;
-                const minDim = Math.min(W, H);
-                const circleRadius = Math.min(minDim * 0.36, 350);
+                // Ring radii come from measureIntro() — a true circle whenever
+                // the hero is tall enough to fit one that clears the copy.
+                const circleRadiusX = ringRX;
+                const circleRadiusY = ringRY;
                 const baseRadius = Math.min(W, H * 1.5);
                 const arcRadius = baseRadius * (isMobile ? 1.4 : 1.1);
-                const arcApexY = H * (isMobile ? 0.72 : 0.25) - H / 2; // relative to center
+                // Apex low enough that the arc (cards scaled 1.8, ~81px half-
+                // height) clears the arc-phase headline/CTA block, which ends
+                // around 35% of the hero height.
+                const arcApexY = H * (isMobile ? 0.72 : 0.55) - H / 2; // relative to center
                 const arcCenterY = arcApexY + arcRadius;
                 const spread = isMobile ? 100 : 130;
                 const startAngle = -90 - spread / 2;
@@ -439,9 +521,16 @@
                     ? (rotateS - 0.5) * spread * 0.5
                     : -rotateS * spread * 0.8;
 
+                const introReadable = mobileMode || morphS < 0.5;
+
                 for (let i = 0; i < TOTAL; i++) {
                     const s = st[i];
                     let tx, ty, tr, tsc, top;
+
+                    // Cross-dissolve through each formation change: cards fade
+                    // out, travel, and fade back in — they never sweep visibly
+                    // across the headline, subtitle or buttons.
+                    const settling = phaseSince && (performance.now() - phaseSince) < 380;
 
                     if (phase === 'scatter') {
                         tx = s.x; ty = s.y; tr = s.r; tsc = 0.6; top = 0;
@@ -449,13 +538,15 @@
                     } else if (phase === 'line') {
                         const spacing = Math.min(74, (W - 80) / TOTAL);
                         tx = i * spacing - (TOTAL * spacing) / 2;
-                        ty = 0; tr = 0; tsc = 1; top = 1;
+                        // Filmstrip parades through the band between the
+                        // subtitle and the CTAs, then opens into the ring.
+                        ty = bandY; tr = 0; tsc = 0.72; top = settling ? 0 : 1;
                     } else {
                         // circle position
                         const cAng = (i / TOTAL) * 360;
                         const cRad = (cAng * Math.PI) / 180;
-                        const cx = Math.cos(cRad) * circleRadius;
-                        const cy = Math.sin(cRad) * circleRadius;
+                        const cx = Math.cos(cRad) * circleRadiusX;
+                        const cy = Math.sin(cRad) * circleRadiusY;
                         const crot = cAng + 90;
                         // arc position
                         const aAng = startAngle + i * step + boundedRotation;
@@ -468,8 +559,8 @@
                         tx = lerp(cx, ax, morphS);
                         ty = lerp(cy, ay, morphS);
                         tr = lerp(crot, arot, morphS);
-                        tsc = lerp(1, asc, morphS);
-                        top = 1;
+                        tsc = lerp(CIRCLE_SCALE, asc, morphS);
+                        top = (settling && morphS < 0.05) ? 0 : 1;
                     }
 
                     // ease toward target (spring-ish)
@@ -477,9 +568,34 @@
                     s.y += (ty - s.y) * 0.085;
                     s.r += (tr - s.r) * 0.085;
                     s.s += (tsc - s.s) * 0.085;
-                    s.o += (top - s.o) * 0.085;
+                    s.o += (top - s.o) * 0.32;   // opacity snaps faster than motion,
+                                                 // so the dissolve hides the travel
 
-                    cards[i].style.transform = `translate(${s.x}px, ${s.y}px) rotate(${s.r}deg) scale(${s.s})`;
+                    // Hard guarantee: while the intro copy is on screen, a card
+                    // is never painted over a line of it — nudged out by the
+                    // shortest distance if a tween would take it there.
+                    let px = s.x, py = s.y;
+                    if (introReadable && safeBoxes.length) {
+                        // The card's real footprint at its current scale AND
+                        // rotation (a rotated card covers more than 64x90).
+                        const rad = (s.r * Math.PI) / 180;
+                        const ac = Math.abs(Math.cos(rad)), as = Math.abs(Math.sin(rad));
+                        const ex = (ac * 32 + as * 45) * s.s + 14;
+                        const ey = (as * 32 + ac * 45) * s.s + 14;
+                        for (let pass = 0; pass < 2; pass++) {
+                            for (const b of safeBoxes) {
+                                if (Math.abs(px) < b.halfW + ex && py > b.y1 - ey && py < b.y2 + ey) {
+                                    const dx = (b.halfW + ex) - Math.abs(px);
+                                    const dUp = py - (b.y1 - ey), dDown = (b.y2 + ey) - py;
+                                    const dy = Math.min(dUp, dDown);
+                                    if (dx <= dy) px += (px < 0 ? -dx : dx);
+                                    else py += (dUp < dDown) ? -dy : dy;
+                                }
+                            }
+                        }
+                    }
+
+                    cards[i].style.transform = `translate(${px}px, ${py}px) rotate(${s.r}deg) scale(${s.s})`;
                     cards[i].style.opacity = s.o.toFixed(3);
                 }
 

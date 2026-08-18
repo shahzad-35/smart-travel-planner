@@ -245,6 +245,26 @@
     .fade-up { animation: none; }
 }
 
+/* Boarding-pass divider for the wizard trip ticket: dashed rule with side
+   notches that read as punched-out holes against the page surface. */
+.ticket-divider {
+    position: relative;
+    border-top: 2px dashed var(--color-border);
+}
+.ticket-divider::before,
+.ticket-divider::after {
+    content: '';
+    position: absolute;
+    top: -9px;
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+}
+.ticket-divider::before { left: -8px; }
+.ticket-divider::after { right: -8px; }
+
 /* Livewire injects display:none for wire:loading elements at rest, but its
    selector list omits display-type modifiers combined with .delay
    (e.g. wire:loading.delay.grid) — without these rules such skeletons
